@@ -1,0 +1,15 @@
+This will be the applications entrypoint.
+
+Upon first launch the user will be presented with an empty list and the ability to add new Categories.
+
+Create Category:
+The user clicks a plus sign in the Actionbar
+A dialog appeares with the title "Name new Category", a textbox and two buttons (Ok and Cancel)
+The user enters a name for the new Category (e.g. "Stomach") and presses Ok
+The application returns to the Categories list which now contains the new Category
+
+Cancel creation of Category:
+The user clicks a plus sign in the Actionbar
+A dialog appeares with the title "Name new Category", a textbox and two buttons (Ok and Cancel)
+The user presses Cancel
+The application returns to the Categories list which remains empty
