@@ -1,0 +1,16 @@
+ns::CreateCategory
+
+IController(Rename)
+
+INotifyer
+	addNewCategorySelected()
+IDialog
+	showDialog() DialogResult
+	getSpecifiedCategoryName() String
+
+IDataRetriever
+	nameAlreadyExists() Boolean
+
+IDataSaver
+	SaveNewCategory(string name)
+

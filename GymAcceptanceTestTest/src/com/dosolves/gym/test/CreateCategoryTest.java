@@ -37,7 +37,7 @@ public class CreateCategoryTest extends ActivityInstrumentationTestCase2<Categor
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		solo.finishOpenedActivities();4
+		solo.finishOpenedActivities();
 		
 	}
 
