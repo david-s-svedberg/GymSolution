@@ -32,7 +32,7 @@ public class CreateCategoryTest extends ActivityInstrumentationTestCase2<Categor
 	
 	@MediumTest
 	public void test_Adding_new_category_shoud_add_category_to_list(){
-		boolean menuItemFound = getInstrumentation().invokeMenuActionSync(activityUnderTest,R.menu.category , 0);
+		boolean menuItemFound = getInstrumentation().invokeMenuActionSync(activityUnderTest,R.id.add_category , 0);
 		assertTrue("Menuitem 'Add category' not found",menuItemFound);
 	}
 
