@@ -12,17 +12,17 @@
 *.class
 
 # generated files
-AcceptanceTest/bin
-AcceptanceTest/gen
+AcceptanceTest/bin/**
+AcceptanceTest/gen/**
 
-Application/bin
-Application/gen
+Application/bin/**
+Application/gen/**
 
-GymAcceptanceTestTest/bin
-GymAcceptanceTestTest/gen
+GymAcceptanceTestTest/bin/**
+GymAcceptanceTestTest/gen/**
 
-UnitTest/bin
-UnitTest/gen
+UnitTest/bin/**
+UnitTest/gen/**
 
 
 # Local configuration file (sdk path, etc)

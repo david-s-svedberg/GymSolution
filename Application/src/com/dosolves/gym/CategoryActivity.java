@@ -1,16 +1,28 @@
 package com.dosolves.gym;
 
+import android.app.ListActivity;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
-public class CategoryActivity extends Activity {
+public class CategoryActivity extends ListActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_category);
+		setListAdapter(createAdapter());
+	}
+
+	private ListAdapter createAdapter() {
+		DbStructureGiver categoryStructure = new CategoryDbStructureGiver();
+		DataAccess dao = new SQLiteDataAccess(SQLiteOpenHelperSingeltonHolder.getDbHelper(), categoryStructure);
+		CursorCategoryFactory categoryFactory = new CursorCategoryFactory(categoryStructure);
+		CategoryRetriever retriever = new CursorCategoryRetriever(dao, categoryFactory);
+		return new ArrayAdapter<Category>(this, android.R.layout.simple_list_item_1, retriever.getCategories());		
 	}
 
 	@Override
@@ -33,6 +45,12 @@ public class CategoryActivity extends Activity {
 		}
 		
 		return ret;
+	}
+	
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		// TODO Auto-generated method stub
+		super.onListItemClick(l, v, position, id);
 	}
 
 }
