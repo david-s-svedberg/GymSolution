@@ -1,3 +1,4 @@
+package com.dosolves.gym.app.database.test;
 import java.util.HashMap;
 
 import org.junit.Before;

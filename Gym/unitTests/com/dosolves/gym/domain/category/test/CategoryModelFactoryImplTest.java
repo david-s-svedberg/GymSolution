@@ -1,3 +1,4 @@
+package com.dosolves.gym.domain.category.test;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 

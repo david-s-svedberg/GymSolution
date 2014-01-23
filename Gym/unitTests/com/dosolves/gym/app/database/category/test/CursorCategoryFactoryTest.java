@@ -1,3 +1,4 @@
+package com.dosolves.gym.app.database.category.test;
 import java.util.List;
 
 import org.junit.Before;
@@ -18,7 +19,7 @@ import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.category.Category;
 
 @RunWith(RobolectricTestRunner.class)
-public class CategoryFactoryTest {
+public class CursorCategoryFactoryTest {
 
 	private static final int NAME_COLUMN_INDEX = 1;
 	private static final int ID_COLUMN_INDEX = 0;

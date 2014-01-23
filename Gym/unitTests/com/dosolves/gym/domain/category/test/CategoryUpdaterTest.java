@@ -1,3 +1,4 @@
+package com.dosolves.gym.domain.category.test;
 import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 

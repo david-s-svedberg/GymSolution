@@ -1,3 +1,4 @@
+package com.dosolves.gym.app.database.category.test;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

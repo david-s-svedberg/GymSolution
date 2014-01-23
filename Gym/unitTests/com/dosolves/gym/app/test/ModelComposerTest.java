@@ -1,3 +1,4 @@
+package com.dosolves.gym.app.test;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
