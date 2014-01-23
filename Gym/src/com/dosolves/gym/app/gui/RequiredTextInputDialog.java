@@ -6,7 +6,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -31,6 +34,8 @@ public class RequiredTextInputDialog{
 	
 		// Set an EditText view to get user input 
 		final EditText input = new EditText(context);
+		input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+		
 		alert.setView(input);
 	
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -71,9 +76,18 @@ public class RequiredTextInputDialog{
 		       // Nothing to do
 		    }
 		});
+		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+		    @Override
+		    public void onFocusChange(View v, boolean hasFocus) {
+		        if (hasFocus) {
+		            d.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+		        }
+		    }
+		});
 
 		d.show();
 		// and disable the button to start with
-		d.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);	
+		d.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+		input.requestFocus();
 	}
 }

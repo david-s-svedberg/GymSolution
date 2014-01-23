@@ -12,12 +12,13 @@ import org.robolectric.RobolectricTestRunner;
 import android.view.MenuItem;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.category.CategoryActivity;
+import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.category.AddCategoryRequestedCallBack;
+import com.dosolves.gym.domain.category.CategoryClickedCallback;
 
 @RunWith(RobolectricTestRunner.class)
-public class CategoryActivityTest {
+public class CategoriesActivityTest {
 
 	private static final int POSITION = 2345;
 	@Mock
@@ -26,17 +27,21 @@ public class CategoryActivityTest {
 	AddCategoryRequestedCallBack addCategoryRequestedCallbackMock;
 	@Mock
 	ItemMenuRequestedCallback itemMenuRequestedCallbackMock;
+	@Mock
+	CategoryClickedCallback categoryClickedCallbackMock;
 	
-	CategoryActivity sut;
+	CategoriesActivity sut;
+	
 	
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new CategoryActivity();
+		sut = new CategoriesActivity();
 		sut.setAddCategoryRequestedCallBack(addCategoryRequestedCallbackMock);
 		sut.setItemMenuRequestedCallback(itemMenuRequestedCallbackMock);
+		sut.setCategoryClickedCallback(categoryClickedCallbackMock);
 	}
 	
 	@Test
@@ -50,6 +55,12 @@ public class CategoryActivityTest {
 	public void calls_itemMenuRequestedCallback_when_item_is_long_clicked(){
 		sut.onItemLongClick(null, null, POSITION, 0);
 		verify(itemMenuRequestedCallbackMock).onItemMenuRequested(POSITION);
+	}
+	
+	@Test
+	public void calls_categoryClickedCallback_when_item_is_clicked(){
+		sut.onListItemClick(null, null, POSITION, 0);
+		verify(categoryClickedCallbackMock).onCategoryClicked(POSITION);
 	}
 	
 }

@@ -5,10 +5,11 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
-import com.dosolves.gym.app.gui.category.CategoryActivity;
+import com.dosolves.gym.app.gui.category.CategoriesActivity;
+import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
 import com.robotium.solo.Solo;
 
-public class CategoryTests extends ActivityInstrumentationTestCase2<CategoryActivity>{
+public class CategoryTests extends ActivityInstrumentationTestCase2<CategoriesActivity>{
 
 	private static final String TEST_ADD_CATEGORY_TEXT = "ADD_CATEGORY_TEXT";
 	private static final int TIME_TO_WAIT_FOR_DIALOG = 5000;
@@ -17,7 +18,7 @@ public class CategoryTests extends ActivityInstrumentationTestCase2<CategoryActi
 	private Solo solo;
 	
 	public CategoryTests(){
-		super(CategoryActivity.class);
+		super(CategoriesActivity.class);
 	}
 	
 	@Override
@@ -27,60 +28,65 @@ public class CategoryTests extends ActivityInstrumentationTestCase2<CategoryActi
         solo = new Solo(getInstrumentation(), getActivity());        
     }
 	
-	@LargeTest
-	public void test_Adding_new_category_should_add_category_to_list(){
-		solo.clickOnActionBarItem(R.id.add_category);
-		assertTrue("Create category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
-		solo.enterText(0, TEST_ADD_CATEGORY_TEXT);
-		solo.clickOnButton("Ok");
-		assertTrue("Create category dialog did not close", solo.waitForDialogToClose(TIME_TO_WAIT_FOR_DIALOG));
-		assertTrue("Test category not found in list", solo.searchText(TEST_ADD_CATEGORY_TEXT));
-		
-		removeCreatedCategory(TEST_ADD_CATEGORY_TEXT);
-	}
-	
-	private void removeCreatedCategory(String categoryName) {
-		solo.clickLongOnText(categoryName);
-		solo.clickOnText("Delete");
-	}
-
-	@LargeTest
-	public void test_delete_category_should_remove_category_from_list(){
-		solo.clickOnActionBarItem(R.id.add_category);
-		assertTrue("Create category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
-		solo.enterText(0, TEST_DELETE_CATEGORY_TEXT);
-		solo.clickOnButton("Ok");
-		assertTrue("Create category dialog did not close", solo.waitForDialogToClose(TIME_TO_WAIT_FOR_DIALOG));
-		solo.clickLongOnText(TEST_DELETE_CATEGORY_TEXT);
-		assertTrue("Delete category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
-		solo.clickOnText("Delete");
-		assertFalse("Category was not deleted", solo.searchText(TEST_DELETE_CATEGORY_TEXT));
-	}
-	
-	@LargeTest
-	public void test_category_with_same_name_as_another_cant_be_added(){
-		solo.clickOnActionBarItem(R.id.add_category);
-		assertTrue("Create category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
-		solo.enterText(0, TEST_ADD_CATEGORY_TEXT);
-		solo.clickOnButton("Ok");
-		assertTrue("Create category dialog did not close", solo.waitForDialogToClose(TIME_TO_WAIT_FOR_DIALOG));
-		solo.clickOnActionBarItem(R.id.add_category);
-		assertTrue("Create category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
-		solo.enterText(0, TEST_ADD_CATEGORY_TEXT);
-		solo.clickOnButton("Ok");
-		assertTrue("Create category dialog did not close", solo.waitForDialogToClose(TIME_TO_WAIT_FOR_DIALOG));
-		removeCreatedCategory(TEST_ADD_CATEGORY_TEXT);
-		
-		
-		assertFalse("Possible to add more then one category with the same name", solo.searchText(TEST_ADD_CATEGORY_TEXT));
-		
-		
-	}
-	
 	@Override
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();
 		super.tearDown();
 	}
+	
+	@LargeTest
+	public void test_Adding_new_category_should_add_category_to_list(){
+		createCategory(TEST_ADD_CATEGORY_TEXT);
+		
+		assertTrue("Test category not found in list", solo.searchText(TEST_ADD_CATEGORY_TEXT));
+		
+		deleteCreatedCategory(TEST_ADD_CATEGORY_TEXT);
+	}
+	
+	@LargeTest
+	public void test_delete_category_should_remove_category_from_list(){
+		createCategory(TEST_DELETE_CATEGORY_TEXT);
+		deleteCreatedCategory(TEST_DELETE_CATEGORY_TEXT);
+		assertFalse("Category was not deleted", solo.searchText(TEST_DELETE_CATEGORY_TEXT));
+	}
+	
+	@LargeTest
+	public void test_category_with_same_name_as_another_cant_be_added(){
+		createCategory(TEST_ADD_CATEGORY_TEXT);
+		createCategory(TEST_ADD_CATEGORY_TEXT);
+		deleteCreatedCategory(TEST_ADD_CATEGORY_TEXT);
+		
+		
+		assertFalse("Possible to add more then one category with the same name", solo.searchText(TEST_ADD_CATEGORY_TEXT));
+		
+	}
+	
+	@LargeTest
+	public void test_clicking_category_opens_exercises_activity(){
+		try{
+			createCategory(TEST_ADD_CATEGORY_TEXT);
+			
+			solo.clickOnText(TEST_ADD_CATEGORY_TEXT);
+			assertTrue("Exercise activity was not shown",solo.waitForActivity(ExercisesActivity.class.getName(),TIME_TO_WAIT_FOR_DIALOG));
+			
+			solo.goBack();	
+		}
+		finally{
+			deleteCreatedCategory(TEST_ADD_CATEGORY_TEXT);
+		}
+	}
 
+	private void createCategory(String categoryName) {
+		solo.clickOnActionBarItem(R.id.add_category);
+		assertTrue("Create category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
+		solo.enterText(0, categoryName);
+		solo.clickOnButton("Ok");
+		assertTrue("Create category dialog did not close", solo.waitForDialogToClose(TIME_TO_WAIT_FOR_DIALOG));
+	}
+	
+	private void deleteCreatedCategory(String categoryName) {
+		solo.clickLongOnText(categoryName);
+		solo.clickOnText("Delete");
+	}
+	
 }

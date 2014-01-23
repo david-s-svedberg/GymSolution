@@ -29,7 +29,8 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 		CategoryUpdater updater = new CategoryUpdaterImpl(dao);
 		CreateCategoryAlertDialog createCategorydialog = new CreateCategoryAlertDialog(context);
 		CategoryOptionMenuAlertDialog categoryOptionMenuDialog = new CategoryOptionMenuAlertDialog(context);
-		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog);
+		
+		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, null);
 	}
 
 }

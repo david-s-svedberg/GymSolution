@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
+import com.dosolves.gym.domain.category.CategoryOpener;
 import com.dosolves.gym.domain.category.CategoryOptionMenuDialog;
 import com.dosolves.gym.domain.category.CategoryRetriever;
 import com.dosolves.gym.domain.category.CategoryUpdater;
@@ -38,10 +39,13 @@ public class CategoryControllerTest {
 	CategoryOptionMenuDialog categoryOptionMenuDialogMock; 
 	@Mock
 	CategoryUpdater categoryUpdaterMock;
+	@Mock
+	CategoryOpener categoryOpenerMock;
 	
 	private List<Category> categoriesMock;
 	
 	CategoryController sut;
+	
 		
 	@Before
 	public void setUp() throws Exception{
@@ -53,7 +57,8 @@ public class CategoryControllerTest {
 									 retrieverMock, 
 									 createCategoryDialogMock, 
 									 categoryUpdaterMock, 
-									 categoryOptionMenuDialogMock);
+									 categoryOptionMenuDialogMock,
+									 categoryOpenerMock);
 	}
 	
 	@Test
@@ -126,6 +131,17 @@ public class CategoryControllerTest {
 		sut.onCategoryShouldBeCreated(NEW_CATEGORY_NAME);
 		
 		verifyZeroInteractions(categoryUpdaterMock);
+	}
+	
+	@Test
+	public void calls_categoryOpener_when_category_have_been_clicked(){
+		Category categoryMock = new Category(CATEGORY_ID,NEW_CATEGORY_NAME);
+		
+		when(adapterMock.getItem(POSITION)).thenReturn(categoryMock);
+		
+		sut.onCategoryClicked(POSITION);
+		
+		verify(categoryOpenerMock).openCategory(categoryMock);
 	}
 
 	private void verifyCategoriesHaveBeenUpdated() {

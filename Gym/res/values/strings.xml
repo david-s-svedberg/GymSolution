@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="add_category">Add category</string>
     <string name="categories">Categories</string>
+    <string name="title_activity_exercise">ExerciseActivity</string>
 
 </resources>

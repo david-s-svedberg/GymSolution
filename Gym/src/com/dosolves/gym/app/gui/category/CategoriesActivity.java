@@ -12,12 +12,27 @@ import android.widget.ListView;
 import com.dosolves.gym.R;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.category.AddCategoryRequestedCallBack;
+import com.dosolves.gym.domain.category.CategoryClickedCallback;
 
-public class CategoryActivity extends ListActivity implements OnItemLongClickListener {
+public class CategoriesActivity extends ListActivity implements OnItemLongClickListener {
 
 	private AddCategoryRequestedCallBack addCategoryRequestedCallBack;
 	private ItemMenuRequestedCallback itemMenuRequestedCallback;
+	private CategoryClickedCallback categoryClickedCallback;
 
+
+	public void setAddCategoryRequestedCallBack(AddCategoryRequestedCallBack callback) {
+		this.addCategoryRequestedCallBack = callback;		
+	}
+
+	public void setItemMenuRequestedCallback(ItemMenuRequestedCallback callback) {
+		this.itemMenuRequestedCallback = callback;
+	}
+
+	public void setCategoryClickedCallback(CategoryClickedCallback callback) {
+		this.categoryClickedCallback = callback;		
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,13 +65,8 @@ public class CategoryActivity extends ListActivity implements OnItemLongClickLis
 	}
 	
 	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		// TODO Auto-generated method stub
-		super.onListItemClick(l, v, position, id);
-	}
-
-	public void setAddCategoryRequestedCallBack(AddCategoryRequestedCallBack callback) {
-		this.addCategoryRequestedCallBack = callback;		
+	public void onListItemClick(ListView l, View v, int position, long id) {
+		categoryClickedCallback.onCategoryClicked(position);
 	}
 
 	@Override
@@ -65,9 +75,5 @@ public class CategoryActivity extends ListActivity implements OnItemLongClickLis
 		return true;
 	}
 
-	public void setItemMenuRequestedCallback(ItemMenuRequestedCallback callback) {
-		this.itemMenuRequestedCallback = callback;
-
-	}
 
 }

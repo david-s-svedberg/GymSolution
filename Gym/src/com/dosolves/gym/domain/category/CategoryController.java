@@ -7,24 +7,28 @@ import android.widget.ArrayAdapter;
 public class CategoryController implements CategoryShouldBeCreatedCallback, 
 										   AddCategoryRequestedCallBack,
 										   ItemMenuRequestedCallback,
-										   CategoryShouldBeDeletedCallback{
+										   CategoryShouldBeDeletedCallback,
+										   CategoryClickedCallback{
 
 	private ArrayAdapter<Category> adapter;
 	private CategoryRetriever retriever;
 	private CreateCategoryDialog createCategorydialog;
 	private CategoryUpdater updater;
 	private CategoryOptionMenuDialog categoryOptionMenuDialog;
+	private CategoryOpener categoryOpener;
 
 	public CategoryController(ArrayAdapter<Category> adapter, 
 							  CategoryRetriever retriever, 
 							  CreateCategoryDialog createCategorydialog, 
 							  CategoryUpdater categoryUpdater, 
-							  CategoryOptionMenuDialog categoryOptionMenuDialog) {
+							  CategoryOptionMenuDialog categoryOptionMenuDialog, 
+							  CategoryOpener categoryOpener) {
 		this.adapter = adapter;
 		this.retriever = retriever;
 		this.createCategorydialog = createCategorydialog;
 		this.updater = categoryUpdater;
-		this.categoryOptionMenuDialog = categoryOptionMenuDialog;		
+		this.categoryOptionMenuDialog = categoryOptionMenuDialog;
+		this.categoryOpener = categoryOpener;		
 	}
 
 	public void init() {
@@ -67,6 +71,11 @@ public class CategoryController implements CategoryShouldBeCreatedCallback,
 	public void onCategoryShouldBeDeleted(Category categoryToBeDeleted) {
 		updater.delete(categoryToBeDeleted);
 		updateCategories();
+	}
+
+	@Override
+	public void onCategoryClicked(int position) {
+		categoryOpener.openCategory(adapter.getItem(position));
 	}
 
 }

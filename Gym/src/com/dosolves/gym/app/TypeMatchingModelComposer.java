@@ -1,6 +1,6 @@
 package com.dosolves.gym.app;
 
-import com.dosolves.gym.app.gui.category.CategoryActivity;
+import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
@@ -19,17 +19,18 @@ public class TypeMatchingModelComposer implements ModelComposer {
 
 	@Override
 	public void compose(Activity activity) {
-		if(activity instanceof CategoryActivity){
-			composeCategoryModel((CategoryActivity)activity);
+		if(activity instanceof CategoriesActivity){
+			composeCategoryModel((CategoriesActivity)activity);
 		}
 	}
 
-	private void composeCategoryModel(CategoryActivity activity) {
+	private void composeCategoryModel(CategoriesActivity activity) {
 		ArrayAdapter<Category> adapter = categoryModelFactory.createAdapter(activity);
 		CategoryController controller = categoryModelFactory.createController(activity, adapter);
 		activity.setListAdapter(adapter);
 		activity.setAddCategoryRequestedCallBack(controller);
 		activity.setItemMenuRequestedCallback(controller);
+		activity.setCategoryClickedCallback(controller);
 		
 		controller.init();
 	}

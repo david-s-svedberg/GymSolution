@@ -13,7 +13,7 @@ import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.app.TypeMatchingModelComposer;
-import com.dosolves.gym.app.gui.category.CategoryActivity;
+import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
@@ -23,7 +23,7 @@ import com.dosolves.gym.domain.category.CategoryModelFactory;
 public class ModelComposerTest extends AndroidTestCase{
 
 	@Mock
-	CategoryActivity categoryActivityMock;
+	CategoriesActivity categoryActivityMock;
 	@Mock
 	CategoryModelFactory categorytModelFactoryMock;
 	@Mock
@@ -79,6 +79,16 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(categoryActivityMock);
 		
 		verify(categoryActivityMock).setItemMenuRequestedCallback(controllerMock);
+	}
+	
+	@Test
+	public void sets_controller_as_CategoryClickedCallback_on_Activity(){
+		when(categorytModelFactoryMock.createAdapter(categoryActivityMock)).thenReturn(adapterMock);
+		when(categorytModelFactoryMock.createController(categoryActivityMock, adapterMock)).thenReturn(controllerMock);
+		
+		sut.compose(categoryActivityMock);
+		
+		verify(categoryActivityMock).setCategoryClickedCallback(controllerMock);
 	}
 	
 	@Test
