@@ -1,4 +1,4 @@
-package com.dosolves.gym.test;
+package com.dosolves.gym.dbtest;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -34,6 +34,7 @@ public class CategoryStrucutreTest extends AndroidTestCase  {
 	}
 	
 	private void createDb() {
+		SQLiteOpenHelperSingeltonHolder.useTestDb();
 		SQLiteOpenHelperSingeltonHolder.setContext(getContext());
 		db = SQLiteOpenHelperSingeltonHolder.getDbHelper().getReadableDatabase();
 	}

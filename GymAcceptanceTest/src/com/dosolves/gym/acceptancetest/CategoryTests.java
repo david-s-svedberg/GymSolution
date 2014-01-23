@@ -1,9 +1,10 @@
-package com.dosolves.gym.test;
+package com.dosolves.gym.acceptancetest;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.gui.category.CategoryActivity;
 import com.robotium.solo.Solo;
 
@@ -21,8 +22,9 @@ public class CategoryTests extends ActivityInstrumentationTestCase2<CategoryActi
 	
 	@Override
     protected void setUp() throws Exception {
-        super.setUp();        
-        solo = new Solo(getInstrumentation(), getActivity());
+        super.setUp();
+        SQLiteOpenHelperSingeltonHolder.useTestDb();
+        solo = new Solo(getInstrumentation(), getActivity());        
     }
 	
 	@LargeTest

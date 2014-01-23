@@ -13,10 +13,16 @@ public class SQLiteOpenHelperSingeltonHolder {
 	
 	private static Context context;
 	
+	private static boolean useTestDb = false;
+	
 	private static volatile SQLiteOpenHelper instance;	
 
 	public static void setContext(Context context){
 		SQLiteOpenHelperSingeltonHolder.context = context;
+	}
+	
+	public static void useTestDb(){
+		useTestDb = true;
 	}
 	
 	public static SQLiteOpenHelper getDbHelper() {
@@ -37,7 +43,7 @@ public class SQLiteOpenHelperSingeltonHolder {
 		private DbStructureGiver[] dbStructureGivers;
 
 		public GymSQLiteOpenHelper(DbStructureGiver... dbStructureGivers) {
-			super(context, "GymDb", null, 1);
+			super(context, useTestDb ? "TestGymDb":"GymDb", null, 1);
 			this.dbStructureGivers = dbStructureGivers;
 		}
 
