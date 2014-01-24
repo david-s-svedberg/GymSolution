@@ -12,7 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.dosolves.gym.app.gui.ContextProvider;
+import com.dosolves.gym.app.ContextProvider;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;

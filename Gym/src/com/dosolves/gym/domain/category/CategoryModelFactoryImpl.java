@@ -6,6 +6,7 @@ import com.dosolves.gym.app.database.category.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.category.CursorCategoryFactory;
 import com.dosolves.gym.app.database.category.CursorCategoryRetriever;
 import com.dosolves.gym.app.gui.category.CategoryOptionMenuAlertDialog;
+import com.dosolves.gym.app.gui.category.ContextCategoryOpener;
 import com.dosolves.gym.app.gui.category.CreateCategoryAlertDialog;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.DbStructureGiver;
@@ -29,8 +30,9 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 		CategoryUpdater updater = new CategoryUpdaterImpl(dao);
 		CreateCategoryAlertDialog createCategorydialog = new CreateCategoryAlertDialog(context);
 		CategoryOptionMenuAlertDialog categoryOptionMenuDialog = new CategoryOptionMenuAlertDialog(context);
+		ContextCategoryOpener categoryOpener = new ContextCategoryOpener(context);
 		
-		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, null);
+		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, categoryOpener);
 	}
 
 }

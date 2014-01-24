@@ -1,6 +1,7 @@
 package com.dosolves.gym.app.gui.category.test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,16 +13,15 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.content.Context;
 import android.content.Intent;
+import android.test.AndroidTestCase;
 
-import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.app.gui.category.ContextCategoryOpener;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryOpener;
 
 @RunWith(RobolectricTestRunner.class)
-public class ContextCategoryOpenerTest {
+public class ContextCategoryOpenerTest extends AndroidTestCase {
 
 	private static final String CATEGORY_NAME = "categoryName";
 	private static final int CATEGORY_ID = 234;
@@ -50,14 +50,21 @@ public class ContextCategoryOpenerTest {
 			@Override
 			public boolean matches(Object argument) {
 				Intent intent = (Intent) argument;
-				if (intentContainsCategory(categoryMock, intent) && intent.getActivityName.equals(ExercisesActivity.class.getName() && intent.getContext().isSameAs(contextMock)))
+				if (intentContainsCategory(categoryMock, intent) && intentTargetsExercisesActivity(intent))
 					return true;
 				else
 					return false;
 			}
 
+			private boolean intentTargetsExercisesActivity(Intent intent) {
+				assertTrue(intent.getComponent().getClassName().equals(ExercisesActivity.class.getName()));
+				return true;
+			}
+
 			private boolean intentContainsCategory(final Category categoryMock, Intent intent) {
-				return intent.getExtras().get(ExercisesActivity.CATEGORY_BUNDLE_KEY).equals(categoryMock);
+				Category category = (Category)intent.getExtras().get(ExercisesActivity.CATEGORY_BUNDLE_KEY);
+				assertTrue(category.equals(categoryMock));
+				return true;
 			}
 			
 		}));

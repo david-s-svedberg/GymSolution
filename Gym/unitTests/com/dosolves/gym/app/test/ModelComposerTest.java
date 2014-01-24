@@ -9,27 +9,40 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import android.content.Context;
 import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.app.TypeMatchingModelComposer;
 import com.dosolves.gym.app.gui.category.CategoriesActivity;
+import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
+import com.dosolves.gym.domain.exercise.Exercise;
+import com.dosolves.gym.domain.exercise.ExerciseController;
+import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 
 @RunWith(RobolectricTestRunner.class)
 public class ModelComposerTest extends AndroidTestCase{
 
 	@Mock
-	CategoriesActivity categoryActivityMock;
+	CategoriesActivity categoriesActivityMock;
 	@Mock
 	CategoryModelFactory categorytModelFactoryMock;
 	@Mock
-	ArrayAdapter<Category> adapterMock;
+	ArrayAdapter<Category> categoryAdapterMock;
 	@Mock
-	CategoryController controllerMock;
+	CategoryController categoryControllerMock;
+	@Mock
+	ExerciseModelFactory exerciseModelFactoryMock;
+	@Mock
+	ExercisesActivity exercisesActivityMock;
+	@Mock
+	ArrayAdapter<Exercise> exerciseAdapterMock;
+	@Mock
+	ExerciseController exerciseControllerMock;	
 	
 	ModelComposer sut;
 	
@@ -37,67 +50,78 @@ public class ModelComposerTest extends AndroidTestCase{
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new TypeMatchingModelComposer(categorytModelFactoryMock);
+		sut = new TypeMatchingModelComposer(categorytModelFactoryMock, exerciseModelFactoryMock);
 	}
 	
 	@Test
 	public void polls_factory_for_category_components(){
-		when(categorytModelFactoryMock.createAdapter(categoryActivityMock)).thenReturn(adapterMock);
-		when(categorytModelFactoryMock.createController(categoryActivityMock, adapterMock)).thenReturn(controllerMock);
+		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
-		sut.compose(categoryActivityMock);
+		sut.compose(categoriesActivityMock);
 		
-		verify(categorytModelFactoryMock).createAdapter(categoryActivityMock);
-		verify(categorytModelFactoryMock).createController(categoryActivityMock, adapterMock);		
+		verify(categorytModelFactoryMock).createAdapter(categoriesActivityMock);
+		verify(categorytModelFactoryMock).createController(categoriesActivityMock, categoryAdapterMock);		
 	}
 	
 	@Test
 	public void sets_adapter_on_category_activity(){
-		when(categorytModelFactoryMock.createAdapter(categoryActivityMock)).thenReturn(adapterMock);
-		when(categorytModelFactoryMock.createController(categoryActivityMock, adapterMock)).thenReturn(controllerMock);
+		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
-		sut.compose(categoryActivityMock);
+		sut.compose(categoriesActivityMock);
 		
-		verify(categoryActivityMock).setListAdapter(adapterMock);
+		verify(categoriesActivityMock).setListAdapter(categoryAdapterMock);
 	}
 	
 	@Test
 	public void sets_controller_as_AddCategoryRequestedCallBack_on_Activity(){
-		when(categorytModelFactoryMock.createAdapter(categoryActivityMock)).thenReturn(adapterMock);
-		when(categorytModelFactoryMock.createController(categoryActivityMock, adapterMock)).thenReturn(controllerMock);
+		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
-		sut.compose(categoryActivityMock);
+		sut.compose(categoriesActivityMock);
 		
-		verify(categoryActivityMock).setAddCategoryRequestedCallBack(controllerMock);
+		verify(categoriesActivityMock).setAddCategoryRequestedCallBack(categoryControllerMock);
 	}
 	
 	@Test
 	public void sets_controller_as_ItemMenuRequestedCallback_on_Activity(){
-		when(categorytModelFactoryMock.createAdapter(categoryActivityMock)).thenReturn(adapterMock);
-		when(categorytModelFactoryMock.createController(categoryActivityMock, adapterMock)).thenReturn(controllerMock);
+		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
-		sut.compose(categoryActivityMock);
+		sut.compose(categoriesActivityMock);
 		
-		verify(categoryActivityMock).setItemMenuRequestedCallback(controllerMock);
+		verify(categoriesActivityMock).setItemMenuRequestedCallback(categoryControllerMock);
 	}
 	
 	@Test
 	public void sets_controller_as_CategoryClickedCallback_on_Activity(){
-		when(categorytModelFactoryMock.createAdapter(categoryActivityMock)).thenReturn(adapterMock);
-		when(categorytModelFactoryMock.createController(categoryActivityMock, adapterMock)).thenReturn(controllerMock);
+		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
-		sut.compose(categoryActivityMock);
+		sut.compose(categoriesActivityMock);
 		
-		verify(categoryActivityMock).setCategoryClickedCallback(controllerMock);
+		verify(categoriesActivityMock).setCategoryClickedCallback(categoryControllerMock);
 	}
 	
 	@Test
 	public void calls_init_on_controller(){
-		when(categorytModelFactoryMock.createAdapter(categoryActivityMock)).thenReturn(adapterMock);
-		when(categorytModelFactoryMock.createController(categoryActivityMock, adapterMock)).thenReturn(controllerMock);
+		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
-		sut.compose(categoryActivityMock);
+		sut.compose(categoriesActivityMock);
 		
-		verify(controllerMock).init();
+		verify(categoryControllerMock).init();
+	}
+	
+	@Test
+	public void polls_factory_for_exercise_components(){
+		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, categoryAdapterMock)).thenReturn(exerciseControllerMock);
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exerciseModelFactoryMock).createAdapter(exercisesActivityMock);
+		verify(exerciseModelFactoryMock).createController(exercisesActivityMock, categoryAdapterMock);		
 	}
 }

@@ -12,9 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Context;
 
+import com.dosolves.gym.app.ContextProvider;
 import com.dosolves.gym.app.ContextSetter;
 import com.dosolves.gym.app.GymApplication;
-import com.dosolves.gym.app.gui.ContextProvider;
 
 @RunWith(RobolectricTestRunner.class)
 public class GymApplicationTest {

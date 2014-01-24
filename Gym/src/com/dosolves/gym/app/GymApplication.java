@@ -1,7 +1,6 @@
 package com.dosolves.gym.app;
 
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
-import com.dosolves.gym.app.gui.ContextProvider;
 import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;
 
 import android.app.Application;
@@ -16,7 +15,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	public GymApplication(){
 		this.contextProvider = this;
 		this.contextSetter = this;
-		activityCreatedListener = new ActivityCreatedListener(new TypeMatchingModelComposer(new CategoryModelFactoryImpl()));
+		activityCreatedListener = new ActivityCreatedListener(new TypeMatchingModelComposer(new CategoryModelFactoryImpl(), null));
 	}
 	
 	public GymApplication(ContextSetter contextSetter, ActivityLifecycleCallbacks activityCreatedListener, ContextProvider contextProviderMock){

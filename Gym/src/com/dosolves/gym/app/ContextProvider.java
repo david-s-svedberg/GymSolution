@@ -1,4 +1,4 @@
-package com.dosolves.gym.app.gui;
+package com.dosolves.gym.app;
 
 import android.content.Context;
 
