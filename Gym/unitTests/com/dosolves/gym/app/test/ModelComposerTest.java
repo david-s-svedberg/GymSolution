@@ -74,7 +74,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_AddCategoryRequestedCallBack_on_Activity(){
+	public void sets_controller_as_AddItemRequestedCallBack_on_CategoriesActivity(){
 		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
 		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
@@ -84,7 +84,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_ItemMenuRequestedCallback_on_Activity(){
+	public void sets_controller_as_ItemMenuRequestedCallback_on_CategoriesActivity(){
 		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
 		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
@@ -94,7 +94,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_CategoryClickedCallback_on_Activity(){
+	public void sets_controller_as_OpenItemRequestedCallback_on_CategoriesActivity(){
 		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
 		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
@@ -104,7 +104,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void calls_init_on_controller(){
+	public void calls_init_on_CategoryController(){
 		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
 		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
@@ -132,6 +132,46 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(exercisesActivityMock);
 		
 		verify(exercisesActivityMock).setListAdapter(exerciseAdapterMock);
+	}
+	
+	@Test
+	public void sets_controller_as_AddItemRequestedCallBack_on_ExercisesActivity(){
+		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exercisesActivityMock).setAddItemRequestedCallBack(exerciseControllerMock);
+	}
+	
+	@Test
+	public void sets_controller_as_ItemMenuRequestedCallback_on_ExercisesActivity(){
+		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exercisesActivityMock).setItemMenuRequestedCallback(exerciseControllerMock);
+	}
+	
+	@Test
+	public void sets_controller_as_OpenItemRequestedCallback_on_ExercisesActivity(){
+		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exercisesActivityMock).setOpenItemRequestedCallback(exerciseControllerMock);
+	}
+	
+	@Test
+	public void calls_init_on_ExercisesController(){
+		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exerciseControllerMock).init();
 	}
 	
 }

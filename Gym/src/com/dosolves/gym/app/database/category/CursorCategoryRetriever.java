@@ -5,10 +5,9 @@ import java.util.List;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryRetriever;
+import com.dosolves.gym.domain.category.CategoryStructureGiver;
 
 public class CursorCategoryRetriever implements CategoryRetriever {
-
-	private static final String CATEGORIES = "Categories";
 	
 	private DataAccess dao;
 	private CursorCategoryFactory categoryFactory; 
@@ -20,7 +19,7 @@ public class CursorCategoryRetriever implements CategoryRetriever {
 
 	@Override
 	public List<Category> getCategories() {	
-		return categoryFactory.CreateCategories(dao.get(CATEGORIES));
+		return categoryFactory.CreateCategories(dao.get(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL));
 	}
 
 }

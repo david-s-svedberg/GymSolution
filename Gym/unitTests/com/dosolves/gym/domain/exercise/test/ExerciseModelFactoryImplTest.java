@@ -1,4 +1,5 @@
-package com.dosolves.gym.domain.category.test;
+package com.dosolves.gym.domain.exercise.test;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
@@ -12,30 +13,30 @@ import org.robolectric.RobolectricTestRunner;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
-import com.dosolves.gym.domain.category.Category;
-import com.dosolves.gym.domain.category.CategoryModelFactory;
-import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;
+import com.dosolves.gym.domain.exercise.Exercise;
+import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
+import com.dosolves.gym.domain.exercise.ExerciseModelFactoryImpl;
 
 @RunWith(RobolectricTestRunner.class)
-public class CategoryModelFactoryImplTest {
+public class ExerciseModelFactoryImplTest {
 	
 	@Mock
 	Context contextMock;
 	@Mock
-	ArrayAdapter<Category> adapterMock;
+	ArrayAdapter<Exercise> adapterMock;
 	
-	CategoryModelFactory sut;
+	ExerciseModelFactory sut;
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new CategoryModelFactoryImpl();
+		sut = new ExerciseModelFactoryImpl();
 	}
 	
 	@Test
 	public void creates_adapter_with_provided_context(){
-		ArrayAdapter<Category> adapter = sut.createAdapter(contextMock);
+		ArrayAdapter<Exercise> adapter = sut.createAdapter(contextMock);
 		assertSame(adapter.getContext(), contextMock);
 	}
 	

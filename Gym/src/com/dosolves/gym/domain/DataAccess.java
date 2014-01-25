@@ -7,8 +7,11 @@ import android.database.Cursor;
 public interface DataAccess {
 
 	Cursor get(String type);
-
-	void create(String string, Map<String, Object> keysAndvalues);
+	Cursor get(String type, String filterIdPropertyName, int filterId);
+	
+	void create(String type, Map<String, Object> keysAndvalues);
 	void delete(String type, String typeIdPropertyName,	int id);
+
+	
 
 }

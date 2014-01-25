@@ -59,4 +59,10 @@ public class SQLiteDataAccess implements DataAccess {
 		db.delete(type, String.format("%s = ?", typeIdPropertyName), new String[]{Integer.toString(id)});
 	}
 
+	@Override
+	public Cursor get(String type, String filterIdPropertyName, int filterId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
