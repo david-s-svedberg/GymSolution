@@ -1,5 +1,8 @@
 package com.dosolves.gym.app;
 
+import android.app.Activity;
+import android.widget.ArrayAdapter;
+
 import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
 import com.dosolves.gym.domain.ModelComposer;
@@ -9,9 +12,6 @@ import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
-
-import android.app.Activity;
-import android.widget.ArrayAdapter;
 
 public class TypeMatchingModelComposer implements ModelComposer {
 
@@ -44,9 +44,9 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		ArrayAdapter<Category> adapter = categoryModelFactory.createAdapter(activity);
 		CategoryController controller = categoryModelFactory.createController(activity, adapter);
 		activity.setListAdapter(adapter);
-		activity.setAddCategoryRequestedCallBack(controller);
+		activity.setAddItemRequestedCallBack(controller);
 		activity.setItemMenuRequestedCallback(controller);
-		activity.setCategoryClickedCallback(controller);
+		activity.setOpenItemRequestedCallback(controller);
 		
 		controller.init();
 	}

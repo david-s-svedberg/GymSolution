@@ -1,5 +1,7 @@
 package com.dosolves.gym.domain.category.test;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +15,13 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.widget.ArrayAdapter;
 
+import com.dosolves.gym.domain.CreateItemDialogShower;
+import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryOpener;
-import com.dosolves.gym.domain.category.CategoryOptionMenuDialog;
 import com.dosolves.gym.domain.category.CategoryRetriever;
 import com.dosolves.gym.domain.category.CategoryUpdater;
-import com.dosolves.gym.domain.category.CreateCategoryDialog;
 
 @RunWith(RobolectricTestRunner.class)
 public class CategoryControllerTest {
@@ -34,9 +36,9 @@ public class CategoryControllerTest {
 	@Mock
 	CategoryRetriever retrieverMock;
 	@Mock
-	CreateCategoryDialog createCategoryDialogMock;
+	CreateItemDialogShower createItemDialogShowerMock;
 	@Mock
-	CategoryOptionMenuDialog categoryOptionMenuDialogMock; 
+	ItemOptionMenuDialogShower itemOptionMenuDialogShowerMock; 
 	@Mock
 	CategoryUpdater categoryUpdaterMock;
 	@Mock
@@ -55,60 +57,46 @@ public class CategoryControllerTest {
 		
 		sut = new CategoryController(adapterMock, 
 									 retrieverMock, 
-									 createCategoryDialogMock, 
+									 createItemDialogShowerMock, 
 									 categoryUpdaterMock, 
-									 categoryOptionMenuDialogMock,
+									 itemOptionMenuDialogShowerMock,
 									 categoryOpenerMock);
 	}
 	
 	@Test
-	public void init_updates_categories(){
-		categoriesMock = new ArrayList<Category>();
-		
-		when(retrieverMock.getCategories()).thenReturn(categoriesMock);
-		
-		sut.init();
-		
-		verifyCategoriesHaveBeenUpdated();
-	}
-	
-	@Test
-	public void shows_create_dialog_when_user_input_requests_it(){
-		sut.onAddCategoryRequested();
-		
-		verify(createCategoryDialogMock).show(sut);		
-	}
-	
-	@Test
-	public void shows_menu_item_option_when_user_input_requests_it(){
-		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
-		when(adapterMock.getItem(POSITION)).thenReturn(category);
-		
-		sut.onItemMenuRequested(POSITION);
-		
-		verify(categoryOptionMenuDialogMock).show(category, sut);
-	}
+    public void init_updates_categories(){
+            categoriesMock = new ArrayList<Category>();
+            
+            when(retrieverMock.getCategories()).thenReturn(categoriesMock);
+            
+            sut.init();
+            
+            verifyCategoriesHaveBeenUpdated();
+    }
 	
 	@Test
 	public void calls_categoryUpdater_when_category_should_be_deleted(){
 		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
-		sut.onCategoryShouldBeDeleted(category);
+		when(adapterMock.getItem(POSITION)).thenReturn(category);
+		
+		sut.onItemShouldBeDeleted(POSITION);
 		verify(categoryUpdaterMock).delete(category);
 	}
 	
 	@Test
 	public void updates_categories_when_category_have_been_deleted(){
 		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
+		when(adapterMock.getItem(POSITION)).thenReturn(category);
 		when(retrieverMock.getCategories()).thenReturn(categoriesMock);
 		
-		sut.onCategoryShouldBeDeleted(category);
+		sut.onItemShouldBeDeleted(POSITION);
 		
 		verifyCategoriesHaveBeenUpdated();
 	}
 	
 	@Test
-	public void calls_categoryUpdater_when_category_should_be_created(){
-		sut.onCategoryShouldBeCreated(NEW_CATEGORY_NAME);
+	public void calls_categoryUpdater_when_item_should_be_created(){
+		sut.onItemShouldBeCreated(NEW_CATEGORY_NAME);
 		
 		verify(categoryUpdaterMock).create(NEW_CATEGORY_NAME);		
 	}
@@ -117,7 +105,7 @@ public class CategoryControllerTest {
 	public void updates_adapter_categories_after_new_category_has_been_created(){
 		when(retrieverMock.getCategories()).thenReturn(categoriesMock);
 		
-		sut.onCategoryShouldBeCreated(NEW_CATEGORY_NAME);
+		sut.onItemShouldBeCreated(NEW_CATEGORY_NAME);
 		
 		verifyCategoriesHaveBeenUpdated();
 	}
@@ -128,7 +116,7 @@ public class CategoryControllerTest {
 		
 		when(retrieverMock.getCategories()).thenReturn(categoriesMock);
 		
-		sut.onCategoryShouldBeCreated(NEW_CATEGORY_NAME);
+		sut.onItemShouldBeCreated(NEW_CATEGORY_NAME);
 		
 		verifyZeroInteractions(categoryUpdaterMock);
 	}
@@ -139,7 +127,7 @@ public class CategoryControllerTest {
 		
 		when(adapterMock.getItem(POSITION)).thenReturn(categoryMock);
 		
-		sut.onCategoryClicked(POSITION);
+		sut.onOpenItemRequested(POSITION);
 		
 		verify(categoryOpenerMock).openCategory(categoryMock);
 	}

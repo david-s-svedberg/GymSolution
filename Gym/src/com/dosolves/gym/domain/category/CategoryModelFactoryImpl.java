@@ -8,8 +8,10 @@ import com.dosolves.gym.app.database.category.CursorCategoryRetriever;
 import com.dosolves.gym.app.gui.category.CategoryOptionMenuAlertDialog;
 import com.dosolves.gym.app.gui.category.ContextCategoryOpener;
 import com.dosolves.gym.app.gui.category.CreateCategoryAlertDialog;
+import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.DbStructureGiver;
+import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
@@ -28,8 +30,8 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 		CursorCategoryFactory categoryFactory = new CursorCategoryFactory(categoryStructure);
 		CategoryRetriever retriever = new CursorCategoryRetriever(dao, categoryFactory);
 		CategoryUpdater updater = new CategoryUpdaterImpl(dao);
-		CreateCategoryAlertDialog createCategorydialog = new CreateCategoryAlertDialog(context);
-		CategoryOptionMenuAlertDialog categoryOptionMenuDialog = new CategoryOptionMenuAlertDialog(context);
+		CreateItemDialogShower createCategorydialog = new CreateCategoryAlertDialog(context);
+		ItemOptionMenuDialogShower categoryOptionMenuDialog = new CategoryOptionMenuAlertDialog(context);
 		ContextCategoryOpener categoryOpener = new ContextCategoryOpener(context);
 		
 		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, categoryOpener);

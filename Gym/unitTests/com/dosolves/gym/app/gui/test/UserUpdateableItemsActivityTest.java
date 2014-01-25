@@ -1,4 +1,5 @@
-package com.dosolves.gym.app.gui.category.test;
+package com.dosolves.gym.app.gui.test;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -12,43 +13,42 @@ import org.robolectric.RobolectricTestRunner;
 import android.view.MenuItem;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.gui.AddItemRequestedCallBack;
+import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
+import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
-import com.dosolves.gym.domain.category.AddCategoryRequestedCallBack;
-import com.dosolves.gym.domain.category.CategoryClickedCallback;
 
 @RunWith(RobolectricTestRunner.class)
-public class CategoriesActivityTest {
-
-	private static final int POSITION = 2345;
+public class UserUpdateableItemsActivityTest {
+	
+	private static final int POSITION = 456;
 	@Mock
-	MenuItem menuItemMock;
-	@Mock
-	AddCategoryRequestedCallBack addCategoryRequestedCallbackMock;
+	AddItemRequestedCallBack addItemRequestedCallBackMock;
 	@Mock
 	ItemMenuRequestedCallback itemMenuRequestedCallbackMock;
 	@Mock
-	CategoryClickedCallback categoryClickedCallbackMock;
+	OpenItemRequestedCallback openItemRequestedCallbackMock;
+	@Mock
+	MenuItem menuItemMock;
 	
-	CategoriesActivity sut;
-	
-	
-	
+	UserUpdateableItemsActivity sut;	
+
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
 		sut = new CategoriesActivity();
-		sut.setAddCategoryRequestedCallBack(addCategoryRequestedCallbackMock);
+		sut.setAddItemRequestedCallBack(addItemRequestedCallBackMock);
 		sut.setItemMenuRequestedCallback(itemMenuRequestedCallbackMock);
-		sut.setCategoryClickedCallback(categoryClickedCallbackMock);
+		sut.setOpenItemRequestedCallback(openItemRequestedCallbackMock);
 	}
 	
 	@Test
-	public void calls_addCategoryRequestedCallback_when_add_category_menu_item_is_selected(){
-		when(menuItemMock.getItemId()).thenReturn(R.id.add_category);
+	public void calls_addItemRequestedCallback_when_add_item_menu_item_is_selected(){
+		when(menuItemMock.getItemId()).thenReturn(R.id.add_item);
 		sut.onOptionsItemSelected(menuItemMock);
-		verify(addCategoryRequestedCallbackMock).onAddCategoryRequested();
+		verify(addItemRequestedCallBackMock).onAddItemRequested();
 	}
 	
 	@Test
@@ -60,7 +60,7 @@ public class CategoriesActivityTest {
 	@Test
 	public void calls_categoryClickedCallback_when_item_is_clicked(){
 		sut.onListItemClick(null, null, POSITION, 0);
-		verify(categoryClickedCallbackMock).onCategoryClicked(POSITION);
+		verify(openItemRequestedCallbackMock).onOpenItemRequested(POSITION);
 	}
 	
 }

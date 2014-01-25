@@ -1,9 +1,0 @@
-ns::CreateCategory
-
-IController(Rename)
-
-INotifyer
-	addNewCategorySelected
-IDialog
-
-IDataGetter

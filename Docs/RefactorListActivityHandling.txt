@@ -1,7 +1,7 @@
 abstract UserUpdateableItemsActivity extends ListActivity
 	setAddItemRequestedCallBack
 	setItemMenuRequestedCallback
-	setItemClickedCallback
+	setItemShouldBeOpenedCallback
 
 AddItemRequestedCallBack
 	onAddItemRequested();
@@ -9,7 +9,7 @@ AddItemRequestedCallBack
 ItemMenuRequestedCallback
 	onItemMenuRequested();
 
-OpenItemCallback
+OpenItemRequestedCallback
 	onOpenItemRequested();
 
 abstract UserUpdateableItemsController implements 
@@ -41,3 +41,5 @@ ExerciseController extends UserUpdateableItemsController
 	ExerciseRetriever retriever, 
 	ExerciseUpdater updater, 
 	ExerciseOpener opener
+
+

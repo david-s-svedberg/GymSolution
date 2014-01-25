@@ -1,8 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 	<!-- Add, should appear as action button -->
-    <item android:id="@+id/add_category"
+    <item android:id="@+id/add_item"
           android:icon="@drawable/ic_action_new"
-          android:title="@string/add_category"
+          android:title="@string/add_item"
           android:showAsAction="ifRoom" />    
     <item
         android:id="@+id/action_settings"

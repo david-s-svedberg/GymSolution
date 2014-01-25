@@ -77,7 +77,7 @@ public class CategoryTests extends ActivityInstrumentationTestCase2<CategoriesAc
 	}
 
 	private void createCategory(String categoryName) {
-		solo.clickOnActionBarItem(R.id.add_category);
+		solo.clickOnActionBarItem(R.id.add_item);
 		assertTrue("Create category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
 		solo.enterText(0, categoryName);
 		solo.clickOnButton("Ok");

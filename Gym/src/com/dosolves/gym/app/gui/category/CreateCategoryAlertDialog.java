@@ -1,13 +1,13 @@
 package com.dosolves.gym.app.gui.category;
 
-import com.dosolves.gym.app.gui.RequiredTextInputDialog;
-import com.dosolves.gym.domain.TextInputCallback;
-import com.dosolves.gym.domain.category.CategoryShouldBeCreatedCallback;
-import com.dosolves.gym.domain.category.CreateCategoryDialog;
-
 import android.content.Context;
 
-public class CreateCategoryAlertDialog implements CreateCategoryDialog {
+import com.dosolves.gym.app.gui.RequiredTextInputDialog;
+import com.dosolves.gym.domain.CreateItemDialogShower;
+import com.dosolves.gym.domain.ItemShouldBeCreatedCallback;
+import com.dosolves.gym.domain.TextInputCallback;
+
+public class CreateCategoryAlertDialog implements CreateItemDialogShower {
 
 	private Context context;
 
@@ -16,14 +16,14 @@ public class CreateCategoryAlertDialog implements CreateCategoryDialog {
 	}
 
 	@Override
-	public void show(final CategoryShouldBeCreatedCallback callback) {
+	public void show(final ItemShouldBeCreatedCallback callback) {
 		RequiredTextInputDialog dialog = new RequiredTextInputDialog(context, "New Category", "Enter name", new TextInputCallback() {
 			
 			@Override
 			public void onTextInputDone(String value) {
-				callback.onCategoryShouldBeCreated(value);
+				callback.onItemShouldBeCreated(value);
 			}
 		});
-		dialog.show();
+		dialog.show();		
 	}
 }

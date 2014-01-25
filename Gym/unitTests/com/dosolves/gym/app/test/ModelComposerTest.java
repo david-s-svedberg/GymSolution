@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import android.content.Context;
 import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
@@ -81,7 +80,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categoriesActivityMock).setAddCategoryRequestedCallBack(categoryControllerMock);
+		verify(categoriesActivityMock).setAddItemRequestedCallBack(categoryControllerMock);
 	}
 	
 	@Test
@@ -101,7 +100,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categoriesActivityMock).setCategoryClickedCallback(categoryControllerMock);
+		verify(categoriesActivityMock).setOpenItemRequestedCallback(categoryControllerMock);
 	}
 	
 	@Test
