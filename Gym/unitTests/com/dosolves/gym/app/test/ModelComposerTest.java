@@ -117,11 +117,22 @@ public class ModelComposerTest extends AndroidTestCase{
 	@Test
 	public void polls_factory_for_exercise_components(){
 		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
-		when(exerciseModelFactoryMock.createController(exercisesActivityMock, categoryAdapterMock)).thenReturn(exerciseControllerMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
 		
 		sut.compose(exercisesActivityMock);
 		
 		verify(exerciseModelFactoryMock).createAdapter(exercisesActivityMock);
-		verify(exerciseModelFactoryMock).createController(exercisesActivityMock, categoryAdapterMock);		
+		verify(exerciseModelFactoryMock).createController(exercisesActivityMock, exerciseAdapterMock);		
 	}
+	
+	@Test
+	public void sets_adapter_on_exerciseActivity(){
+		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exercisesActivityMock).setListAdapter(exerciseAdapterMock);
+	}
+	
 }

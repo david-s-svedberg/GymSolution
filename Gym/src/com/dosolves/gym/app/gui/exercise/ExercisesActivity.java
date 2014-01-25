@@ -1,6 +1,7 @@
 package com.dosolves.gym.app.gui.exercise;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.Menu;
@@ -8,7 +9,7 @@ import android.view.MenuItem;
 
 import com.dosolves.gym.R;
 
-public class ExercisesActivity extends Activity {
+public class ExercisesActivity extends ListActivity {
 
 	public static final String CATEGORY_BUNDLE_KEY = "CATEGORY_BUNDLE_KEY";
 

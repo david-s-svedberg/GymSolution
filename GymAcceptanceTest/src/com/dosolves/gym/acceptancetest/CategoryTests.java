@@ -67,9 +67,9 @@ public class CategoryTests extends ActivityInstrumentationTestCase2<CategoriesAc
 			createCategory(TEST_ADD_CATEGORY_TEXT);
 			
 			solo.clickOnText(TEST_ADD_CATEGORY_TEXT);
-			assertTrue("Exercise activity was not shown",solo.waitForActivity(ExercisesActivity.class.getName(),TIME_TO_WAIT_FOR_DIALOG));
+			assertTrue("Exercise activity was not shown",solo.waitForActivity(ExercisesActivity.class,TIME_TO_WAIT_FOR_DIALOG));
 			
-			solo.goBack();	
+			solo.goBack();
 		}
 		finally{
 			deleteCreatedCategory(TEST_ADD_CATEGORY_TEXT);
