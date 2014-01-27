@@ -1,39 +1,75 @@
 package com.dosolves.gym.domain.exercise;
 
+import java.util.List;
+
+import android.widget.ArrayAdapter;
+
 import com.dosolves.gym.domain.CreateItemDialogShower;
+import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
+import com.dosolves.gym.domain.category.Category;
 
 public class ExerciseController extends UserUpdateableItemsController {
 
-	public ExerciseController(CreateItemDialogShower createItemDialogShower,
-							  ItemOptionMenuDialogShower itemOptionMenuDialogShower) {
+	private ArrayAdapter<Exercise> adapter;
+	private ExerciseRetriever retriever;
+	private ExerciseUpdater updater;
+	private ExerciseOpener opener;
+	private CurrentCategoryHolder currentCategoryHolder;
+
+	public ExerciseController(ArrayAdapter<Exercise> adapter, 
+							  ExerciseRetriever retriever, 
+							  CreateItemDialogShower createItemDialogShower,
+							  ExerciseUpdater updater, 
+							  ItemOptionMenuDialogShower itemOptionMenuDialogShower, 
+							  ExerciseOpener opener, 
+							  CurrentCategoryHolder currentCategoryHolder) {
 		super(createItemDialogShower, itemOptionMenuDialogShower);
+		this.adapter = adapter;
+		this.retriever = retriever;
+		this.updater = updater;
+		this.opener = opener;
+		this.currentCategoryHolder = currentCategoryHolder;
 
 	}
 
 	@Override
 	protected void handleUpdateItems() {
-		// TODO Auto-generated method stub
-		
+		adapter.clear();
+		List<Exercise> exercisesInCategory = getExercisesForCurrentCategory();
+		adapter.addAll(exercisesInCategory);
+		adapter.notifyDataSetChanged();		
+	}
+
+	private List<Exercise> getExercisesForCurrentCategory() {
+		Category currentCategory = currentCategoryHolder.getCurrentCategory();
+		return retriever.getExercisesInCategory(currentCategory);
 	}
 
 	@Override
 	protected void handleItemShouldBeOpened(int positionOfItemToBeOpened) {
-		// TODO Auto-generated method stub
-		
+		opener.openExercise(adapter.getItem(positionOfItemToBeOpened));
 	}
 
 	@Override
 	protected void handleItemShouldBeCreated(String newItemName) {
-		// TODO Auto-generated method stub
+		if(!exerciseWithSameNameExistsInCategory(newItemName)){
+			updater.create(newItemName, currentCategoryHolder.getCurrentCategory().getId());			
+		}
 		
+	}
+
+	private boolean exerciseWithSameNameExistsInCategory(String newItemName) {
+		for(Exercise current: getExercisesForCurrentCategory())
+			if (current.getName().equals(newItemName))
+				return true;
+		return false;
 	}
 
 	@Override
 	protected void handleItemShouldBeDeleted(int positionOfItemToBeDeleted) {
-		// TODO Auto-generated method stub
-		
+		updater.delete(adapter.getItem(positionOfItemToBeDeleted));
 	}
 
 }

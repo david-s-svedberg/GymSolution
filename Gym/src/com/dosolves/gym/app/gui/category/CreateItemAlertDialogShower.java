@@ -7,17 +7,19 @@ import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemShouldBeCreatedCallback;
 import com.dosolves.gym.domain.TextInputCallback;
 
-public class CreateCategoryAlertDialog implements CreateItemDialogShower {
+public class CreateItemAlertDialogShower implements CreateItemDialogShower {
 
 	private Context context;
+	private String title;
 
-	public CreateCategoryAlertDialog(Context context) {
+	public CreateItemAlertDialogShower(Context context, String title) {
 		this.context = context;
+		this.title = title;
 	}
 
 	@Override
 	public void show(final ItemShouldBeCreatedCallback callback) {
-		RequiredTextInputDialog dialog = new RequiredTextInputDialog(context, "New Category", "Enter name", new TextInputCallback() {
+		RequiredTextInputDialog dialog = new RequiredTextInputDialog(context, this.title, "Enter name", new TextInputCallback() {
 			
 			@Override
 			public void onTextInputDone(String value) {

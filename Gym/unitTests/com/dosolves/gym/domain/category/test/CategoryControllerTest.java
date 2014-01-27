@@ -84,30 +84,10 @@ public class CategoryControllerTest {
 	}
 	
 	@Test
-	public void updates_categories_when_category_have_been_deleted(){
-		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
-		when(adapterMock.getItem(POSITION)).thenReturn(category);
-		when(retrieverMock.getCategories()).thenReturn(categoriesMock);
-		
-		sut.onItemShouldBeDeleted(POSITION);
-		
-		verifyCategoriesHaveBeenUpdated();
-	}
-	
-	@Test
 	public void calls_categoryUpdater_when_item_should_be_created(){
 		sut.onItemShouldBeCreated(NEW_CATEGORY_NAME);
 		
 		verify(categoryUpdaterMock).create(NEW_CATEGORY_NAME);		
-	}
-	
-	@Test
-	public void updates_adapter_categories_after_new_category_has_been_created(){
-		when(retrieverMock.getCategories()).thenReturn(categoriesMock);
-		
-		sut.onItemShouldBeCreated(NEW_CATEGORY_NAME);
-		
-		verifyCategoriesHaveBeenUpdated();
 	}
 	
 	@Test

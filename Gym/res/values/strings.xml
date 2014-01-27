@@ -8,5 +8,7 @@
     <string name="add_item">Add item</string>
     <string name="categories">Categories</string>
     <string name="title_activity_exercise">ExerciseActivity</string>
+    <string name="create_category">Create Category</string>
+    <string name="create_exercise">Create Exercise</string>
 
 </resources>

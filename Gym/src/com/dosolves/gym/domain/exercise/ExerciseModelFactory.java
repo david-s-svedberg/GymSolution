@@ -1,11 +1,13 @@
 package com.dosolves.gym.domain.exercise;
 
+import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
+
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
 public interface ExerciseModelFactory {
 
 	ArrayAdapter<Exercise> createAdapter(Context context);
-	ExerciseController createController(Context context, ArrayAdapter<Exercise> adapter);
+	ExerciseController createController(ExercisesActivity activity, ArrayAdapter<Exercise> adapter);
 
 }

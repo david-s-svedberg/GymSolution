@@ -1,6 +1,7 @@
 package com.dosolves.gym.app.database;
 
 import com.dosolves.gym.app.database.category.CategoryDbStructureGiver;
+import com.dosolves.gym.app.database.exercise.ExerciseDbStructureGiver;
 import com.dosolves.gym.domain.DbStructureGiver;
 
 import android.content.Context;
@@ -31,7 +32,7 @@ public class SQLiteOpenHelperSingeltonHolder {
 				if (instance == null){
 					if (context == null)
 						throw new IllegalStateException("Context was not provided");
-					instance = new SQLiteOpenHelperSingeltonHolder().new GymSQLiteOpenHelper(new CategoryDbStructureGiver());
+					instance = new SQLiteOpenHelperSingeltonHolder().new GymSQLiteOpenHelper(new CategoryDbStructureGiver(), new ExerciseDbStructureGiver());
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-package com.dosolves.gym.app.gui.category;
+package com.dosolves.gym.app.gui;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,11 +8,11 @@ import android.content.DialogInterface.OnClickListener;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.ItemShouldBeDeletedCallback;
 
-public class CategoryOptionMenuAlertDialog implements ItemOptionMenuDialogShower{
+public class ItemOptionMenuAlertDialogShower implements ItemOptionMenuDialogShower{
 
 	private Context context;
 
-	public CategoryOptionMenuAlertDialog(Context context){
+	public ItemOptionMenuAlertDialogShower(Context context){
 		this.context = context;
 		
 	}
