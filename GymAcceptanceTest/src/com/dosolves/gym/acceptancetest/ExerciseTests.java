@@ -3,10 +3,11 @@ package com.dosolves.gym.acceptancetest;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
 import com.robotium.solo.Solo;
 
-public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
+public class ExerciseTests extends CleanDbTestCase<CategoriesActivity>{
 
 	private static final String NEW_EXERCISE_NAME = "newExerciseName";
 	private static final String TEST_ADD_CATEGORY_TEXT = "ADD_CATEGORY_TEXT";
@@ -16,7 +17,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 	private Solo solo;
 	
 	public ExerciseTests(){
-		super(ExercisesActivity.class);
+		super(CategoriesActivity.class);
 	}
 	
 	@Override

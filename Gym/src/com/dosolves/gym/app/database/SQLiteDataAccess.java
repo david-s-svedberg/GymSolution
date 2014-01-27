@@ -33,7 +33,8 @@ public class SQLiteDataAccess implements DataAccess {
 	public Cursor get(String type) {
 		SQLiteDatabase db = openHelper.getReadableDatabase();
 		String[] columns = dbStructureGivers.get(type).getAllColumns();
-		return db.query(type, columns, null, null, null, null, null);		
+		Cursor cursor = db.query(type, columns, null, null, null, null, null);
+		return cursor;		
 	}
 
 	@Override
@@ -42,6 +43,7 @@ public class SQLiteDataAccess implements DataAccess {
 		ContentValues contentValues = createContentValues(keysAndvalues);
 		
 		db.insert(type, null, contentValues);
+		db.close();
 	}
 
 	private ContentValues createContentValues(Map<String, Object> keysAndvalues) {
@@ -57,6 +59,7 @@ public class SQLiteDataAccess implements DataAccess {
 	public void delete(String type, String typeIdPropertyName, int id) {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		db.delete(type, String.format("%s = ?", typeIdPropertyName), new String[]{Integer.toString(id)});
+		db.close();
 	}
 
 	@Override
@@ -66,8 +69,8 @@ public class SQLiteDataAccess implements DataAccess {
 		String[] columns = dbStructureGivers.get(type).getAllColumns();
 		String select = String.format("%s = ?",filterIdPropertyName);
 		String[] selectArgs = new String[]{Integer.toString(filterId)};
-		
-		return db.query(type, columns, select, selectArgs, null, null, null);	
+		Cursor cursor = db.query(type, columns, select, selectArgs, null, null, null);
+		return cursor;	
 	}
 
 }

@@ -66,7 +66,6 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 		sut.get(TYPE_NAME);
 		
 		verify(dbMock).query(TYPE_NAME, columns, null, null, null, null, null);
-		verifyNoMoreInteractions(dbMock);
 	}
 	
 	@Test
@@ -92,6 +91,17 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 	}
 	
 	@Test
+	public void closes_db_after_create() {
+		HashMap<String, Object> keysAndvalues = new HashMap<String,Object>();
+		keysAndvalues.put(KEY, VALUE);
+		when(openHelperMock.getWritableDatabase()).thenReturn(dbMock);		
+		
+		sut.create(TYPE_NAME, keysAndvalues);
+		
+		verify(dbMock).close();
+	}
+	
+	@Test
 	public void delete_sends_correct_delete_querry_to_db() {
 		when(openHelperMock.getWritableDatabase()).thenReturn(dbMock);		
 		
@@ -110,6 +120,15 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 			
 		}));
 		
+	}
+	
+	@Test
+	public void closes_db_after_delete() {
+		when(openHelperMock.getWritableDatabase()).thenReturn(dbMock);		
+		
+		sut.delete(TYPE_NAME, ID_COLUMN_NAME, ID);
+		
+		verify(dbMock).close();
 	}
 	
 	@Test
@@ -133,8 +152,7 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 				return false;
 			}
 			
-		}), isNull(String.class), isNull(String.class), isNull(String.class));
-		verifyNoMoreInteractions(dbMock);
+		}), isNull(String.class), isNull(String.class), isNull(String.class));		
 	}
-
+	
 }
