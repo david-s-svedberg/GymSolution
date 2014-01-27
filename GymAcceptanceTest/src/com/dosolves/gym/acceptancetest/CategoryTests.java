@@ -1,6 +1,5 @@
 package com.dosolves.gym.acceptancetest;
 
-import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
@@ -9,7 +8,7 @@ import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
 import com.robotium.solo.Solo;
 
-public class CategoryTests extends ActivityInstrumentationTestCase2<CategoriesActivity>{
+public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 
 	private static final String TEST_ADD_CATEGORY_TEXT = "ADD_CATEGORY_TEXT";
 	private static final int TIME_TO_WAIT_FOR_DIALOG = 5000;

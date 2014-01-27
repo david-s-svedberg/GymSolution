@@ -61,8 +61,13 @@ public class SQLiteDataAccess implements DataAccess {
 
 	@Override
 	public Cursor get(String type, String filterIdPropertyName, int filterId) {
-		// TODO Auto-generated method stub
-		return null;
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+		
+		String[] columns = dbStructureGivers.get(type).getAllColumns();
+		String select = String.format("%s = ?",filterIdPropertyName);
+		String[] selectArgs = new String[]{Integer.toString(filterId)};
+		
+		return db.query(type, columns, select, selectArgs, null, null, null);	
 	}
 
 }

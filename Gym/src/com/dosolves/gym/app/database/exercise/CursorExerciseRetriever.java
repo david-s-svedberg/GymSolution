@@ -2,6 +2,8 @@ package com.dosolves.gym.app.database.exercise;
 
 import java.util.List;
 
+import android.database.Cursor;
+
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.exercise.Exercise;
@@ -21,7 +23,8 @@ public class CursorExerciseRetriever implements ExerciseRetriever {
 
 	@Override
 	public List<Exercise> getExercisesInCategory(Category category) {
-		return exerciseFactory.CreateExercises(dataAccess.get(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.CATEGORY_ID_PROPERTY_NAME, category.getId()));
+		Cursor cursor = dataAccess.get(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.CATEGORY_ID_PROPERTY_NAME, category.getId());
+		return exerciseFactory.CreateExercises(cursor);
 	}
 
 }
