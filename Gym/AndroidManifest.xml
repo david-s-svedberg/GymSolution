@@ -31,6 +31,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dosolves.gym.app.gui.category.CategoriesActivity" />
         </activity>
+        <activity
+            android:name="com.dosolves.gym.app.gui.input.ExerciseInputActivity"
+            android:label="@string/title_activity_exercise_input"
+            android:parentActivityName="com.dosolves.gym.app.gui.exercise.ExercisesActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.dosolves.gym.app.gui.exercise.ExercisesActivity" />
+        </activity>
     </application>
 
 </manifest>

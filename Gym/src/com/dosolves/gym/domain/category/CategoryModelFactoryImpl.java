@@ -6,6 +6,7 @@ import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.database.category.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.category.CursorCategoryFactory;
 import com.dosolves.gym.app.database.category.CursorCategoryRetriever;
+import com.dosolves.gym.app.database.exercise.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
 import com.dosolves.gym.app.gui.category.ContextCategoryOpener;
 import com.dosolves.gym.app.gui.category.CreateItemAlertDialogShower;
@@ -26,16 +27,27 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 
 	@Override
 	public CategoryController createController(Context context, ArrayAdapter<Category> adapter) {
-		DbStructureGiver categoryStructure = new CategoryDbStructureGiver();
-		DataAccess dao = new SQLiteDataAccess(SQLiteOpenHelperSingeltonHolder.getDbHelper(), categoryStructure);
-		CursorCategoryFactory categoryFactory = new CursorCategoryFactory(categoryStructure);
-		CategoryRetriever retriever = new CursorCategoryRetriever(dao, categoryFactory);
-		CategoryUpdater updater = new CategoryUpdaterImpl(dao);
+		CategoryRetriever retriever = createRetriever();
+		CategoryUpdater updater = createUpdater();
 		CreateItemDialogShower createCategorydialog = new CreateItemAlertDialogShower(context, context.getString(R.string.create_category));
 		ItemOptionMenuDialogShower categoryOptionMenuDialog = new ItemOptionMenuAlertDialogShower(context);
 		ContextCategoryOpener categoryOpener = new ContextCategoryOpener(context);
 		
 		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, categoryOpener);
+	}
+
+	public CategoryUpdater createUpdater() {
+		return new CategoryUpdaterImpl(createDataAccess());
+	}
+
+	public CategoryRetriever createRetriever() {
+		CursorCategoryFactory categoryFactory = new CursorCategoryFactory(new CategoryDbStructureGiver());
+		CategoryRetriever retriever = new CursorCategoryRetriever(createDataAccess(), categoryFactory);
+		return retriever;
+	}
+
+	private DataAccess createDataAccess() {
+		return new SQLiteDataAccess(SQLiteOpenHelperSingeltonHolder.getDbHelper(), new CategoryDbStructureGiver(), new ExerciseDbStructureGiver());
 	}
 
 }

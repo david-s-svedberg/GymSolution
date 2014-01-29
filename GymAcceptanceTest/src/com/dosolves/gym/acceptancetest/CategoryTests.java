@@ -88,4 +88,9 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 		solo.clickOnText("Delete");
 	}
 	
+	@Override
+	protected int numberOfTestCases() {
+		return 4;
+	}
+	
 }
