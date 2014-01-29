@@ -1,5 +1,6 @@
 package com.dosolves.gym.domain.exercise.test;
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -13,10 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.DataAccess;
-import com.dosolves.gym.domain.category.Category;
-import com.dosolves.gym.domain.category.CategoryStructureGiver;
-import com.dosolves.gym.domain.category.CategoryUpdater;
-import com.dosolves.gym.domain.category.CategoryUpdaterImpl;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseStructureGiver;
 import com.dosolves.gym.domain.exercise.ExerciseUpdater;

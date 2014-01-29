@@ -1,5 +1,8 @@
 package com.dosolves.gym.domain.category;
 
+import android.content.Context;
+import android.widget.ArrayAdapter;
+
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
@@ -12,11 +15,7 @@ import com.dosolves.gym.app.gui.category.ContextCategoryOpener;
 import com.dosolves.gym.app.gui.category.CreateItemAlertDialogShower;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DataAccess;
-import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
-
-import android.content.Context;
-import android.widget.ArrayAdapter;
 
 public class CategoryModelFactoryImpl implements CategoryModelFactory{
 

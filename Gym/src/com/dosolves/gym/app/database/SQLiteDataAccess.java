@@ -42,7 +42,7 @@ public class SQLiteDataAccess implements DataAccess {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		ContentValues contentValues = createContentValues(keysAndvalues);
 		
-		db.insert(type, null, contentValues);
+		db.insertOrThrow(type, null, contentValues);
 		db.close();
 	}
 

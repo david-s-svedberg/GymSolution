@@ -1,7 +1,11 @@
 package com.dosolves.gym.domain.exercise;
 
-public class Exercise {
+import java.io.Serializable;
 
+public class Exercise implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private int categoryId;
 	private String name;
@@ -10,7 +14,6 @@ public class Exercise {
 		this.id = id;
 		this.categoryId = categoryId;
 		this.name = name;
-
 	}
 
 	public int getId() {
@@ -28,6 +31,15 @@ public class Exercise {
 	@Override
 	public String toString() {
 		return name;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		Exercise other = (Exercise)o;
+		
+		return other.name.equals(this.name) && 
+			   other.id == this.id && 
+			   other.categoryId == this.categoryId;
 	}
 
 }

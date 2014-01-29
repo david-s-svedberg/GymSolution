@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dosolves.gym.domain.DataAccess;
-import com.dosolves.gym.domain.category.CategoryStructureGiver;
 
 public class ExerciseUpdaterImpl implements ExerciseUpdater {
 

@@ -27,7 +27,7 @@ public abstract class CleanDbTestCase<T extends Activity> extends ActivityInstru
 	@Override
     protected void tearDown() throws Exception{
 		testsExecutedSoFar++;
-		Log.i("Hopp", String.format("%d", numberOfTestCases()));
+		Log.i("Hopp", String.format("%d av %d",testsExecutedSoFar, numberOfTestCases()));
 		if (testsExecutedSoFar == numberOfTestCases()){
 			deleteDb();
 			isFirstRun = true;
@@ -50,6 +50,6 @@ public abstract class CleanDbTestCase<T extends Activity> extends ActivityInstru
 
 	private void deleteDb() {
 		getActivity().deleteDatabase(SQLiteOpenHelperSingeltonHolder.getDbHelper().getDatabaseName());
-		Log.i("CleanDbTestCase", "Db deleted");
+		Log.i("Hopp", "Db deleted");
 	}
 }

@@ -1,6 +1,5 @@
 package com.dosolves.gym.domain.exercise.test;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
 
 import org.junit.Before;

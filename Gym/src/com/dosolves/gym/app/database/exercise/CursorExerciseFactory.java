@@ -30,7 +30,7 @@ public class CursorExerciseFactory {
 			
 			cursor.moveToNext();
 		}
-		cursor.close();
+		cursor.close();		
 
 		return exercises;
 	}

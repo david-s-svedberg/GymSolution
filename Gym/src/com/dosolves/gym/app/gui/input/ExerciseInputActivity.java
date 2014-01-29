@@ -1,16 +1,16 @@
 package com.dosolves.gym.app.gui.input;
 
-import com.dosolves.gym.R;
-import com.dosolves.gym.R.layout;
-import com.dosolves.gym.R.menu;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+
+import com.dosolves.gym.R;
 
 public class ExerciseInputActivity extends Activity {
+
+	public static final String EXORCISE_BUNDLE_KEY = "EXORCISE_BUNDLE_KEY";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

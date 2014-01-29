@@ -1,8 +1,8 @@
 package com.dosolves.gym.acceptancetest;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDiskIOException;
 import android.test.suitebuilder.annotation.LargeTest;
-import android.util.Log;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;

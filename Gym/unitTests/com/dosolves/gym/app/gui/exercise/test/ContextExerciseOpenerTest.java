@@ -1,15 +1,12 @@
 package com.dosolves.gym.app.gui.exercise.test;
 
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.junit.Assert.*;
-
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -19,8 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.dosolves.gym.app.gui.exercise.ContextExerciseOpener;
-import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
-import com.dosolves.gym.domain.category.Category;
+import com.dosolves.gym.app.gui.input.ExerciseInputActivity;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseOpener;
 
@@ -44,8 +40,6 @@ public class ContextExerciseOpenerTest {
 		sut = new ContextExerciseOpener(contextMock);
 	}
 	
-	
-	@Ignore("Remember to decomment when input activity is to be implemented")
 	@Test
 	public void calls_startActivity_when_openExercise_is_called(){
 		
@@ -64,13 +58,13 @@ public class ContextExerciseOpenerTest {
 			}
 
 			private boolean intentTargetsExerciseActivity(Intent intent) {
-				//assertTrue(intent.getComponent().getClassName().equals(ExerciseActivity.class.getName()));
+				assertTrue(intent.getComponent().getClassName().equals(ExerciseInputActivity.class.getName()));
 				return true;
 			}
 
 			private boolean intentContainsExercise(final Exercise exercise, Intent intent) {
-				Category category = (Category)intent.getExtras().get(ExercisesActivity.CATEGORY_BUNDLE_KEY);
-				assertTrue(category.equals(exercise));
+				Exercise intentExerise = (Exercise)intent.getExtras().get(ExerciseInputActivity.EXORCISE_BUNDLE_KEY);
+				assertTrue(intentExerise.equals(exercise));
 				return true;
 			}
 			
