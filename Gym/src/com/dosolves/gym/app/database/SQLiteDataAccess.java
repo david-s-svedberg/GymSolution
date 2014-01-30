@@ -3,14 +3,14 @@ package com.dosolves.gym.app.database;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dosolves.gym.domain.DataAccess;
-import com.dosolves.gym.domain.DbStructureGiver;
-
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Parcel;
+
+import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.DbStructureGiver;
+import com.dosolves.gym.domain.GymCursor;
 
 public class SQLiteDataAccess implements DataAccess {
 
@@ -30,22 +30,22 @@ public class SQLiteDataAccess implements DataAccess {
 	}
 
 	@Override
-	public Cursor get(String type) {
+	public GymCursor get(String type) {
 		SQLiteDatabase db = openHelper.getReadableDatabase();
 		String[] columns = dbStructureGivers.get(type).getAllColumns();
-		Cursor cursor = db.query(type, columns, null, null, null, null, null);
-		return cursor;		
+		
+		return new SQLiteGymCursorAdapter(db.query(type, columns, null, null, null, null, null), db);		
 	}
 	
 	@Override
-	public Cursor get(String type, String filterIdPropertyName, int filterId) {
+	public GymCursor get(String type, String filterIdPropertyName, int filterId) {
 		SQLiteDatabase db = openHelper.getReadableDatabase();
 		
 		String[] columns = dbStructureGivers.get(type).getAllColumns();
 		String select = String.format("%s = ?",filterIdPropertyName);
 		String[] selectArgs = new String[]{Integer.toString(filterId)};
-		Cursor cursor = db.query(type, columns, select, selectArgs, null, null, null);
-		return cursor;	
+		
+		return new SQLiteGymCursorAdapter(db.query(type, columns, select, selectArgs, null, null, null), db);	
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class SQLiteDataAccess implements DataAccess {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		ContentValues contentValues = createContentValues(keysAndvalues);
 		
-		db.insertOrThrow(type, null, contentValues);
+		db.insert(type, null, contentValues);
 		db.close();
 	}
 

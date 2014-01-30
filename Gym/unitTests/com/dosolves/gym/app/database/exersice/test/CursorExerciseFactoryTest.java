@@ -1,7 +1,8 @@
 package com.dosolves.gym.app.database.exersice.test;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -12,10 +13,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import android.database.Cursor;
-
-import com.dosolves.gym.app.database.exercise.CursorExerciseFactory;
 import com.dosolves.gym.domain.DbStructureGiver;
+import com.dosolves.gym.domain.GymCursor;
+import com.dosolves.gym.domain.exercise.CursorExerciseFactory;
 import com.dosolves.gym.domain.exercise.Exercise;
 
 @RunWith(RobolectricTestRunner.class)
@@ -32,7 +32,7 @@ public class CursorExerciseFactoryTest {
 
 	
 	@Mock
-	Cursor cursorMock;
+	GymCursor cursorMock;
 	
 	@Mock
 	DbStructureGiver exerciseDbStructureGiverMock;

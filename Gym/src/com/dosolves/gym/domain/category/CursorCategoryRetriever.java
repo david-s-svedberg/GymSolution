@@ -1,11 +1,8 @@
-package com.dosolves.gym.app.database.category;
+package com.dosolves.gym.domain.category;
 
 import java.util.List;
 
 import com.dosolves.gym.domain.DataAccess;
-import com.dosolves.gym.domain.category.Category;
-import com.dosolves.gym.domain.category.CategoryRetriever;
-import com.dosolves.gym.domain.category.CategoryStructureGiver;
 
 public class CursorCategoryRetriever implements CategoryRetriever {
 	

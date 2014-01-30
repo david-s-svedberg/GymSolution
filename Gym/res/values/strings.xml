@@ -11,5 +11,8 @@
     <string name="create_category">Create Category</string>
     <string name="create_exercise">Create Exercise</string>
     <string name="title_activity_exercise_input">ExerciseInputActivity</string>
+    <string name="reps">Reps</string>
+    <string name="weight">Weight</string>
+    <string name="enter">Enter</string>
 
 </resources>

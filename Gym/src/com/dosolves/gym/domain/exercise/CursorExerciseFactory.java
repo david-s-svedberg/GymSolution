@@ -1,13 +1,10 @@
-package com.dosolves.gym.app.database.exercise;
+package com.dosolves.gym.domain.exercise;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import android.database.Cursor;
-
 import com.dosolves.gym.domain.DbStructureGiver;
-import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.exercise.ExerciseStructureGiver;
+import com.dosolves.gym.domain.GymCursor;
 
 public class CursorExerciseFactory {
 
@@ -17,7 +14,7 @@ public class CursorExerciseFactory {
 		this.exerciseDbStructureGiver = exerciseDbStructureGiver;
 	}
 
-	public List<Exercise> CreateExercises(Cursor cursor) {
+	public List<Exercise> CreateExercises(GymCursor cursor) {
 		List<Exercise> exercises = new ArrayList<Exercise>();
 		
 		cursor.moveToFirst();

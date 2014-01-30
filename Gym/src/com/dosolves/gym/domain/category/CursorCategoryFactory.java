@@ -1,13 +1,10 @@
-package com.dosolves.gym.app.database.category;
+package com.dosolves.gym.domain.category;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.dosolves.gym.domain.DbStructureGiver;
-import com.dosolves.gym.domain.category.Category;
-import com.dosolves.gym.domain.category.CategoryStructureGiver;
-
-import android.database.Cursor;
+import com.dosolves.gym.domain.GymCursor;
 
 public class CursorCategoryFactory {
 
@@ -17,7 +14,7 @@ public class CursorCategoryFactory {
 		this.categoryDbStructureGiver = categoryDbStructureGiver;
 	}
 
-	public List<Category> CreateCategories(Cursor categoriesCursor) {
+	public List<Category> CreateCategories(GymCursor categoriesCursor) {
 		ArrayList<Category> categories = new ArrayList<Category>();
 		
 		categoriesCursor.moveToFirst();

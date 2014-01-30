@@ -11,10 +11,10 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.database.Cursor;
 
-import com.dosolves.gym.app.database.exercise.CursorExerciseFactory;
-import com.dosolves.gym.app.database.exercise.CursorExerciseRetriever;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.category.Category;
+import com.dosolves.gym.domain.exercise.CursorExerciseFactory;
+import com.dosolves.gym.domain.exercise.CursorExerciseRetriever;
 import com.dosolves.gym.domain.exercise.ExerciseRetriever;
 
 @RunWith(RobolectricTestRunner.class)

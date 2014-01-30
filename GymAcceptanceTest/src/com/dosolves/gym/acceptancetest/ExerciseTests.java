@@ -1,7 +1,6 @@
 package com.dosolves.gym.acceptancetest;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDiskIOException;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
@@ -87,6 +86,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 			
 			assertTrue("Exercise activity was not shown",solo.waitForActivity(ExerciseInputActivity.class,TIME_TO_WAIT_FOR_DIALOG));
 			
+			solo.goBack();
 			solo.goBack();
 		}
 		finally{

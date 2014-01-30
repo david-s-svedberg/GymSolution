@@ -1,22 +1,21 @@
 package com.dosolves.gym.app.database.category.test;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
-import android.database.Cursor;
-
-import com.dosolves.gym.app.database.category.CursorCategoryFactory;
 import com.dosolves.gym.domain.DbStructureGiver;
+import com.dosolves.gym.domain.GymCursor;
 import com.dosolves.gym.domain.category.Category;
+import com.dosolves.gym.domain.category.CursorCategoryFactory;
 
 @RunWith(RobolectricTestRunner.class)
 public class CursorCategoryFactoryTest {
@@ -27,7 +26,7 @@ public class CursorCategoryFactoryTest {
 	private static final int CATEGORY_ID = 1;
 	
 	@Mock
-	Cursor cursorMock;
+	GymCursor cursorMock;
 	
 	@Mock
 	DbStructureGiver categoryDbStructureGiverMock;

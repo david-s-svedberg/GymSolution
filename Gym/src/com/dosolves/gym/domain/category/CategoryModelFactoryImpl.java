@@ -7,8 +7,6 @@ import com.dosolves.gym.R;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.database.category.CategoryDbStructureGiver;
-import com.dosolves.gym.app.database.category.CursorCategoryFactory;
-import com.dosolves.gym.app.database.category.CursorCategoryRetriever;
 import com.dosolves.gym.app.database.exercise.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
 import com.dosolves.gym.app.gui.category.ContextCategoryOpener;

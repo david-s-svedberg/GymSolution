@@ -3,8 +3,8 @@
     android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-	
+    android:orientation="horizontal" android:baselineAligned="false">
+
     <fragment
         android:id="@+id/set_input_fragment"
         android:name="com.dosolves.gym.app.gui.input.SetInputFragment"
@@ -20,5 +20,5 @@
         android:layout_height="fill_parent"
         android:layout_weight="1"
         tools:layout="@layout/list_previous_workouts_view" />
-    
+
 </LinearLayout>

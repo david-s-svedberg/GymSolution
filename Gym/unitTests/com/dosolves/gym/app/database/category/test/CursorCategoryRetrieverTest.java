@@ -10,13 +10,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import android.database.Cursor;
 import android.test.AndroidTestCase;
 
-import com.dosolves.gym.app.database.category.CursorCategoryFactory;
-import com.dosolves.gym.app.database.category.CursorCategoryRetriever;
 import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.GymCursor;
 import com.dosolves.gym.domain.category.CategoryRetriever;
+import com.dosolves.gym.domain.category.CursorCategoryFactory;
+import com.dosolves.gym.domain.category.CursorCategoryRetriever;
 
 @RunWith(RobolectricTestRunner.class)
 public class CursorCategoryRetrieverTest extends AndroidTestCase {
@@ -26,7 +26,7 @@ public class CursorCategoryRetrieverTest extends AndroidTestCase {
 	@Mock
 	DataAccess daoMock;
 	@Mock
-	Cursor cursorMock;
+	GymCursor cursorMock;
 	@Mock
 	CursorCategoryFactory categoryFactoryMock;
 	
