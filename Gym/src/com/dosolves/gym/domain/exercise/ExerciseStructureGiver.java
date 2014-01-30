@@ -1,6 +1,7 @@
 package com.dosolves.gym.domain.exercise;
 
-public class ExerciseStructureGiver {
+public final class ExerciseStructureGiver {
+	
 	private ExerciseStructureGiver(){}
 	
 	public static final String EXERCISE_TYPE_NAME_PLURAL = "Exercises";

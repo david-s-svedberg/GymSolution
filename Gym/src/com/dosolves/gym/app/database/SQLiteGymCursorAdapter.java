@@ -39,6 +39,16 @@ public class SQLiteGymCursorAdapter implements GymCursor {
 	public String getString(int index) {
 		return cursor.getString(index);
 	}
+	
+	@Override
+	public long getLong(int index) {
+		return cursor.getLong(index);
+	}
+	
+	@Override
+	public double getDouble(int index) {
+		return cursor.getDouble(index);
+	}
 
 	@Override
 	public void close() {

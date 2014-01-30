@@ -20,6 +20,8 @@ public class SQLiteGymCursorAdapterTest {
 
 	private static final int STRING_INDEX = 467;
 	private static final int INT_INDEX = 53;
+	private static final int LONG_INDEX = 65;
+	private static final int DOUBLE_INDEX = 65245;
 
 	@Mock
 	Cursor cursorMock;
@@ -44,12 +46,16 @@ public class SQLiteGymCursorAdapterTest {
 		sut.moveToNext();
 		sut.getInt(INT_INDEX);
 		sut.getString(STRING_INDEX);
+		sut.getLong(LONG_INDEX);
+		sut.getDouble(DOUBLE_INDEX);
 		
 		verify(cursorMock).moveToFirst();
 		verify(cursorMock).isAfterLast();
 		verify(cursorMock).moveToNext();
 		verify(cursorMock).getInt(INT_INDEX);
 		verify(cursorMock).getString(STRING_INDEX);
+		verify(cursorMock).getLong(LONG_INDEX);
+		verify(cursorMock).getDouble(DOUBLE_INDEX);
 	}
 	
 	@Test
