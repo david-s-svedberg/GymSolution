@@ -1,7 +1,9 @@
 package com.dosolves.gym.app.database.exersice.test;
 
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,8 +11,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
-
-import android.database.Cursor;
 
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.GymCursor;

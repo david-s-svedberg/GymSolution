@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
+import com.dosolves.gym.domain.exercise.SetStructureGiver;
 
 public class CursorSetRetriever implements SetRetriever {
 
@@ -17,8 +18,7 @@ public class CursorSetRetriever implements SetRetriever {
 
 	@Override
 	public List<Set> getSetsInExercise(Exercise exercise) {
-		// TODO Auto-generated method stub
-		return null;
+		return setFactory.CreateSets(dataAccess.get(SetStructureGiver.SET_TYPE_NAME_PLURAL,SetStructureGiver.EXERCISE_ID_PROPERTY_NAME,exercise.getId()));
 	}
 
 }

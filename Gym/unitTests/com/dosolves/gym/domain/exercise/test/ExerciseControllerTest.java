@@ -51,11 +51,11 @@ public class ExerciseControllerTest {
 	@Mock
 	CurrentCategoryHolder currentCategoryHolderMock;
 	
-	private List<Exercise> exercisesMock;
+	List<Exercise> exercisesMock;
+	Category categoryMock;
+	Exercise exerciseMock;
 	
 	ExerciseController sut;
-	private Category categoryMock;
-	private Exercise exerciseMock;
 		
 	@Before
 	public void setUp() throws Exception{
