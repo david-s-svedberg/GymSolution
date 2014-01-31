@@ -13,7 +13,8 @@ import com.robotium.solo.Solo;
 public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 
 	private static final String CATEGORY_NAME = "categoryName";
-	private static final String NEW_EXERCISE_NAME = "newExerciseName";
+	private static final String EXERCISE_NAME = "exerciseName";
+	
 	private static final int TIME_TO_WAIT_FOR_DIALOG = 5000;
 	
 	private Solo solo;
@@ -52,37 +53,37 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 		
 	@LargeTest
 	public void test_Adding_new_exercise_should_add_exercise_to_list(){
-		createExercise(NEW_EXERCISE_NAME);
+		createExercise(EXERCISE_NAME);
 		
-		assertTrue("couldn't find new exercise in list", solo.searchText(NEW_EXERCISE_NAME));
+		assertTrue("couldn't find new exercise in list", solo.searchText(EXERCISE_NAME));
 		
-		deleteCreatedExercise(NEW_EXERCISE_NAME);		
+		deleteCreatedExercise(EXERCISE_NAME);		
 	}
 	
 	@LargeTest
 	public void test_delete_exercise_should_remove_exercise_from_list(){
-		createExercise(NEW_EXERCISE_NAME);
-		deleteCreatedExercise(NEW_EXERCISE_NAME);
+		createExercise(EXERCISE_NAME);
+		deleteCreatedExercise(EXERCISE_NAME);
 		
-		assertFalse("Exercise was not deleted", solo.searchText(NEW_EXERCISE_NAME));
+		assertFalse("Exercise was not deleted", solo.searchText(EXERCISE_NAME));
 	}
 	
 	@LargeTest
 	public void test_exercise_with_same_name_as_another_cant_be_added(){
-		createExercise(NEW_EXERCISE_NAME);
-		createExercise(NEW_EXERCISE_NAME);
-		deleteCreatedExercise(NEW_EXERCISE_NAME);
+		createExercise(EXERCISE_NAME);
+		createExercise(EXERCISE_NAME);
+		deleteCreatedExercise(EXERCISE_NAME);
 		
-		assertFalse("Possible to add more then one exercise with the same name", solo.searchText(NEW_EXERCISE_NAME));
+		assertFalse("Possible to add more then one exercise with the same name", solo.searchText(EXERCISE_NAME));
 		
 	}
 	
 	@LargeTest
 	public void test_clicking_exercise_opens_exerciseInput_activity(){
 		try{
-			createExercise(NEW_EXERCISE_NAME);
+			createExercise(EXERCISE_NAME);
 			
-			solo.clickOnText(NEW_EXERCISE_NAME);
+			solo.clickOnText(EXERCISE_NAME);
 			
 			assertTrue("Exercise activity was not shown",solo.waitForActivity(ExerciseInputActivity.class,TIME_TO_WAIT_FOR_DIALOG));
 			
@@ -90,7 +91,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 			solo.goBack();
 		}
 		finally{
-			deleteCreatedExercise(NEW_EXERCISE_NAME);
+			deleteCreatedExercise(EXERCISE_NAME);
 		}
 	}
 	

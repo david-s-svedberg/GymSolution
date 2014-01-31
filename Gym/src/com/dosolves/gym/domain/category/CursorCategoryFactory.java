@@ -14,19 +14,19 @@ public class CursorCategoryFactory {
 		this.categoryDbStructureGiver = categoryDbStructureGiver;
 	}
 
-	public List<Category> CreateCategories(GymCursor categoriesCursor) {
+	public List<Category> CreateCategories(GymCursor cursor) {
 		ArrayList<Category> categories = new ArrayList<Category>();
 		
-		categoriesCursor.moveToFirst();
-		while(!categoriesCursor.isAfterLast()){
-			int id = categoriesCursor.getInt(categoryDbStructureGiver.getColumnIndex(CategoryStructureGiver.ID_PROPERTY_NAME));
-			String name = categoriesCursor.getString(categoryDbStructureGiver.getColumnIndex(CategoryStructureGiver.NAME_PROPERTY_NAME));
+		cursor.moveToFirst();
+		while(!cursor.isAfterLast()){
+			int id = cursor.getInt(categoryDbStructureGiver.getColumnIndex(CategoryStructureGiver.ID_PROPERTY_NAME));
+			String name = cursor.getString(categoryDbStructureGiver.getColumnIndex(CategoryStructureGiver.NAME_PROPERTY_NAME));
 			
 			categories.add(new Category(id, name));
 			
-			categoriesCursor.moveToNext();
+			cursor.moveToNext();
 		}
-		categoriesCursor.close();
+		cursor.close();
 		
 		return categories;
 	}

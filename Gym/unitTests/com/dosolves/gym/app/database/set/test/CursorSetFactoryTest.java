@@ -14,12 +14,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import com.dosolves.gym.app.database.set.CursorSetFactory;
 import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.GymCursor;
-import com.dosolves.gym.domain.exercise.CursorExerciseFactory;
-import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.exercise.SetStructureGiver;
+import com.dosolves.gym.domain.set.CursorSetFactory;
 import com.dosolves.gym.domain.set.Set;
 
 @RunWith(RobolectricTestRunner.class)
@@ -91,30 +88,34 @@ public class CursorSetFactoryTest {
 		assertEquals(WEIGHT, set.getWeight(), 0.001);
 		assertEquals(dateMock, set.getDate());
 	}
-//	
-//	@Test
-//	public void builds_two_categories_from_two_rows_on_cursor(){
-//		when(cursorMock.moveToFirst()).thenReturn(true);
-//		when(cursorMock.isAfterLast()).thenReturn(false,false, true);
-//		when(cursorMock.moveToNext()).thenReturn(true);
-//		
-//		when(setDbStructureGiverMock.getColumnIndex("Id")).thenReturn(ID_COLUMN_INDEX);
-//		when(setDbStructureGiverMock.getColumnIndex("CategoryId")).thenReturn(CATEGORY_ID_COLUMN_INDEX);
-//		when(setDbStructureGiverMock.getColumnIndex("Name")).thenReturn(NAME_COLUMN_INDEX);
-//				
-//		when(cursorMock.getInt(ID_COLUMN_INDEX)).thenReturn(EXERCISE_ID);
-//		when(cursorMock.getInt(CATEGORY_ID_COLUMN_INDEX)).thenReturn(CATEGORY_ID);
-//		when(cursorMock.getString(NAME_COLUMN_INDEX)).thenReturn(EXERCISE_NAME);
-//		
-//		assertEquals(2, sut.CreateExercises(cursorMock).size());
-//	}
-//
-//	@Test
-//	public void closes_cursor(){
-//		when(cursorMock.moveToFirst()).thenReturn(true);
-//		when(cursorMock.isAfterLast()).thenReturn(true);
-//		sut.CreateExercises(cursorMock);
-//		verify(cursorMock).close();
-//	}
+	
+	@Test
+	public void builds_two_sets_from_two_rows_on_cursor(){
+		when(cursorMock.moveToFirst()).thenReturn(true);
+		when(cursorMock.isAfterLast()).thenReturn(false,false, true);
+		when(cursorMock.moveToNext()).thenReturn(true);
+		
+		when(setDbStructureGiverMock.getColumnIndex("Id")).thenReturn(ID_COLUMN_INDEX);
+		when(setDbStructureGiverMock.getColumnIndex("ExerciseId")).thenReturn(EXERCISE_ID_COLUMN_INDEX);
+		when(setDbStructureGiverMock.getColumnIndex("Reps")).thenReturn(REPS_ID_COLUMN_INDEX);
+		when(setDbStructureGiverMock.getColumnIndex("Weight")).thenReturn(WEIGHT_ID_COLUMN_INDEX);
+		when(setDbStructureGiverMock.getColumnIndex("Date")).thenReturn(DATE_ID_COLUMN_INDEX);
+				
+		when(cursorMock.getInt(ID_COLUMN_INDEX)).thenReturn(SET_ID);
+		when(cursorMock.getInt(EXERCISE_ID_COLUMN_INDEX)).thenReturn(EXERCISE_ID);
+		when(cursorMock.getInt(REPS_ID_COLUMN_INDEX)).thenReturn(REPS);
+		when(cursorMock.getDouble(WEIGHT_ID_COLUMN_INDEX)).thenReturn(WEIGHT);		
+		when(cursorMock.getLong(DATE_ID_COLUMN_INDEX)).thenReturn(dateMock.getTime());
+		
+		assertEquals(2, sut.CreateSets(cursorMock).size());
+	}
+
+	@Test
+	public void closes_cursor(){
+		when(cursorMock.moveToFirst()).thenReturn(true);
+		when(cursorMock.isAfterLast()).thenReturn(true);
+		sut.CreateSets(cursorMock);
+		verify(cursorMock).close();
+	}
 	
 }

@@ -76,12 +76,12 @@ public class ExerciseControllerTest {
 	}
 	
 	@Test
-    public void init_updates_exercises(){            
+    public void onReadyToGetData_updates_exercises(){            
             
             when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
 			when(retrieverMock.getExercisesInCategory(categoryMock)).thenReturn(exercisesMock);
             
-            sut.init();
+            sut.onReadyToGetData();
             
             verifyExercisesHaveBeenUpdated();
     }

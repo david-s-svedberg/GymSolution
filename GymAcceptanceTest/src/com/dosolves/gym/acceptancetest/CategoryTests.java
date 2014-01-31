@@ -10,9 +10,8 @@ import com.robotium.solo.Solo;
 
 public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 
-	private static final String TEST_ADD_CATEGORY_TEXT = "ADD_CATEGORY_TEXT";
+	private static final String CATEGORY_NAME = "categoryName";
 	private static final int TIME_TO_WAIT_FOR_DIALOG = 5000;
-	private static final String TEST_DELETE_CATEGORY_TEXT = "DELETE_CATEGORY_TEXT";
 	
 	private Solo solo;
 	
@@ -35,43 +34,43 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	
 	@LargeTest
 	public void test_Adding_new_category_should_add_category_to_list(){
-		createCategory(TEST_ADD_CATEGORY_TEXT);
+		createCategory(CATEGORY_NAME);
 		
-		assertTrue("Test category not found in list", solo.searchText(TEST_ADD_CATEGORY_TEXT));
+		assertTrue("Test category not found in list", solo.searchText(CATEGORY_NAME));
 		
-		deleteCreatedCategory(TEST_ADD_CATEGORY_TEXT);
+		deleteCreatedCategory(CATEGORY_NAME);
 	}
 	
 	@LargeTest
 	public void test_delete_category_should_remove_category_from_list(){
-		createCategory(TEST_DELETE_CATEGORY_TEXT);
-		deleteCreatedCategory(TEST_DELETE_CATEGORY_TEXT);
-		assertFalse("Category was not deleted", solo.searchText(TEST_DELETE_CATEGORY_TEXT));
+		createCategory(CATEGORY_NAME);
+		deleteCreatedCategory(CATEGORY_NAME);
+		assertFalse("Category was not deleted", solo.searchText(CATEGORY_NAME));
 	}
 	
 	@LargeTest
 	public void test_category_with_same_name_as_another_cant_be_added(){
-		createCategory(TEST_ADD_CATEGORY_TEXT);
-		createCategory(TEST_ADD_CATEGORY_TEXT);
-		deleteCreatedCategory(TEST_ADD_CATEGORY_TEXT);
+		createCategory(CATEGORY_NAME);
+		createCategory(CATEGORY_NAME);
+		deleteCreatedCategory(CATEGORY_NAME);
 		
 		
-		assertFalse("Possible to add more then one category with the same name", solo.searchText(TEST_ADD_CATEGORY_TEXT));
+		assertFalse("Possible to add more then one category with the same name", solo.searchText(CATEGORY_NAME));
 		
 	}
 	
 	@LargeTest
 	public void test_clicking_category_opens_exercises_activity(){
 		try{
-			createCategory(TEST_ADD_CATEGORY_TEXT);
+			createCategory(CATEGORY_NAME);
 			
-			solo.clickOnText(TEST_ADD_CATEGORY_TEXT);
+			solo.clickOnText(CATEGORY_NAME);
 			assertTrue("Exercise activity was not shown",solo.waitForActivity(ExercisesActivity.class,TIME_TO_WAIT_FOR_DIALOG));
 			
 			solo.goBack();
 		}
 		finally{
-			deleteCreatedCategory(TEST_ADD_CATEGORY_TEXT);
+			deleteCreatedCategory(CATEGORY_NAME);
 		}
 	}
 

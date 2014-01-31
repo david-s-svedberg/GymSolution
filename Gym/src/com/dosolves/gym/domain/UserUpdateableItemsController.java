@@ -3,7 +3,12 @@ package com.dosolves.gym.domain;
 import com.dosolves.gym.app.gui.AddItemRequestedCallBack;
 import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
 
-public abstract class UserUpdateableItemsController implements AddItemRequestedCallBack, ItemMenuRequestedCallback, ItemShouldBeCreatedCallback, ItemShouldBeDeletedCallback, OpenItemRequestedCallback{
+public abstract class UserUpdateableItemsController implements ReadyToGetDataCallback,
+															   AddItemRequestedCallBack, 
+															   ItemMenuRequestedCallback, 
+															   ItemShouldBeCreatedCallback, 
+															   ItemShouldBeDeletedCallback, 
+															   OpenItemRequestedCallback{
 
 	private CreateItemDialogShower createItemDialogShower;
 	private ItemOptionMenuDialogShower itemOptionMenuDialogShower;
@@ -11,10 +16,6 @@ public abstract class UserUpdateableItemsController implements AddItemRequestedC
 	public UserUpdateableItemsController(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower) {
 		this.createItemDialogShower = createItemDialogShower;
 		this.itemOptionMenuDialogShower = itemOptionMenuDialogShower;
-	}
-	
-	public void init() {
-		handleUpdateItems();
 	}
 	
 	@Override
@@ -42,6 +43,11 @@ public abstract class UserUpdateableItemsController implements AddItemRequestedC
 	@Override
 	public void onOpenItemRequested(int position) {
 		handleItemShouldBeOpened(position);
+	}
+	
+	@Override
+	public void onReadyToGetData(){
+		handleUpdateItems();
 	}
 	
 	protected abstract void handleUpdateItems();

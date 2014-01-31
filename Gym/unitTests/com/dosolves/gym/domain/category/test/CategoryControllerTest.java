@@ -64,12 +64,12 @@ public class CategoryControllerTest {
 	}
 	
 	@Test
-    public void init_updates_categories(){
+    public void onReadyToGetData_updates_categories(){
             categoriesMock = new ArrayList<Category>();
             
             when(retrieverMock.getCategories()).thenReturn(categoriesMock);
             
-            sut.init();
+            sut.onReadyToGetData();
             
             verifyCategoriesHaveBeenUpdated();
     }

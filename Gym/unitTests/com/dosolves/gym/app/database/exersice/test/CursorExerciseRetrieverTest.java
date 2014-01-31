@@ -1,6 +1,7 @@
 package com.dosolves.gym.app.database.exersice.test;
 
-import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.robolectric.RobolectricTestRunner;
 import android.database.Cursor;
 
 import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.GymCursor;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.exercise.CursorExerciseFactory;
 import com.dosolves.gym.domain.exercise.CursorExerciseRetriever;
@@ -27,30 +29,34 @@ public class CursorExerciseRetrieverTest {
 	@Mock
 	DataAccess daoMock;
 	@Mock
-	Cursor cursorMock;
+	GymCursor cursorMock;
 	@Mock
 	CursorExerciseFactory exerciseFactoryMock;
+	
+	private Category categoryMock;
 	
 	ExerciseRetriever sut;
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
+	
+		categoryMock = new Category(CATEGORY_ID, CATEGORY_NAME);
 		
 		sut = new CursorExerciseRetriever(daoMock, exerciseFactoryMock);
 	}
 	
 	@Test
-	public void querries_dao_when_asked_for_exercises(){
-		sut.getExercisesInCategory(new Category(CATEGORY_ID, CATEGORY_NAME));		
+	public void querries_dao_when_asked_for_exercises(){		
+		sut.getExercisesInCategory(categoryMock);		
 		verify(daoMock).get(EXERCISES, CATEGORY_ID_COLUMN_NAME, CATEGORY_ID);		
 	}
 	
-//	@Test
-//	public void delegates_building_of_categories_to_factory(){
-//		when(daoMock.get(anyString())).thenReturn(cursorMock);
-//		sut.getCategories();
-//		verify(categoryFactoryMock).CreateCategories(cursorMock);			
-//	}
+	@Test
+	public void delegates_building_of_categories_to_factory(){
+		when(daoMock.get(anyString(),anyString(), anyInt())).thenReturn(cursorMock);
+		sut.getExercisesInCategory(categoryMock);
+		verify(exerciseFactoryMock).CreateExercises(cursorMock);			
+	}
 	
 }

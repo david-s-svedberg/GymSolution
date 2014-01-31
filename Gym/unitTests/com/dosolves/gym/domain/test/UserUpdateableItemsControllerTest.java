@@ -35,8 +35,8 @@ public class UserUpdateableItemsControllerTest {
 	}
 	
 	@Test
-	public void init_updates_categories(){
-		sut.init();
+	public void onReadyToGetData_updates_categories(){
+		sut.onReadyToGetData();
 		assertTrue(sut.handleUpdateItemsCalled());
 	}
 	

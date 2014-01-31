@@ -18,6 +18,7 @@ import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
+import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
 @RunWith(RobolectricTestRunner.class)
 public class UserUpdateableItemsActivityTest {
@@ -29,6 +30,8 @@ public class UserUpdateableItemsActivityTest {
 	ItemMenuRequestedCallback itemMenuRequestedCallbackMock;
 	@Mock
 	OpenItemRequestedCallback openItemRequestedCallbackMock;
+	@Mock
+	ReadyToGetDataCallback readyToGetDataCallbackMock;
 	@Mock
 	MenuItem menuItemMock;
 	
@@ -42,6 +45,7 @@ public class UserUpdateableItemsActivityTest {
 		sut.setAddItemRequestedCallBack(addItemRequestedCallBackMock);
 		sut.setItemMenuRequestedCallback(itemMenuRequestedCallbackMock);
 		sut.setOpenItemRequestedCallback(openItemRequestedCallbackMock);
+		sut.setReadyToGetDataCallback(readyToGetDataCallbackMock);
 	}
 	
 	@Test
@@ -61,6 +65,12 @@ public class UserUpdateableItemsActivityTest {
 	public void calls_categoryClickedCallback_when_item_is_clicked(){
 		sut.onListItemClick(null, null, POSITION, 0);
 		verify(openItemRequestedCallbackMock).onOpenItemRequested(POSITION);
+	}
+	
+	@Test
+	public void calls_readyToGetData_when_onResume_is_called(){
+		sut.onResume();
+		verify(readyToGetDataCallbackMock).onReadyToGetData();
 	}
 	
 }

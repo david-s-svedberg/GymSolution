@@ -1,28 +1,36 @@
 package com.dosolves.gym.app.gui;
 
-import com.dosolves.gym.R;
-import com.dosolves.gym.domain.ItemMenuRequestedCallback;
-
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ListView;
+
+import com.dosolves.gym.R;
+import com.dosolves.gym.domain.ItemMenuRequestedCallback;
+import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
 public abstract class UserUpdateableItemsActivity extends ListActivity implements OnItemLongClickListener{
 
 	private AddItemRequestedCallBack addItemRequestedCallBack;
 	private ItemMenuRequestedCallback itemMenuRequestedCallback;
 	private OpenItemRequestedCallback openItemRequestedCallback;
+	private ReadyToGetDataCallback readyToGetDataCallback;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.getListView().setLongClickable(true);
 		this.getListView().setOnItemLongClickListener(this);		
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		readyToGetDataCallback.onReadyToGetData();
 	}
 	
 	public void setAddItemRequestedCallBack(AddItemRequestedCallBack addItemRequestedCallBack) {
@@ -35,6 +43,11 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 
 	public void setOpenItemRequestedCallback(OpenItemRequestedCallback openItemRequestedCallback) {
 		this.openItemRequestedCallback = openItemRequestedCallback;
+	}
+	
+	public void setReadyToGetDataCallback(ReadyToGetDataCallback readyToGetDataCallback) {
+		this.readyToGetDataCallback = readyToGetDataCallback;
+		
 	}
 	
 	@Override

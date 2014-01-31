@@ -56,8 +56,7 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		activity.setAddItemRequestedCallBack(controller);
 		activity.setItemMenuRequestedCallback(controller);
 		activity.setOpenItemRequestedCallback(controller);
-		
-		controller.init();
+		activity.setReadyToGetDataCallback(controller);		
 	}
 
 }

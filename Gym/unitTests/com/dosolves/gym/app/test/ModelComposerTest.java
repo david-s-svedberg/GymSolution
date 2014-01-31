@@ -104,13 +104,13 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void calls_init_on_CategoryController(){
+	public void sets_controller_as_ReadyToGetDataCallback_on_CategoriesActivity(){
 		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
 		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categoryControllerMock).init();
+		verify(categoriesActivityMock).setReadyToGetDataCallback(categoryControllerMock);
 	}
 	
 	@Test
@@ -165,13 +165,13 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void calls_init_on_ExercisesController(){
+	public void sets_controller_as_ReadyToGetDataCallback_on_ExercisesActivity(){
 		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
 		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
 		
 		sut.compose(exercisesActivityMock);
 		
-		verify(exerciseControllerMock).init();
+		verify(exercisesActivityMock).setReadyToGetDataCallback(exerciseControllerMock);
 	}
 	
 }
