@@ -15,6 +15,8 @@ import android.widget.ArrayAdapter;
 import com.dosolves.gym.app.TypeMatchingModelComposer;
 import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
+import com.dosolves.gym.app.gui.performance.PerformanceActivity;
+import com.dosolves.gym.app.gui.performance.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
@@ -22,6 +24,8 @@ import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
+import com.dosolves.gym.domain.performance.PerformanceController;
+import com.dosolves.gym.domain.performance.PerformanceModelFactory;
 
 @RunWith(RobolectricTestRunner.class)
 public class ModelComposerTest extends AndroidTestCase{
@@ -42,14 +46,27 @@ public class ModelComposerTest extends AndroidTestCase{
 	ArrayAdapter<Exercise> exerciseAdapterMock;
 	@Mock
 	ExerciseController exerciseControllerMock;	
+	@Mock
+	PerformanceModelFactory performanceModelFactoryMock;
+	@Mock
+	PerformanceActivity performanceActivityMock;
+	@Mock
+	PerformanceAdapter performanceAdapterMock;
+	@Mock
+	PerformanceController performanceControllerMock;
+	
 	
 	ModelComposer sut;
+	
+	
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new TypeMatchingModelComposer(categorytModelFactoryMock, exerciseModelFactoryMock);
+		sut = new TypeMatchingModelComposer(categorytModelFactoryMock, 
+											exerciseModelFactoryMock,
+											performanceModelFactoryMock);
 	}
 	
 	@Test
@@ -172,6 +189,17 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(exercisesActivityMock);
 		
 		verify(exercisesActivityMock).setReadyToGetDataCallback(exerciseControllerMock);
+	}
+	
+	@Test
+	public void polls_factory_for_exercisePerformance_components(){
+		when(performanceModelFactoryMock.createAdapter(performanceActivityMock)).thenReturn(performanceAdapterMock);
+		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock)).thenReturn(performanceControllerMock);
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceModelFactoryMock).createAdapter(performanceActivityMock);
+		verify(performanceModelFactoryMock).createController(performanceActivityMock, performanceAdapterMock);		
 	}
 	
 }

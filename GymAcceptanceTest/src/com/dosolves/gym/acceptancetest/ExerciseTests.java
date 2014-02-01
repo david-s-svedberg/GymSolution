@@ -5,7 +5,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
-import com.dosolves.gym.app.gui.input.ExerciseInputActivity;
+import com.dosolves.gym.app.gui.performance.PerformanceActivity;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;
 import com.robotium.solo.Solo;
@@ -85,7 +85,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 			
 			solo.clickOnText(EXERCISE_NAME);
 			
-			assertTrue("Exercise activity was not shown",solo.waitForActivity(ExerciseInputActivity.class,TIME_TO_WAIT_FOR_DIALOG));
+			assertTrue("Exercise activity was not shown",solo.waitForActivity(PerformanceActivity.class,TIME_TO_WAIT_FOR_DIALOG));
 			
 			solo.goBack();
 			solo.goBack();

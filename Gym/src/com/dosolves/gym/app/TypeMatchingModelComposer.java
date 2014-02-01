@@ -7,6 +7,8 @@ import android.widget.ListAdapter;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.gui.category.CategoriesActivity;
 import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
+import com.dosolves.gym.app.gui.performance.PerformanceActivity;
+import com.dosolves.gym.app.gui.performance.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 import com.dosolves.gym.domain.category.Category;
@@ -15,15 +17,20 @@ import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
+import com.dosolves.gym.domain.performance.PerformanceModelFactory;
 
 public class TypeMatchingModelComposer implements ModelComposer {
 
 	private CategoryModelFactory categoryModelFactory;
 	private ExerciseModelFactory exerciseModelFactory;
+	private PerformanceModelFactory performanceModelFactory;
 
-	public TypeMatchingModelComposer(CategoryModelFactory categoryModelFactory, ExerciseModelFactory exerciseModelFactory) {
+	public TypeMatchingModelComposer(CategoryModelFactory categoryModelFactory, 
+									 ExerciseModelFactory exerciseModelFactory, 
+									 PerformanceModelFactory performanceModelFactory) {
 		this.categoryModelFactory = categoryModelFactory;
 		this.exerciseModelFactory = exerciseModelFactory;
+		this.performanceModelFactory = performanceModelFactory;
 	}
 
 	@Override
@@ -33,6 +40,9 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		}
 		else if(activity instanceof ExercisesActivity){
 			composeExerciseModel((ExercisesActivity)activity);
+		}
+		else if(activity instanceof PerformanceActivity){
+			composePerformanceModel((PerformanceActivity)activity);
 		}
 		
 	}
@@ -57,6 +67,11 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		activity.setItemMenuRequestedCallback(controller);
 		activity.setOpenItemRequestedCallback(controller);
 		activity.setReadyToGetDataCallback(controller);		
+	}
+	
+	private void composePerformanceModel(PerformanceActivity activity) {
+		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);	
+		performanceModelFactory.createController(activity, adapter);
 	}
 
 }

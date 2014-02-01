@@ -16,7 +16,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	public GymApplication(){
 		this.contextProvider = this;
 		this.contextSetter = this;
-		activityCreatedListener = new ActivityCreatedListener(new TypeMatchingModelComposer(new CategoryModelFactoryImpl(), new ExerciseModelFactoryImpl()));
+		activityCreatedListener = new ActivityCreatedListener(new TypeMatchingModelComposer(new CategoryModelFactoryImpl(), new ExerciseModelFactoryImpl(), null));
 	}
 	
 	public GymApplication(ContextSetter contextSetter, ActivityLifecycleCallbacks activityCreatedListener, ContextProvider contextProviderMock){

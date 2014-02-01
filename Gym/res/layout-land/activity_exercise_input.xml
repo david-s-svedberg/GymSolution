@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/set_input_fragment"
-        android:name="com.dosolves.gym.app.gui.input.SetInputFragment"
+        android:name="com.dosolves.gym.app.gui.performance.SetInputFragment"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="2"
@@ -15,7 +15,7 @@
 
     <fragment
         android:id="@+id/list_previous_workout_fragment"
-        android:name="com.dosolves.gym.app.gui.input.ListPreviousWorkoutsFragment"
+        android:name="com.dosolves.gym.app.gui.performance.ListPreviousWorkoutsFragment"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:layout_weight="1"

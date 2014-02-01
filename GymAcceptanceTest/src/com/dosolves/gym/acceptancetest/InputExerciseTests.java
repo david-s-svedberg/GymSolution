@@ -6,14 +6,14 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.input.ExerciseInputActivity;
+import com.dosolves.gym.app.gui.performance.PerformanceActivity;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactoryImpl;
 import com.robotium.solo.Solo;
 
-public class InputExerciseTests extends CleanDbTestCase<ExerciseInputActivity>{
+public class InputExerciseTests extends CleanDbTestCase<PerformanceActivity>{
 
 	private static final String EXERCISE_NAME = "exerciseName";
 	private static final String CATEGORY_NAME = "categoryName";
@@ -22,14 +22,14 @@ public class InputExerciseTests extends CleanDbTestCase<ExerciseInputActivity>{
 	private static Exercise exercise;
 	
 	public InputExerciseTests(){
-		super(ExerciseInputActivity.class);
+		super(PerformanceActivity.class);
 	}
 	
 	@Override
     protected void setUp() throws Exception {
 	    super.setUp();
         Intent intent = new Intent();
-		intent.putExtra(ExerciseInputActivity.EXORCISE_BUNDLE_KEY, exercise);
+		intent.putExtra(PerformanceActivity.EXORCISE_BUNDLE_KEY, exercise);
         setActivityIntent(intent);
         solo = new Solo(getInstrumentation(), getActivity());
     }

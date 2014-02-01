@@ -32,7 +32,7 @@
                 android:value="com.dosolves.gym.app.gui.category.CategoriesActivity" />
         </activity>
         <activity
-            android:name="com.dosolves.gym.app.gui.input.ExerciseInputActivity"
+            android:name="com.dosolves.gym.app.gui.performance.PerformanceActivity"
             android:label="@string/title_activity_exercise_input"
             android:parentActivityName="com.dosolves.gym.app.gui.exercise.ExercisesActivity" >
             <meta-data

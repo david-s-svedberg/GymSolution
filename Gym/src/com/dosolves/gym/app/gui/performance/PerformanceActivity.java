@@ -1,4 +1,4 @@
-package com.dosolves.gym.app.gui.input;
+package com.dosolves.gym.app.gui.performance;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.dosolves.gym.R;
 
-public class ExerciseInputActivity extends Activity {
+public class PerformanceActivity extends Activity {
 
 	public static final String EXORCISE_BUNDLE_KEY = "EXORCISE_BUNDLE_KEY";
 

@@ -1,4 +1,4 @@
-package com.dosolves.gym.domain.set;
+package com.dosolves.gym.domain.performance;
 
 import java.util.Date;
 

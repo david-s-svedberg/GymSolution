@@ -1,4 +1,4 @@
-package com.dosolves.gym.app.database.set.test;
+package com.dosolves.gym.app.database.performance.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -16,8 +16,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.GymCursor;
-import com.dosolves.gym.domain.set.CursorSetFactory;
-import com.dosolves.gym.domain.set.Set;
+import com.dosolves.gym.domain.performance.CursorSetFactory;
+import com.dosolves.gym.domain.performance.Set;
 
 @RunWith(RobolectricTestRunner.class)
 public class CursorSetFactoryTest {

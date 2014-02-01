@@ -16,7 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.dosolves.gym.app.gui.exercise.ContextExerciseOpener;
-import com.dosolves.gym.app.gui.input.ExerciseInputActivity;
+import com.dosolves.gym.app.gui.performance.PerformanceActivity;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseOpener;
 
@@ -58,12 +58,12 @@ public class ContextExerciseOpenerTest {
 			}
 
 			private boolean intentTargetsExerciseActivity(Intent intent) {
-				assertTrue(intent.getComponent().getClassName().equals(ExerciseInputActivity.class.getName()));
+				assertTrue(intent.getComponent().getClassName().equals(PerformanceActivity.class.getName()));
 				return true;
 			}
 
 			private boolean intentContainsExercise(final Exercise exercise, Intent intent) {
-				Exercise intentExerise = (Exercise)intent.getExtras().get(ExerciseInputActivity.EXORCISE_BUNDLE_KEY);
+				Exercise intentExerise = (Exercise)intent.getExtras().get(PerformanceActivity.EXORCISE_BUNDLE_KEY);
 				assertTrue(intentExerise.equals(exercise));
 				return true;
 			}

@@ -1,4 +1,4 @@
-package com.dosolves.gym.app.gui.input;
+package com.dosolves.gym.app.gui.performance;
 
 import com.dosolves.gym.R;
 
@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class SetInputFragment extends Fragment{
+public class ListPreviousWorkoutsFragment extends Fragment{
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.set_input_view, container, false);
+		return inflater.inflate(R.layout.list_previous_workouts_view, container, false);
 	}
 	
 }

@@ -1,4 +1,4 @@
-package com.dosolves.gym.app.database.set.test;
+package com.dosolves.gym.app.database.performance.test;
 
 import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyString;
@@ -15,9 +15,9 @@ import org.robolectric.RobolectricTestRunner;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.GymCursor;
 import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.set.CursorSetFactory;
-import com.dosolves.gym.domain.set.CursorSetRetriever;
-import com.dosolves.gym.domain.set.SetRetriever;
+import com.dosolves.gym.domain.performance.CursorSetFactory;
+import com.dosolves.gym.domain.performance.CursorSetRetriever;
+import com.dosolves.gym.domain.performance.SetRetriever;
 
 @RunWith(RobolectricTestRunner.class)
 public class CursorSetRetrieverTest {
