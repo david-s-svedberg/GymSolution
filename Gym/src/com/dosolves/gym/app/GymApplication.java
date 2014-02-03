@@ -1,8 +1,8 @@
 package com.dosolves.gym.app;
 
+import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
-import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;
-import com.dosolves.gym.domain.exercise.ExerciseModelFactoryImpl;
+import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
 
 import android.app.Application;
 import android.content.Context;

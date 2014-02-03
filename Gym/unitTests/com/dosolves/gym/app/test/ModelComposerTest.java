@@ -13,10 +13,10 @@ import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.app.TypeMatchingModelComposer;
-import com.dosolves.gym.app.gui.category.CategoriesActivity;
-import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
-import com.dosolves.gym.app.gui.performance.PerformanceActivity;
-import com.dosolves.gym.app.gui.performance.PerformanceAdapter;
+import com.dosolves.gym.app.category.gui.CategoriesActivity;
+import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
+import com.dosolves.gym.app.performance.gui.PerformanceActivity;
+import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;

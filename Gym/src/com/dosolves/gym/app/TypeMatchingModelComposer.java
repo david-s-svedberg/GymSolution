@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import com.dosolves.gym.app.category.gui.CategoriesActivity;
+import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
-import com.dosolves.gym.app.gui.category.CategoriesActivity;
-import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
-import com.dosolves.gym.app.gui.performance.PerformanceActivity;
-import com.dosolves.gym.app.gui.performance.PerformanceAdapter;
+import com.dosolves.gym.app.performance.gui.PerformanceActivity;
+import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 import com.dosolves.gym.domain.category.Category;

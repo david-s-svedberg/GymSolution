@@ -22,8 +22,8 @@ import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseOpener;
-import com.dosolves.gym.domain.exercise.ExerciseRetriever;
-import com.dosolves.gym.domain.exercise.ExerciseUpdater;
+import com.dosolves.gym.domain.exercise.data.ExerciseRetriever;
+import com.dosolves.gym.domain.exercise.data.ExerciseUpdater;
 
 @RunWith(RobolectricTestRunner.class)
 public class ExerciseControllerTest {

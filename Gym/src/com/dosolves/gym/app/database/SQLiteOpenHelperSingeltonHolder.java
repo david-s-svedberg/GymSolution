@@ -1,8 +1,8 @@
 package com.dosolves.gym.app.database;
 
-import com.dosolves.gym.app.database.category.CategoryDbStructureGiver;
-import com.dosolves.gym.app.database.exercise.ExerciseDbStructureGiver;
-import com.dosolves.gym.app.database.set.SetDbStructureGiver;
+import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
+import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
+import com.dosolves.gym.app.performance.database.SetDbStructureGiver;
 import com.dosolves.gym.domain.DbStructureGiver;
 
 import android.content.Context;

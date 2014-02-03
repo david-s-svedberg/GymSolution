@@ -12,9 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
-import com.dosolves.gym.domain.exercise.ExerciseModelFactoryImpl;
 
 @RunWith(RobolectricTestRunner.class)
 public class ExerciseModelFactoryImplTest {

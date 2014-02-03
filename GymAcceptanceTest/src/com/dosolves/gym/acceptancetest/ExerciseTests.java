@@ -4,10 +4,10 @@ import android.content.Intent;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
-import com.dosolves.gym.app.gui.performance.PerformanceActivity;
+import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
+import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
+import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.domain.category.Category;
-import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;
 import com.robotium.solo.Solo;
 
 public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{

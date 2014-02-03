@@ -15,9 +15,9 @@ import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.exercise.ExerciseStructureGiver;
-import com.dosolves.gym.domain.exercise.ExerciseUpdater;
-import com.dosolves.gym.domain.exercise.ExerciseUpdaterImpl;
+import com.dosolves.gym.domain.exercise.data.ExerciseStructureGiver;
+import com.dosolves.gym.domain.exercise.data.ExerciseUpdater;
+import com.dosolves.gym.domain.exercise.data.ExerciseUpdaterImpl;
 
 @RunWith(RobolectricTestRunner.class)
 public class ExerciseUpdaterImplTest {

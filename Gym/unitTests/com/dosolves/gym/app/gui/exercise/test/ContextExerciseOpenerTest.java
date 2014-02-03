@@ -15,8 +15,8 @@ import org.robolectric.RobolectricTestRunner;
 import android.content.Context;
 import android.content.Intent;
 
-import com.dosolves.gym.app.gui.exercise.ContextExerciseOpener;
-import com.dosolves.gym.app.gui.performance.PerformanceActivity;
+import com.dosolves.gym.app.exercise.gui.ContextExerciseOpener;
+import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseOpener;
 

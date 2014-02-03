@@ -15,8 +15,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.test.AndroidTestCase;
 
-import com.dosolves.gym.app.gui.category.ContextCategoryOpener;
-import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
+import com.dosolves.gym.app.category.gui.ContextCategoryOpener;
+import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryOpener;
 

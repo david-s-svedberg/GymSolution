@@ -5,6 +5,8 @@ import android.widget.ArrayAdapter;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
+import com.dosolves.gym.domain.category.data.CategoryRetriever;
+import com.dosolves.gym.domain.category.data.CategoryUpdater;
 
 public class CategoryController extends UserUpdateableItemsController {
 

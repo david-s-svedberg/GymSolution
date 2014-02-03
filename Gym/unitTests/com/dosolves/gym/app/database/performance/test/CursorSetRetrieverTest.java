@@ -15,9 +15,9 @@ import org.robolectric.RobolectricTestRunner;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.GymCursor;
 import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.performance.CursorSetFactory;
-import com.dosolves.gym.domain.performance.CursorSetRetriever;
-import com.dosolves.gym.domain.performance.SetRetriever;
+import com.dosolves.gym.domain.performance.data.CursorSetFactory;
+import com.dosolves.gym.domain.performance.data.CursorSetRetriever;
+import com.dosolves.gym.domain.performance.data.SetRetriever;
 
 @RunWith(RobolectricTestRunner.class)
 public class CursorSetRetrieverTest {

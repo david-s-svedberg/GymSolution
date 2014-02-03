@@ -3,9 +3,9 @@ package com.dosolves.gym.acceptancetest;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
-import com.dosolves.gym.app.gui.category.CategoriesActivity;
-import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
+import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.robotium.solo.Solo;
 
 public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{

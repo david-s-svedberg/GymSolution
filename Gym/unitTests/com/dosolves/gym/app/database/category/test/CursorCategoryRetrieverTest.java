@@ -14,9 +14,9 @@ import android.test.AndroidTestCase;
 
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.GymCursor;
-import com.dosolves.gym.domain.category.CategoryRetriever;
-import com.dosolves.gym.domain.category.CursorCategoryFactory;
-import com.dosolves.gym.domain.category.CursorCategoryRetriever;
+import com.dosolves.gym.domain.category.data.CategoryRetriever;
+import com.dosolves.gym.domain.category.data.CursorCategoryFactory;
+import com.dosolves.gym.domain.category.data.CursorCategoryRetriever;
 
 @RunWith(RobolectricTestRunner.class)
 public class CursorCategoryRetrieverTest extends AndroidTestCase {

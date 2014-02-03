@@ -1,7 +1,7 @@
 package com.dosolves.gym.domain.performance;
 
-import com.dosolves.gym.app.gui.performance.PerformanceActivity;
-import com.dosolves.gym.app.gui.performance.PerformanceAdapter;
+import com.dosolves.gym.app.performance.gui.PerformanceActivity;
+import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 
 public interface PerformanceModelFactory {
 

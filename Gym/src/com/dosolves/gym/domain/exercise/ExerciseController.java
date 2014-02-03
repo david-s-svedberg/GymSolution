@@ -9,6 +9,8 @@ import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 import com.dosolves.gym.domain.category.Category;
+import com.dosolves.gym.domain.exercise.data.ExerciseRetriever;
+import com.dosolves.gym.domain.exercise.data.ExerciseUpdater;
 
 public class ExerciseController extends UserUpdateableItemsController {
 

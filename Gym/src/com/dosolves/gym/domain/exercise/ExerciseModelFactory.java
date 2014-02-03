@@ -1,6 +1,6 @@
 package com.dosolves.gym.domain.exercise;
 
-import com.dosolves.gym.app.gui.exercise.ExercisesActivity;
+import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;

@@ -15,8 +15,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.GymCursor;
-import com.dosolves.gym.domain.exercise.CursorExerciseFactory;
 import com.dosolves.gym.domain.exercise.Exercise;
+import com.dosolves.gym.domain.exercise.data.CursorExerciseFactory;
 
 @RunWith(RobolectricTestRunner.class)
 public class CursorExerciseFactoryTest {

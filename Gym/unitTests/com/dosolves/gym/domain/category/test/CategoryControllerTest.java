@@ -20,8 +20,8 @@ import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryOpener;
-import com.dosolves.gym.domain.category.CategoryRetriever;
-import com.dosolves.gym.domain.category.CategoryUpdater;
+import com.dosolves.gym.domain.category.data.CategoryRetriever;
+import com.dosolves.gym.domain.category.data.CategoryUpdater;
 
 @RunWith(RobolectricTestRunner.class)
 public class CategoryControllerTest {

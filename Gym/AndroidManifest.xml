@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.dosolves.gym.app.gui.category.CategoriesActivity"
+            android:name="com.dosolves.gym.app.category.gui.CategoriesActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,17 +24,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.dosolves.gym.app.gui.exercise.ExercisesActivity"
+            android:name="com.dosolves.gym.app.exercise.gui.ExercisesActivity"
             android:label="@string/title_activity_exercise"
-            android:parentActivityName="com.dosolves.gym.app.gui.category.CategoriesActivity" >
+            android:parentActivityName="com.dosolves.gym.app.category.gui.CategoriesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dosolves.gym.app.gui.category.CategoriesActivity" />
         </activity>
         <activity
-            android:name="com.dosolves.gym.app.gui.performance.PerformanceActivity"
+            android:name="com.dosolves.gym.app.performance.gui.PerformanceActivity"
             android:label="@string/title_activity_exercise_input"
-            android:parentActivityName="com.dosolves.gym.app.gui.exercise.ExercisesActivity" >
+            android:parentActivityName="com.dosolves.gym.app.exercise.gui.ExercisesActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dosolves.gym.app.gui.exercise.ExercisesActivity" />

@@ -6,11 +6,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.performance.PerformanceActivity;
+import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
+import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
+import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.domain.category.Category;
-import com.dosolves.gym.domain.category.CategoryModelFactoryImpl;
 import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.exercise.ExerciseModelFactoryImpl;
 import com.robotium.solo.Solo;
 
 public class InputExerciseTests extends CleanDbTestCase<PerformanceActivity>{
