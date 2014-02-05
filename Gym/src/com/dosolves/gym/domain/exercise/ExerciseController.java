@@ -39,8 +39,7 @@ public class ExerciseController extends UserUpdateableItemsController {
 	@Override
 	protected void handleUpdateItems() {
 		adapter.clear();
-		List<Exercise> exercisesInCategory = getExercisesForCurrentCategory();
-		adapter.addAll(exercisesInCategory);
+		adapter.addAll(getExercisesForCurrentCategory());
 		adapter.notifyDataSetChanged();		
 	}
 

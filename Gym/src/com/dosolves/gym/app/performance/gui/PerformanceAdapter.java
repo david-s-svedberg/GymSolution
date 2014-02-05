@@ -69,4 +69,8 @@ public class PerformanceAdapter extends BaseAdapter implements SetClickedCallbac
 		this.callback.onSetClicked(set);		
 	}
 
+	public void clear() {
+		this.performances = null;
+	}
+
 }
