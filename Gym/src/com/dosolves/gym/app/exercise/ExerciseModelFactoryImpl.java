@@ -9,10 +9,10 @@ import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.exercise.gui.ContextExerciseOpener;
-import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
 import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
 import com.dosolves.gym.domain.CreateItemDialogShower;
+import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.exercise.Exercise;
@@ -33,16 +33,16 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 	}
 
 	@Override
-	public ExerciseController createController(ExercisesActivity activity, ArrayAdapter<Exercise> adapter) {
+	public ExerciseController createController(Context context, ArrayAdapter<Exercise> adapter, CurrentCategoryHolder holder){
 		
 		ExerciseRetriever retriever = createRetriever();
 		ExerciseUpdater updater = createUpdater();
 		
-		CreateItemDialogShower createExercisedialogShower = new CreateItemAlertDialogShower(activity, activity.getString(R.string.create_exercise));
-		ItemOptionMenuDialogShower categoryOptionMenuDialog = new ItemOptionMenuAlertDialogShower(activity);
-		ExerciseOpener categoryOpener = new ContextExerciseOpener(activity);
+		CreateItemDialogShower createExercisedialogShower = new CreateItemAlertDialogShower(context, context.getString(R.string.create_exercise));
+		ItemOptionMenuDialogShower categoryOptionMenuDialog = new ItemOptionMenuAlertDialogShower(context);
+		ExerciseOpener categoryOpener = new ContextExerciseOpener(context);
 		
-		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, categoryOptionMenuDialog, categoryOpener, activity);
+		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, categoryOptionMenuDialog, categoryOpener, holder);
 		
 	}
 

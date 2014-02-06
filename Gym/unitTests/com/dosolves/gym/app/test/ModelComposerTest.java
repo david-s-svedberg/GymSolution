@@ -132,19 +132,17 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void polls_factory_for_exercise_components(){
-		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
-		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
 		verify(exerciseModelFactoryMock).createAdapter(exercisesActivityMock);
-		verify(exerciseModelFactoryMock).createController(exercisesActivityMock, exerciseAdapterMock);		
+		verify(exerciseModelFactoryMock).createController(exercisesActivityMock, exerciseAdapterMock, exercisesActivityMock);		
 	}
 	
 	@Test
 	public void sets_adapter_on_exerciseActivity(){
-		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
-		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
@@ -153,8 +151,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_AddItemRequestedCallBack_on_ExercisesActivity(){
-		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
-		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
@@ -163,8 +160,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_ItemMenuRequestedCallback_on_ExercisesActivity(){
-		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
-		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
@@ -173,8 +169,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_OpenItemRequestedCallback_on_ExercisesActivity(){
-		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
-		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
@@ -183,23 +178,50 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_ReadyToGetDataCallback_on_ExercisesActivity(){
-		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
-		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock)).thenReturn(exerciseControllerMock);
+		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
 		verify(exercisesActivityMock).setReadyToGetDataCallback(exerciseControllerMock);
 	}
+
+	private void stubExerciseAdapterAndControllerCreation() {
+		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
+		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock,exercisesActivityMock)).thenReturn(exerciseControllerMock);
+	}
 	
 	@Test
 	public void polls_factory_for_exercisePerformance_components(){
-		when(performanceModelFactoryMock.createAdapter(performanceActivityMock)).thenReturn(performanceAdapterMock);
-		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock)).thenReturn(performanceControllerMock);
+		stubPerformanceAdapterAndControllerCreation();
 		
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceModelFactoryMock).createAdapter(performanceActivityMock);
-		verify(performanceModelFactoryMock).createController(performanceActivityMock, performanceAdapterMock);		
+		verify(performanceModelFactoryMock).createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock);		
 	}
+
+	private void stubPerformanceAdapterAndControllerCreation() {
+		when(performanceModelFactoryMock.createAdapter(performanceActivityMock)).thenReturn(performanceAdapterMock);
+		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock)).thenReturn(performanceControllerMock);
+	}
+	
+	@Test
+	public void sets_adapter_on_activity(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceActivityMock).setAdapter(performanceAdapterMock);				
+	}
+	
+	@Test
+	public void sets_controller_as_NewSetShouldBeCreatedCallback(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceActivityMock).setNewSetShouldBeCreatedCallback(performanceControllerMock);				
+	}
+	
 	
 }

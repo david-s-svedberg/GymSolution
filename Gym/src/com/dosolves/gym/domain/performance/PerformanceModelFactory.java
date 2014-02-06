@@ -1,11 +1,13 @@
 package com.dosolves.gym.domain.performance;
 
-import com.dosolves.gym.app.performance.gui.PerformanceActivity;
+import android.content.Context;
+
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
+import com.dosolves.gym.domain.CurrentExerciseHolder;
 
 public interface PerformanceModelFactory {
 
-	PerformanceAdapter createAdapter(PerformanceActivity exercisesPerformanceActivity);
-	PerformanceController createController(PerformanceActivity exercisesPerformanceActivity, PerformanceAdapter exercisePerformanceAdapter);
+	PerformanceAdapter createAdapter(Context exercisesPerformanceActivity);
+	PerformanceController createController(Context context, PerformanceAdapter adapter, CurrentExerciseHolder holder);
 
 }

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dosolves.gym.domain.DbStructureGiver;
+import com.dosolves.gym.domain.category.data.CategoryStructureGiver;
 import com.dosolves.gym.domain.exercise.data.ExerciseStructureGiver;
 import com.dosolves.gym.domain.performance.data.SetStructureGiver;
 
@@ -23,7 +24,7 @@ private Map<String, Integer> indexes;
 	
 	@Override
 	public String[] getAllColumns() {
-		return (String[])indexes.keySet().toArray();
+		return new String[]{SetStructureGiver.ID_PROPERTY_NAME, SetStructureGiver.EXERCISE_ID_PROPERTY_NAME, SetStructureGiver.REPS_PROPERTY_NAME, SetStructureGiver.WEIGHT_PROPERTY_NAME, SetStructureGiver.DATE_PROPERTY_NAME};		
 	}
 
 	@Override

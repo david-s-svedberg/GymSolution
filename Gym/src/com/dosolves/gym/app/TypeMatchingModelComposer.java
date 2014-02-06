@@ -17,6 +17,7 @@ import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
+import com.dosolves.gym.domain.performance.PerformanceController;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
 
 public class TypeMatchingModelComposer implements ModelComposer {
@@ -49,7 +50,7 @@ public class TypeMatchingModelComposer implements ModelComposer {
 
 	private void composeExerciseModel(ExercisesActivity activity) {
 		ArrayAdapter<Exercise> adapter = exerciseModelFactory.createAdapter(activity);
-		ExerciseController controller = exerciseModelFactory.createController(activity, adapter);
+		ExerciseController controller = exerciseModelFactory.createController(activity, adapter, activity);
 		
 		composeUserUpdateableItemsModel(activity, controller, adapter);
 	}
@@ -71,7 +72,9 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	
 	private void composePerformanceModel(PerformanceActivity activity) {
 		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);	
-		performanceModelFactory.createController(activity, adapter);
+		PerformanceController controller = performanceModelFactory.createController(activity, adapter, activity);
+		activity.setAdapter(adapter);
+		activity.setNewSetShouldBeCreatedCallback(controller);
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.dosolves.gym.domain.exercise.test;
+package com.dosolves.gym.domain.performance.test;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertSame;
@@ -11,36 +11,34 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import android.content.Context;
-import android.widget.ArrayAdapter;
 
-import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
-import com.dosolves.gym.domain.CurrentCategoryHolder;
-import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
+import com.dosolves.gym.app.performance.PerformanceModelFactoryImpl;
+import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
+import com.dosolves.gym.domain.CurrentExerciseHolder;
+import com.dosolves.gym.domain.performance.PerformanceModelFactory;
 
 @RunWith(RobolectricTestRunner.class)
-public class ExerciseModelFactoryImplTest {
-	
+public class PerformanceModelFactoryImplTest {
+
 	@Mock
 	Context contextMock;
 	@Mock
-	ArrayAdapter<Exercise> adapterMock;
+	PerformanceAdapter adapterMock;
 	@Mock
-	CurrentCategoryHolder holderMock;
+	CurrentExerciseHolder holderMock;
 	
-	ExerciseModelFactory sut;
-	
+	PerformanceModelFactory sut;
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new ExerciseModelFactoryImpl();
+		sut = new PerformanceModelFactoryImpl();
 	}
 	
 	@Test
 	public void creates_adapter_with_provided_context(){
-		ArrayAdapter<Exercise> adapter = sut.createAdapter(contextMock);
+		PerformanceAdapter adapter = sut.createAdapter(contextMock);
 		assertSame(adapter.getContext(), contextMock);
 	}
 	
@@ -48,4 +46,5 @@ public class ExerciseModelFactoryImplTest {
 	public void can_create_controller(){
 		assertNotNull(sut.createController(contextMock, adapterMock, holderMock));		
 	}
+	
 }

@@ -63,7 +63,7 @@ public class ContextExerciseOpenerTest {
 			}
 
 			private boolean intentContainsExercise(final Exercise exercise, Intent intent) {
-				Exercise intentExerise = (Exercise)intent.getExtras().get(PerformanceActivity.EXORCISE_BUNDLE_KEY);
+				Exercise intentExerise = (Exercise)intent.getExtras().get(PerformanceActivity.EXERCISE_BUNDLE_KEY);
 				assertTrue(intentExerise.equals(exercise));
 				return true;
 			}

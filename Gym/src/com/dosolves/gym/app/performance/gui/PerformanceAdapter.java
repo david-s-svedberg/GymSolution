@@ -73,4 +73,8 @@ public class PerformanceAdapter extends BaseAdapter implements SetClickedCallbac
 		this.performances = null;
 	}
 
+	public Context getContext() {
+		return context;
+	}
+
 }

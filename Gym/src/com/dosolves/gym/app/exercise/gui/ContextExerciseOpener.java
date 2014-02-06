@@ -18,7 +18,7 @@ public class ContextExerciseOpener implements ExerciseOpener {
 	@Override
 	public void openExercise(Exercise exercise) {
 		Intent intent = new Intent(context, PerformanceActivity.class);
-		intent.putExtra(PerformanceActivity.EXORCISE_BUNDLE_KEY, exercise);
+		intent.putExtra(PerformanceActivity.EXERCISE_BUNDLE_KEY, exercise);
 		context.startActivity(intent);
 	}
 

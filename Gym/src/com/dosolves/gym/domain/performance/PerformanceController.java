@@ -8,27 +8,37 @@ import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.data.PerformanceBuilder;
 import com.dosolves.gym.domain.performance.data.SetRetriever;
+import com.dosolves.gym.domain.performance.data.SetUpdater;
 
 
-public class PerformanceController implements ReadyToGetDataCallback {
+public class PerformanceController implements ReadyToGetDataCallback, NewSetShouldBeCreatedCallback {
 
 	private PerformanceAdapter adapter;
 	private SetRetriever retriever;
 	private PerformanceBuilder performanceBuilder;
 	private CurrentExerciseHolder exerciseHolder;
+	private SetUpdater updater;
 
 	public PerformanceController(PerformanceAdapter adapter,
 								 CurrentExerciseHolder exerciseHolder, 
 								 SetRetriever retriever,
-								 PerformanceBuilder performanceBuilder) {
+								 PerformanceBuilder performanceBuilder, 
+								 SetUpdater updater) {
 		this.adapter = adapter;
 		this.exerciseHolder = exerciseHolder;
 		this.retriever = retriever;
 		this.performanceBuilder = performanceBuilder;
+		this.updater = updater;
 	}
 
 	@Override
 	public void onReadyToGetData() {
+		updatePerformances();
+	}
+	
+	@Override
+	public void onNewSetShouldBeCreated(int reps, double weight) {
+		updater.create(exerciseHolder.getCurrentExercise().getId(), reps, weight);
 		updatePerformances();
 	}
 

@@ -29,7 +29,7 @@ public class InputExerciseTests extends CleanDbTestCase<PerformanceActivity>{
     protected void setUp() throws Exception {
 	    super.setUp();
         Intent intent = new Intent();
-		intent.putExtra(PerformanceActivity.EXORCISE_BUNDLE_KEY, exercise);
+		intent.putExtra(PerformanceActivity.EXERCISE_BUNDLE_KEY, exercise);
         setActivityIntent(intent);
         solo = new Solo(getInstrumentation(), getActivity());
     }

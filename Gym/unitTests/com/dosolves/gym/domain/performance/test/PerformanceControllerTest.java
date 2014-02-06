@@ -22,10 +22,14 @@ import com.dosolves.gym.domain.performance.PerformanceController;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.domain.performance.data.PerformanceBuilder;
 import com.dosolves.gym.domain.performance.data.SetRetriever;
+import com.dosolves.gym.domain.performance.data.SetUpdater;
 
 @RunWith(RobolectricTestRunner.class)
 public class PerformanceControllerTest {
 
+	private static final double WEIGHT = 50.5;
+	private static final int REPS = 12;
+	private static final int EXERCISE_ID = 12;
 	@Mock
 	SetRetriever retrieverMock;
 	@Mock
@@ -34,6 +38,8 @@ public class PerformanceControllerTest {
 	PerformanceAdapter adapterMock;
 	@Mock
 	CurrentExerciseHolder exerciseHolderMock;
+	@Mock
+	SetUpdater updaterMock;
 	
 	Exercise exercise;
 	List<Performance> performances;	
@@ -41,26 +47,53 @@ public class PerformanceControllerTest {
 	
 	PerformanceController sut;
 	
+	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new PerformanceController(adapterMock, exerciseHolderMock, retrieverMock, performanceBuilderMock);
-		exercise = new Exercise(12, 34, "exerciseName");
+		sut = new PerformanceController(adapterMock, 
+										exerciseHolderMock, 
+										retrieverMock, 
+										performanceBuilderMock,
+										updaterMock);
+		exercise = new Exercise(EXERCISE_ID, 34, "exerciseName");
 		sets = createSets();
 		performances = createPerformances();
 	}
 	
 	@Test
     public void onReadyToGetData_updates_performances(){           
-		when(exerciseHolderMock.getCurrentExercise()).thenReturn(exercise);
-		when(retrieverMock.getSetsInExercise(exercise)).thenReturn(sets);
-        when(performanceBuilderMock.build(sets)).thenReturn(performances);
+		stubPerformanceUpdating();
         
         sut.onReadyToGetData();
         
         verifyPerformancesHaveBeenUpdated();
     }
+	
+	@Test
+    public void calls_updater_when_new_set_should_be_registered(){           
+		when(exerciseHolderMock.getCurrentExercise()).thenReturn(exercise);
+		
+		sut.onNewSetShouldBeCreated(REPS,WEIGHT);
+        
+        verify(updaterMock).create(EXERCISE_ID, REPS, WEIGHT);
+    }
+	
+	@Test
+    public void updates_performances_after_new_set_has_been_created(){
+		stubPerformanceUpdating();
+		
+		sut.onNewSetShouldBeCreated(REPS,WEIGHT);
+        
+        verifyPerformancesHaveBeenUpdated();
+    }
+
+	private void stubPerformanceUpdating() {
+		when(exerciseHolderMock.getCurrentExercise()).thenReturn(exercise);
+		when(retrieverMock.getSetsInExercise(exercise)).thenReturn(sets);
+        when(performanceBuilderMock.build(sets)).thenReturn(performances);
+	}
 	
 	private ArrayList<Performance> createPerformances() {
 		ArrayList<Performance> performances = new ArrayList<Performance>();		

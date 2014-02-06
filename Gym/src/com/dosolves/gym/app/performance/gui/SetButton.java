@@ -19,6 +19,7 @@ public class SetButton extends Button {
 	private Set set;
 	private SetClickedCallback callback;
 
+	@SuppressWarnings("deprecation")
 	public SetButton(Context context) {
 		this(context, new Set(1,1,12,50.5,new Date(2000,1,1)));		
 	}
