@@ -1,24 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="55dp"
     android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/performanceDate"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:gravity="center" />
+    
+    <View
+	    android:layout_width="4dp"
+	    android:layout_height="fill_parent"
+	    android:layout_marginTop="4dp"
+	    android:layout_marginBottom="4dp"
+	    android:paddingRight="3dp"
+	    android:background="@android:color/darker_gray"/>
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:id="@+id/setsContainer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:gravity="center" >
 
         </LinearLayout>
     </HorizontalScrollView>

@@ -73,8 +73,10 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	private void composePerformanceModel(PerformanceActivity activity) {
 		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);	
 		PerformanceController controller = performanceModelFactory.createController(activity, adapter, activity);
+		adapter.setSetClickedCallback(controller);
 		activity.setAdapter(adapter);
 		activity.setNewSetShouldBeCreatedCallback(controller);
+		activity.setReadyToGetDataCallback(controller);
 	}
 
 }

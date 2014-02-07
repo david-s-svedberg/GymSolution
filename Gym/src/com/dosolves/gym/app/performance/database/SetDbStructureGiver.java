@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dosolves.gym.domain.DbStructureGiver;
-import com.dosolves.gym.domain.category.data.CategoryStructureGiver;
 import com.dosolves.gym.domain.exercise.data.ExerciseStructureGiver;
 import com.dosolves.gym.domain.performance.data.SetStructureGiver;
 

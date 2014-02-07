@@ -17,7 +17,6 @@ public abstract class CleanDbTestCase<T extends Activity> extends ActivityInstru
 	@Override
     protected void setUp() throws Exception {
 		if(isFirstRun){
-			deleteDb();
 			setupDb();
 			isFirstRun = false;
 		}		
@@ -38,6 +37,7 @@ public abstract class CleanDbTestCase<T extends Activity> extends ActivityInstru
 	private void setupDb() {
 		SQLiteOpenHelperSingeltonHolder.useTestDb();
 		SQLiteOpenHelperSingeltonHolder.setContext(getInstrumentation().getTargetContext());
+		deleteDb();
 		setupDbHook();
 	}
 

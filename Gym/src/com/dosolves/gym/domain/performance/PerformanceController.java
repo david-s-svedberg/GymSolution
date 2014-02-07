@@ -3,6 +3,7 @@ package com.dosolves.gym.domain.performance;
 import java.util.List;
 
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
+import com.dosolves.gym.app.performance.gui.SetClickedCallback;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.exercise.Exercise;
@@ -11,7 +12,7 @@ import com.dosolves.gym.domain.performance.data.SetRetriever;
 import com.dosolves.gym.domain.performance.data.SetUpdater;
 
 
-public class PerformanceController implements ReadyToGetDataCallback, NewSetShouldBeCreatedCallback {
+public class PerformanceController implements ReadyToGetDataCallback, NewSetShouldBeCreatedCallback, SetClickedCallback {
 
 	private PerformanceAdapter adapter;
 	private SetRetriever retriever;
@@ -50,6 +51,11 @@ public class PerformanceController implements ReadyToGetDataCallback, NewSetShou
 		adapter.clear();
 		adapter.setPerformances(performances);
 		adapter.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onSetClicked(Set set) {
+		//TODO: show edit and delete set dialog
 	}
 
 }

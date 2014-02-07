@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 
 import android.widget.Button;
@@ -16,6 +15,7 @@ import android.widget.EditText;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
+import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
 
 @RunWith(RobolectricTestRunner.class)
@@ -26,7 +26,9 @@ public class PerformanceActivityTest {
 	private static final int REPS = 12;
 	
 	@Mock
-	NewSetShouldBeCreatedCallback callbackMock;
+	NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallbackMock;
+	@Mock
+	ReadyToGetDataCallback readyToGetDataCallbackMock;
 	
 	PerformanceActivity sut;
 	
@@ -34,8 +36,10 @@ public class PerformanceActivityTest {
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = Robolectric.buildActivity(PerformanceActivity.class).create().get();;
-		sut.setNewSetShouldBeCreatedCallback(callbackMock);
+//		sut = Robolectric.buildActivity(PerformanceActivity.class).create().get();;
+		sut = new PerformanceActivity();
+		sut.setNewSetShouldBeCreatedCallback(newSetShouldBeCreatedCallbackMock);
+		sut.setReadyToGetDataCallback(readyToGetDataCallbackMock);
 	}
 	
 	@Ignore("More of an integrationtest really")
@@ -50,7 +54,13 @@ public class PerformanceActivityTest {
 		
 		enterButton.performClick();
 		
-		verify(callbackMock).onNewSetShouldBeCreated(REPS, WEIGHT);
+		verify(newSetShouldBeCreatedCallbackMock).onNewSetShouldBeCreated(REPS, WEIGHT);
+	}
+	
+	@Test
+	public void onResume_calls_onReadyToGetData(){
+		sut.onResume();
+		verify(readyToGetDataCallbackMock).onReadyToGetData();
 	}
 	
 }

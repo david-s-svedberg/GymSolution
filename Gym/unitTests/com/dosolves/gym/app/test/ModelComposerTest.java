@@ -215,12 +215,30 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
+	public void sets_controller_as_ReadyToGetDataCallback(){		
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceActivityMock).setReadyToGetDataCallback(performanceControllerMock);				
+	}
+	
+	@Test
 	public void sets_controller_as_NewSetShouldBeCreatedCallback(){
 		stubPerformanceAdapterAndControllerCreation();
 		
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceActivityMock).setNewSetShouldBeCreatedCallback(performanceControllerMock);				
+	}
+	
+	@Test
+	public void sets_controller_as_SetCklickedCallback_on_adapter(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceAdapterMock).setSetClickedCallback(performanceControllerMock);				
 	}
 	
 	

@@ -23,6 +23,7 @@ public class ExercisesActivity extends UserUpdateableItemsActivity implements Cu
 
 	private void setCurrentCategory() {
 		currentCategory = (Category)getIntent().getSerializableExtra(CATEGORY_BUNDLE_KEY);
+		setTitle(currentCategory.getName());
 	}
 
 	private void setupBackNavigation() {

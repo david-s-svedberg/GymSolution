@@ -34,7 +34,8 @@
         <activity
             android:name="com.dosolves.gym.app.performance.gui.PerformanceActivity"
             android:label="@string/title_activity_exercise_input"
-            android:parentActivityName="com.dosolves.gym.app.exercise.gui.ExercisesActivity" >
+            android:parentActivityName="com.dosolves.gym.app.exercise.gui.ExercisesActivity"
+            android:windowSoftInputMode="adjustPan" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dosolves.gym.app.gui.exercise.ExercisesActivity" />

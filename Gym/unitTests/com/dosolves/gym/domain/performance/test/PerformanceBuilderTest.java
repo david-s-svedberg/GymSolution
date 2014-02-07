@@ -83,10 +83,42 @@ public class PerformanceBuilderTest {
 		assertEquals(1, performances.size());
 		assertEquals(2, performances.get(0).getSets().size());				
     }
+	
+	@SuppressWarnings("deprecation")
+	@Test
+    public void sorts_performances_on_date_descendingly_and_sets_on_date_ascendanly(){
+		sets.add(createSetWithDayHourAndMinute(1,1,0));
+		sets.add(createSetWithDayHourAndMinute(1,1,1));
+		sets.add(createSetWithDayHourAndMinute(1,1,2));
+		
+		sets.add(createSetWithDayHourAndMinute(2,1,0));
+		sets.add(createSetWithDayHourAndMinute(2,1,1));
+		sets.add(createSetWithDayHourAndMinute(2,1,2));
+		
+		List<Performance> performances = sut.build(sets);
+		assertEquals(2, performances.get(0).getDate().getDate());
+		
+		assertEquals(0, performances.get(0).getSets().get(0).getDate().getMinutes());
+		assertEquals(1, performances.get(0).getSets().get(1).getDate().getMinutes());
+		assertEquals(2, performances.get(0).getSets().get(2).getDate().getMinutes());
+		
+		assertEquals(1, performances.get(1).getDate().getDate());
+		
+		assertEquals(0, performances.get(1).getSets().get(0).getDate().getMinutes());
+		assertEquals(1, performances.get(1).getSets().get(1).getDate().getMinutes());
+		assertEquals(2, performances.get(1).getSets().get(2).getDate().getMinutes());
+		
+	}
+		
+
+	@SuppressWarnings("deprecation")
+	private Set createSetWithDayHourAndMinute(int day, int hour, int minute) {
+		return createSetWithDate(new Date(100,1,day,hour,minute,0));
+	}
 
 	@SuppressWarnings("deprecation")
 	private Set createSetWithHourAndMinute(int hour,int minute) {		
-		return createSetWithDate(new Date(2000,1,1,hour,minute,0));
+		return createSetWithDate(new Date(100,1,1,hour,minute,0));
 	}
 
 	private Set createSetWithDate(Date date) {

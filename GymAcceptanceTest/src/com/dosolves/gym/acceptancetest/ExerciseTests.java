@@ -87,8 +87,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 			
 			assertTrue("Exercise activity was not shown",solo.waitForActivity(PerformanceActivity.class,TIME_TO_WAIT_FOR_DIALOG));
 			
-			solo.goBack();
-			solo.goBack();
+			solo.goBack();			
 		}
 		finally{
 			deleteCreatedExercise(EXERCISE_NAME);

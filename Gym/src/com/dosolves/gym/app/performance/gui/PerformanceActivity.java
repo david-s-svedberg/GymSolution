@@ -1,18 +1,21 @@
 package com.dosolves.gym.app.performance.gui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
+import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
 
@@ -30,20 +33,34 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	private PerformanceAdapter adapter;
 
+	private ReadyToGetDataCallback readyToGetDataCallback;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setCurrentCategory();		
+		setCurrentExercise();		
 		setContentView(R.layout.activity_exercise_input);
 		setupViewFields();
+		
+		disableEnterButton();
 		setupAdapter();
 		setupClickListener();
 		setupButtonEnabledListener();
 		setupActionBar();
 	}
+	
+	private void disableEnterButton() {
+		enterButton.setEnabled(false);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		readyToGetDataCallback.onReadyToGetData();
+	}
 
 	private void setupAdapter() {
-		//performanceListView.setAdapter(adapter);		
+		performanceListView.setAdapter(adapter);		
 	}
 
 	private void setupButtonEnabledListener() {
@@ -62,7 +79,11 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	}
 
 	protected boolean weightHasValidValue() {
-		return weightInput.getText().length() > 0 && isDouble(weightInput.getText().toString());
+		return weightInput.getText().length() > 0 && isDouble(weightInput.getText().toString()) && doubleIsMoreThenZero(weightInput.getText().toString());
+	}
+
+	private boolean doubleIsMoreThenZero(String value) {
+		return Double.parseDouble(value) > 0.0;
 	}
 
 	private static boolean isDouble(String value) {
@@ -77,7 +98,11 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	}
 
 	protected boolean repsHasValidValue() {
-		return repsInput.getText().length() > 0 && isInt(repsInput.getText().toString());
+		return repsInput.getText().length() > 0 && isInt(repsInput.getText().toString()) && intIsMoreThenZero(repsInput.getText().toString());
+	}
+
+	private boolean intIsMoreThenZero(String value) {
+		return Integer.parseInt(value) > 0;
 	}
 
 	private static boolean isInt(String value) {
@@ -96,12 +121,19 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			
 			@Override
 			public void onClick(View v) {
-				newSetShouldBeCreatedCallback.onNewSetShouldBeCreated(getReps(), getWeight());
+				hideSoftKeyboard();
+				
+				newSetShouldBeCreatedCallback.onNewSetShouldBeCreated(getReps(), getWeight());				
+			}
+
+			private void hideSoftKeyboard() {
+				InputMethodManager inputManager = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE); 
+				inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),InputMethodManager.HIDE_NOT_ALWAYS);
 			}
 			
 		});
 	}
-	
+		
 	private double getWeight() {
 		return Double.parseDouble(weightInput.getText().toString());
 	}
@@ -115,20 +147,11 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		enterButton = (Button)findViewById(R.id.enterSetButton);
 		repsInput = (EditText)findViewById(R.id.repsInput);
 		weightInput = (EditText)findViewById(R.id.weightInput);
-		//throwIfNull(performanceListView, enterButton, repsInput, weightInput);
 	}
 	
-	private void throwIfNull(Object... o) {
-		int iteration = 0;
-		for(Object current:o){
-			iteration++;
-			if(current == null)
-				throw new IllegalStateException(Integer.toString(iteration));
-		}
-	}
-
-	private void setCurrentCategory() {
+	private void setCurrentExercise() {
 		currentExercise = (Exercise)getIntent().getSerializableExtra(EXERCISE_BUNDLE_KEY);
+		setTitle(currentExercise.getName());
 	}
 	
 	private void setupActionBar() {
@@ -157,6 +180,10 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	public void setAdapter(PerformanceAdapter adapter) {
 		this.adapter = adapter;		
+	}
+	
+	public void setReadyToGetDataCallback(ReadyToGetDataCallback readyToGetDataCallback) {
+		this.readyToGetDataCallback = readyToGetDataCallback;
 	}
 
 }

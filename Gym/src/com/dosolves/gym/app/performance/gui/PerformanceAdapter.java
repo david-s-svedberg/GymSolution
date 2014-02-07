@@ -1,22 +1,26 @@
 package com.dosolves.gym.app.performance.gui;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-import com.dosolves.gym.R;
-import com.dosolves.gym.domain.performance.Performance;
-import com.dosolves.gym.domain.performance.Set;
-
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.dosolves.gym.R;
+import com.dosolves.gym.domain.performance.Performance;
+import com.dosolves.gym.domain.performance.Set;
 
 public class PerformanceAdapter extends BaseAdapter implements SetClickedCallback{
 	
 	private Context context;
-	private List<Performance> performances;
+	private List<Performance> performances = new ArrayList<Performance>();
 	private SetClickedCallback callback;
 
 	public PerformanceAdapter(Context context){
@@ -43,11 +47,19 @@ public class PerformanceAdapter extends BaseAdapter implements SetClickedCallbac
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View rowView = inflater.inflate(R.layout.performance_row_layout, parent, false);
 		LinearLayout setsContainer = (LinearLayout)rowView.findViewById(R.id.setsContainer);
-		for(Set current: performances.get(position).getSets()){
+		Performance currentPerformance = performances.get(position);
+		TextView performanceDate = (TextView)rowView.findViewById(R.id.performanceDate);
+		Date date = currentPerformance.getDate();
+		performanceDate.setText(getDateString(date));
+		for(Set current: currentPerformance.getSets()){
 			setsContainer.addView(createSetButton(current));
-		}
+		}		
 		
-		return null;
+		return rowView;
+	}
+
+	private CharSequence getDateString(Date date) {
+		return DateFormat.format("d/M - yy", date);
 	}
 
 	private View createSetButton(Set set) {

@@ -13,7 +13,7 @@ import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.robotium.solo.Solo;
 
-public class InputExerciseTests extends CleanDbTestCase<PerformanceActivity>{
+public class PerformanceTests extends CleanDbTestCase<PerformanceActivity>{
 
 	private static final String EXERCISE_NAME = "exerciseName";
 	private static final String CATEGORY_NAME = "categoryName";
@@ -21,7 +21,7 @@ public class InputExerciseTests extends CleanDbTestCase<PerformanceActivity>{
 	private Solo solo;
 	private static Exercise exercise;
 	
-	public InputExerciseTests(){
+	public PerformanceTests(){
 		super(PerformanceActivity.class);
 	}
 	
