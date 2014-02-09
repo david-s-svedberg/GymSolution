@@ -35,4 +35,12 @@ public class ExerciseUpdaterImpl implements ExerciseUpdater {
 		dataAccess.delete(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.ID_PROPERTY_NAME, exerciseToBeDeleted.getId());
 	}
 
+	@Override
+	public void rename(Exercise exercise, String newExerciseName) {
+		Map<String, Object> keysAndvalues = new HashMap<String, Object>();
+		keysAndvalues.put(ExerciseStructureGiver.NAME_PROPERTY_NAME, newExerciseName);
+		
+		dataAccess.update(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.ID_PROPERTY_NAME, exercise.getId(), keysAndvalues);
+	}
+
 }

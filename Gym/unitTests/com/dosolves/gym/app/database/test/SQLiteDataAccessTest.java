@@ -155,4 +155,51 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 		}), isNull(String.class), isNull(String.class), isNull(String.class));		
 	}
 	
+	@Test
+	public void update_sends_correct_delete_querry_to_db() {
+		HashMap<String, Object> keysAndvalues = new HashMap<String,Object>();
+		keysAndvalues.put(KEY, VALUE);
+		
+		when(openHelperMock.getWritableDatabase()).thenReturn(dbMock);		
+		
+		sut.update(TYPE_NAME, ID_COLUMN_NAME, ID, keysAndvalues);
+		
+		verify(dbMock).update(eq(TYPE_NAME), argThat(new ArgumentMatcher<ContentValues>(){
+
+			@Override
+			public boolean matches(Object argument) {
+				ContentValues val = (ContentValues)argument;
+				if (val.get(KEY).equals(VALUE))
+					return true;
+				else						
+					return false;
+			}
+			
+		}), eq(String.format("%s = ?", ID_COLUMN_NAME)), argThat(new ArgumentMatcher<String[]>(){
+
+			@Override
+			public boolean matches(Object argument) {
+				String[] whereArgs = (String[]) argument;
+				if(whereArgs.length == 1 && whereArgs[0].equals(Integer.toString(ID)))
+					return true;
+				else						
+					return false;
+			}
+			
+		}));
+		
+	}
+	
+	@Test
+	public void closes_db_after_update() {
+		HashMap<String, Object> keysAndvalues = new HashMap<String,Object>();
+		keysAndvalues.put(KEY, VALUE);
+		
+		when(openHelperMock.getWritableDatabase()).thenReturn(dbMock);		
+		
+		sut.update(TYPE_NAME, ID_COLUMN_NAME, ID, keysAndvalues);
+		
+		verify(dbMock).close();
+	}
+	
 }

@@ -14,5 +14,11 @@
     <string name="reps">Reps</string>
     <string name="weight">Weight</string>
     <string name="enter">Enter</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="enter_new_name">Enter new name</string>
+    <string name="enter_name">Enter name</string>
+    <string name="rename_category">Rename Category</string>
+    <string name="rename_exercise">Rename Exercise</string>
 
 </resources>

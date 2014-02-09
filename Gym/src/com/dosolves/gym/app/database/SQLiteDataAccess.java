@@ -73,4 +73,12 @@ public class SQLiteDataAccess implements DataAccess {
 		db.close();
 	}
 
+	@Override
+	public void update(String type, String typeIdPropertyName, int id, Map<String, Object> updateKeysAndValues) {
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+		ContentValues contentValues = createContentValues(updateKeysAndValues);
+		db.update(type, contentValues, String.format("%s = ?", typeIdPropertyName), new String[]{Integer.toString(id)});
+		db.close();
+	}
+
 }

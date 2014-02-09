@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.category.RenameItemAlertDialogShower;
 import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
@@ -15,6 +16,7 @@ import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
+import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
@@ -41,8 +43,9 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 		CreateItemDialogShower createExercisedialogShower = new CreateItemAlertDialogShower(context, context.getString(R.string.create_exercise));
 		ItemOptionMenuDialogShower categoryOptionMenuDialog = new ItemOptionMenuAlertDialogShower(context);
 		ExerciseOpener categoryOpener = new ContextExerciseOpener(context);
+		RenameDialogShower renameDialogShower = new RenameItemAlertDialogShower(context, context.getString(R.string.rename_exercise));
 		
-		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, categoryOptionMenuDialog, categoryOpener, holder);
+		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, categoryOptionMenuDialog, categoryOpener, holder,renameDialogShower);
 		
 	}
 

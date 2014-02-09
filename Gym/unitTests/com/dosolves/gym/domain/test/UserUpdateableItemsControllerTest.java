@@ -12,6 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
+import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 
 @RunWith(RobolectricTestRunner.class)
@@ -20,22 +21,28 @@ public class UserUpdateableItemsControllerTest {
 	
 	private static final int POSITION = 3456;
 	private static final String NEW_ITEM_NAME = "NEW_ITEM_NAME";
+	
 	@Mock
 	CreateItemDialogShower createItemDialogShowerMock;
 	@Mock
-	ItemOptionMenuDialogShower itemOptionMenuDialogShowerMock; 
+	ItemOptionMenuDialogShower itemOptionMenuDialogShowerMock;
+	@Mock
+	RenameDialogShower renameDialogShowerMock;
 	
 	UserUpdateableItemsControllerMock sut;
+	
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new UserUpdateableItemsControllerMock(createItemDialogShowerMock, itemOptionMenuDialogShowerMock);
+		sut = new UserUpdateableItemsControllerMock(createItemDialogShowerMock, 
+													itemOptionMenuDialogShowerMock,
+													renameDialogShowerMock);
 	}
 	
 	@Test
-	public void onReadyToGetData_updates_categories(){
+	public void onReadyToGetData_calls_handleUpdateItems(){
 		sut.onReadyToGetData();
 		assertTrue(sut.handleUpdateItemsCalled());
 	}
@@ -51,7 +58,14 @@ public class UserUpdateableItemsControllerTest {
 	public void shows_menu_item_option_when_user_input_requests_it(){
 		sut.onItemMenuRequested(POSITION);
 		
-		verify(itemOptionMenuDialogShowerMock).show(POSITION, sut);
+		verify(itemOptionMenuDialogShowerMock).show(POSITION, sut, sut);
+	}
+	
+	@Test
+	public void shows_rename_dialog_when_user_input_requests_it(){
+		sut.onRenameDialogRequested(POSITION);
+		
+		verify(renameDialogShowerMock).show(POSITION, sut);
 	}
 	
 	@Test
@@ -76,6 +90,20 @@ public class UserUpdateableItemsControllerTest {
 	}
 	
 	@Test
+	public void calls_handleItemShouldBeRenamed_on_subtype_when_requested(){
+		sut.onItemShouldBeRenamed(POSITION, NEW_ITEM_NAME);
+		
+		assertTrue(sut.handleItemShouldBeRenamedCalled(POSITION, NEW_ITEM_NAME));
+	}
+	
+	@Test
+	public void updates_items_after_rename(){
+		sut.onItemShouldBeRenamed(POSITION, NEW_ITEM_NAME);
+		
+		assertTrue(sut.handleUpdateItemsCalled());
+	}
+	
+	@Test
 	public void updates_items_after_deletion(){
 		sut.onItemShouldBeDeleted(POSITION);
 		
@@ -89,21 +117,23 @@ public class UserUpdateableItemsControllerTest {
 		assertTrue(sut.handleUpdateItemsCalled());
 	}
 	
-	
-	
 	private class UserUpdateableItemsControllerMock extends UserUpdateableItemsController{
 		
 		private boolean handleUpdateItemsCalled = false;
 		private boolean handleItemShouldBeOpenedCalled = false;
 		private int position = -1;
 		private String newItemName = "";
-
-		public UserUpdateableItemsControllerMock(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower) {
-			super(createItemDialogShower,itemOptionMenuDialogShower);
+		
+		public UserUpdateableItemsControllerMock(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower, RenameDialogShower renameDialogShower) {
+			super(createItemDialogShower,itemOptionMenuDialogShower,renameDialogShower);			
 		}
 
 		public boolean handleItemShouldBeDeletedCalled(int position) {
 			return this.position == position;
+		}
+		
+		public boolean handleItemShouldBeRenamedCalled(int position, String expectedName) {
+			return this.position == position && this.newItemName.equals(expectedName);			
 		}
 
 		public boolean handleItemShouldBeCreatedCalledWith(String newItemName) {
@@ -137,6 +167,13 @@ public class UserUpdateableItemsControllerTest {
 		protected void handleItemShouldBeDeleted(int positionOfItemToBeDeleted) {
 			this.position = positionOfItemToBeDeleted;			
 		}
+
+		@Override
+		protected void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName) {
+			this.position = positionOfItemToBeRenamed;
+			this.newItemName = newName;
+		}
+		
 	}
 	
 }

@@ -71,19 +71,22 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void polls_factory_for_category_components(){
-		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
-		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		
 		verify(categorytModelFactoryMock).createAdapter(categoriesActivityMock);
 		verify(categorytModelFactoryMock).createController(categoriesActivityMock, categoryAdapterMock);		
 	}
+
+	private void stubCategoryAdapterAndControllerCreation() {
+		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+	}
 	
 	@Test
 	public void sets_adapter_on_category_activity(){
-		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
-		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		
@@ -92,8 +95,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_AddItemRequestedCallBack_on_CategoriesActivity(){
-		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
-		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		
@@ -102,8 +104,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_ItemMenuRequestedCallback_on_CategoriesActivity(){
-		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
-		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		
@@ -112,8 +113,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_OpenItemRequestedCallback_on_CategoriesActivity(){
-		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
-		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		
@@ -122,8 +122,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_controller_as_ReadyToGetDataCallback_on_CategoriesActivity(){
-		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
-		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		

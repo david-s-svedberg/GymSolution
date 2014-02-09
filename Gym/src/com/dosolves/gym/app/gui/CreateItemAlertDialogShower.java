@@ -2,6 +2,7 @@ package com.dosolves.gym.app.gui;
 
 import android.content.Context;
 
+import com.dosolves.gym.R;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemShouldBeCreatedCallback;
 import com.dosolves.gym.domain.TextInputCallback;
@@ -18,7 +19,7 @@ public class CreateItemAlertDialogShower implements CreateItemDialogShower {
 
 	@Override
 	public void show(final ItemShouldBeCreatedCallback callback) {
-		RequiredTextInputDialog dialog = new RequiredTextInputDialog(context, this.title, "Enter name", new TextInputCallback() {
+		RequiredTextInputDialog dialog = new RequiredTextInputDialog(context, this.title, context.getString(R.string.enter_name), new TextInputCallback() {
 			
 			@Override
 			public void onTextInputDone(String value) {

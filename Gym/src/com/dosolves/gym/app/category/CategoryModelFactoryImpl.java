@@ -14,6 +14,7 @@ import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
+import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
@@ -37,8 +38,9 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 		CreateItemDialogShower createCategorydialog = new CreateItemAlertDialogShower(context, context.getString(R.string.create_category));
 		ItemOptionMenuDialogShower categoryOptionMenuDialog = new ItemOptionMenuAlertDialogShower(context);
 		ContextCategoryOpener categoryOpener = new ContextCategoryOpener(context);
+		RenameDialogShower renameDialogShower = new RenameItemAlertDialogShower(context, context.getString(R.string.rename_category));
 		
-		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, categoryOpener);
+		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, categoryOpener,renameDialogShower);
 	}
 
 	public CategoryUpdater createUpdater() {

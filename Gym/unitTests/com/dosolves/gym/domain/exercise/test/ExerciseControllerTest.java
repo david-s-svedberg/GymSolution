@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
+import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
@@ -50,6 +51,8 @@ public class ExerciseControllerTest {
 	ExerciseOpener exerciseOpenerMock;
 	@Mock
 	CurrentCategoryHolder currentCategoryHolderMock;
+	@Mock
+	RenameDialogShower renameDialogShowerMock;
 	
 	List<Exercise> exercisesMock;
 	Category categoryMock;
@@ -72,7 +75,8 @@ public class ExerciseControllerTest {
 									 exerciseUpdaterMock, 
 									 itemOptionMenuDialogShowerMock,
 									 exerciseOpenerMock,
-									 currentCategoryHolderMock);
+									 currentCategoryHolderMock,
+									 renameDialogShowerMock);
 	}
 	
 	@Test
@@ -94,6 +98,14 @@ public class ExerciseControllerTest {
 		verify(exerciseUpdaterMock).delete(exerciseMock);
 	}
 	
+	@Test
+	public void calls_exerciseUpdater_when_item_should_be_renamed(){
+		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
+		
+		sut.onItemShouldBeRenamed(POSITION, NEW_EXERCISE_NAME);
+		
+		verify(exerciseUpdaterMock).rename(exerciseMock, NEW_EXERCISE_NAME);		
+	}
 	
 	@Test
 	public void calls_exerciseUpdater_when_item_should_be_created(){

@@ -9,4 +9,6 @@ public interface CategoryUpdater {
 
 	void delete(Category categoryToBeDeleted);
 
+	void rename(Category categoryToBeRenamed, String newCategoryName);
+
 }

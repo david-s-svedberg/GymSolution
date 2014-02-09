@@ -19,7 +19,7 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	private ItemMenuRequestedCallback itemMenuRequestedCallback;
 	private OpenItemRequestedCallback openItemRequestedCallback;
 	private ReadyToGetDataCallback readyToGetDataCallback;
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,7 +47,6 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	
 	public void setReadyToGetDataCallback(ReadyToGetDataCallback readyToGetDataCallback) {
 		this.readyToGetDataCallback = readyToGetDataCallback;
-		
 	}
 	
 	@Override

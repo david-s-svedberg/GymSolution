@@ -2,6 +2,7 @@ package com.dosolves.gym.app.performance.gui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
@@ -47,6 +48,11 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		setupClickListener();
 		setupButtonEnabledListener();
 		setupActionBar();
+	}
+	
+	private void setCurrentExercise() {
+		currentExercise = (Exercise)getIntent().getSerializableExtra(EXERCISE_BUNDLE_KEY);
+		setTitle(currentExercise.getName());
 	}
 	
 	private void disableEnterButton() {
@@ -149,24 +155,24 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		weightInput = (EditText)findViewById(R.id.weightInput);
 	}
 	
-	private void setCurrentExercise() {
-		currentExercise = (Exercise)getIntent().getSerializableExtra(EXERCISE_BUNDLE_KEY);
-		setTitle(currentExercise.getName());
-	}
-	
 	private void setupActionBar() {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			NavUtils.navigateUpFromSameTask(this);
+			goBackToExerciseActivityWithPreviousState();			
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void goBackToExerciseActivityWithPreviousState() {
+		Intent intent = NavUtils.getParentActivityIntent(this); 
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP); 
+		NavUtils.navigateUpTo(this, intent);
 	}
 
 	public void setNewSetShouldBeCreatedCallback(NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallback) {

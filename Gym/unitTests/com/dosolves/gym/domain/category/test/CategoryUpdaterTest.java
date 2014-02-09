@@ -57,6 +57,7 @@ public class CategoryUpdaterTest {
 			}			
 		}));
 	}
+	
 	@Test
 	public void delete_calls_dataAccess_with_correct_idcolumnName(){
 		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
@@ -64,5 +65,27 @@ public class CategoryUpdaterTest {
 		sut.delete(category);
 		
 		verify(dataAccessMock).delete(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL,CategoryStructureGiver.ID_PROPERTY_NAME, CATEGORY_ID);
+	}
+	
+	@Test
+	public void rename_calls_dataAccess_with_correct_parameters(){
+		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
+		
+		sut.rename(category, NEW_CATEGORY_NAME);
+		
+		verify(dataAccessMock).update(eq(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL),eq(CategoryStructureGiver.ID_PROPERTY_NAME), eq(CATEGORY_ID), argThat(new ArgumentMatcher<Map<String,Object>>(){
+			
+			@Override
+			public boolean matches(Object arg0) {
+				if(!(arg0 instanceof Map<?,?>) || arg0 == null)
+					return false;
+				@SuppressWarnings("unchecked")
+				Map<String, Object> values = (Map<String, Object>) arg0;
+				if (values.get(CategoryStructureGiver.NAME_PROPERTY_NAME).equals(NEW_CATEGORY_NAME))
+					return true;				
+				else
+					return false;
+			}			
+		}));
 	}
 }

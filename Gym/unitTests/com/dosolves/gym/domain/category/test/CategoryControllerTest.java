@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
+import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryOpener;
@@ -43,11 +44,12 @@ public class CategoryControllerTest {
 	CategoryUpdater categoryUpdaterMock;
 	@Mock
 	CategoryOpener categoryOpenerMock;
+	@Mock
+	RenameDialogShower renameDialogShowerMock;
 	
 	private List<Category> categoriesMock;
 	
 	CategoryController sut;
-	
 		
 	@Before
 	public void setUp() throws Exception{
@@ -60,7 +62,8 @@ public class CategoryControllerTest {
 									 createItemDialogShowerMock, 
 									 categoryUpdaterMock, 
 									 itemOptionMenuDialogShowerMock,
-									 categoryOpenerMock);
+									 categoryOpenerMock,
+									 renameDialogShowerMock);
 	}
 	
 	@Test
@@ -81,6 +84,15 @@ public class CategoryControllerTest {
 		
 		sut.onItemShouldBeDeleted(POSITION);
 		verify(categoryUpdaterMock).delete(category);
+	}
+	
+	@Test
+	public void calls_categoryUpdater_when_category_should_be_renamed(){
+		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
+		when(adapterMock.getItem(POSITION)).thenReturn(category);
+		
+		sut.onItemShouldBeRenamed(POSITION, NEW_CATEGORY_NAME);
+		verify(categoryUpdaterMock).rename(category, NEW_CATEGORY_NAME);
 	}
 	
 	@Test

@@ -77,4 +77,30 @@ public class ExerciseUpdaterImplTest {
 		
 		verify(dataAccessMock).delete(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL,ExerciseStructureGiver.ID_PROPERTY_NAME, EXERCISE_ID);
 	}
+	
+	@Test
+	public void rename_calls_dataAccess_with_correct_parameters(){
+		Exercise exercise = new Exercise(EXERCISE_ID, CATEGORY_ID, EXERCISE_NAME);
+		
+		sut.rename(exercise, NEW_EXERCISE_NAME);
+		
+		verify(dataAccessMock).update(eq(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL),eq(ExerciseStructureGiver.ID_PROPERTY_NAME), eq(EXERCISE_ID), argThat(new ArgumentMatcher<Map<String,Object>>(){
+			
+			@Override
+			public boolean matches(Object arg0) {
+				if(!(arg0 instanceof Map<?,?>) || arg0 == null)
+					return false;
+				@SuppressWarnings("unchecked")
+				Map<String, Object> values = (Map<String, Object>) arg0;
+				if (mapContainsCorrectExerciseName(values))
+					return true;				
+				else
+					return false;
+			}
+
+			private boolean mapContainsCorrectExerciseName(Map<String, Object> values) {
+				return values.get(ExerciseStructureGiver.NAME_PROPERTY_NAME).equals(NEW_EXERCISE_NAME);
+			}			
+		}));
+	}
 }
