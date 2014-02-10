@@ -66,21 +66,7 @@ public class SetUpdaterImplTest {
 					   mapContainsDate(values, DATE_MILLISECONDS);
 			}
 
-			private boolean mapContainsDate(Map<String, Object> values, long currentDateMilliseconds) {
-				return values.get(SetStructureGiver.DATE_PROPERTY_NAME).equals(DATE_MILLISECONDS);
-			}
-
-			private boolean mapContainsWeight(Map<String, Object> values, double weight) {
-				return values.get(SetStructureGiver.WEIGHT_PROPERTY_NAME).equals(WEIGHT);
-			}
-
-			private boolean mapContainsReps(Map<String, Object> values, int reps) {
-				return values.get(SetStructureGiver.REPS_PROPERTY_NAME).equals(REPS);
-			}
-
-			private boolean mapContainsExerciseId(Map<String, Object> values, int exerciseId) {
-				return values.get(SetStructureGiver.EXERCISE_ID_PROPERTY_NAME).equals(EXERCISE_ID);
-			}
+			
 		}));
 	}
 	
@@ -91,5 +77,42 @@ public class SetUpdaterImplTest {
 		sut.delete(set);
 		
 		verify(dataAccessMock).delete(SetStructureGiver.SET_TYPE_NAME_PLURAL,SetStructureGiver.ID_PROPERTY_NAME, SET_ID);
+	}
+	
+	@Test
+	public void update_calls_dataAccess_with_correct_parameters(){
+		Set set = new Set(SET_ID,EXERCISE_ID,REPS,WEIGHT, new Date(DATE_MILLISECONDS));
+		
+		sut.update(set, REPS, WEIGHT);
+		
+		verify(dataAccessMock).update(eq(SetStructureGiver.SET_TYPE_NAME_PLURAL),eq(SetStructureGiver.ID_PROPERTY_NAME), eq(SET_ID),argThat(new ArgumentMatcher<Map<String,Object>>(){
+			
+			@Override
+			public boolean matches(Object arg0) {
+				if(!(arg0 instanceof Map<?,?>) || arg0 == null)
+					return false;
+				@SuppressWarnings("unchecked")
+				Map<String, Object> values = (Map<String, Object>) arg0;
+				
+				return mapContainsReps(values, REPS) && 
+					   mapContainsWeight(values, WEIGHT);
+			}
+		}));
+	}
+	
+	private boolean mapContainsDate(Map<String, Object> values, long currentDateMilliseconds) {
+		return values.get(SetStructureGiver.DATE_PROPERTY_NAME).equals(DATE_MILLISECONDS);
+	}
+
+	private boolean mapContainsWeight(Map<String, Object> values, double weight) {
+		return values.get(SetStructureGiver.WEIGHT_PROPERTY_NAME).equals(WEIGHT);
+	}
+
+	private boolean mapContainsReps(Map<String, Object> values, int reps) {
+		return values.get(SetStructureGiver.REPS_PROPERTY_NAME).equals(REPS);
+	}
+
+	private boolean mapContainsExerciseId(Map<String, Object> values, int exerciseId) {
+		return values.get(SetStructureGiver.EXERCISE_ID_PROPERTY_NAME).equals(EXERCISE_ID);
 	}
 }

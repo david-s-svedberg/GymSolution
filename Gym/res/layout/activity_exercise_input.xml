@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,9 +8,16 @@
         android:id="@+id/set_input_fragment"
         android:name="com.dosolves.gym.app.performance.gui.SetInputFragment"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="2"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         tools:layout="@layout/set_input_view" />
+    
+    <fragment
+        android:id="@+id/set_enter_button_fragment"
+        android:name="com.dosolves.gym.app.performance.gui.SetEnterButtonFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout="@layout/set_enter_button_view" />
     
     <View
 	    android:layout_width="fill_parent"
@@ -22,8 +28,8 @@
         android:id="@+id/list_previous_workout_fragment"
         android:name="com.dosolves.gym.app.performance.gui.ListPreviousWorkoutsFragment"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
+        android:layout_height="0dp"
+        android:layout_weight="3"
         tools:layout="@layout/list_previous_workouts_view" />
     
 </LinearLayout>

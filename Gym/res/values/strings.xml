@@ -20,5 +20,9 @@
     <string name="enter_name">Enter name</string>
     <string name="rename_category">Rename Category</string>
     <string name="rename_exercise">Rename Exercise</string>
+    <string name="edit_set">Edit Set</string>
+    <string name="Save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="edit">Edit</string>
 
 </resources>

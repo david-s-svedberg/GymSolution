@@ -16,12 +16,13 @@ import android.widget.TextView;
 import com.dosolves.gym.R;
 import com.dosolves.gym.domain.performance.Performance;
 import com.dosolves.gym.domain.performance.Set;
+import com.dosolves.gym.domain.performance.SetMenuRequestedCallback;
 
 public class PerformanceAdapter extends BaseAdapter implements SetClickedCallback{
 	
 	private Context context;
 	private List<Performance> performances = new ArrayList<Performance>();
-	private SetClickedCallback callback;
+	private SetMenuRequestedCallback callback;
 
 	public PerformanceAdapter(Context context){
 		this.context = context;		
@@ -72,13 +73,10 @@ public class PerformanceAdapter extends BaseAdapter implements SetClickedCallbac
 		this.performances = performances;
 	}
 	
-	public void setSetClickedCallback(SetClickedCallback callback){
-		this.callback = callback;		
-	}
 
 	@Override
 	public void onSetClicked(Set set) {
-		this.callback.onSetClicked(set);		
+		this.callback.onSetMenuRequested(set);
 	}
 
 	public void clear() {
@@ -87,6 +85,10 @@ public class PerformanceAdapter extends BaseAdapter implements SetClickedCallbac
 
 	public Context getContext() {
 		return context;
+	}
+
+	public void setSetMenuRequestedCallback(SetMenuRequestedCallback callback) {
+		this.callback = callback;		
 	}
 
 }

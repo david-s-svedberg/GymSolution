@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/set_edit_fragment"
+        android:name="com.dosolves.gym.app.performance.gui.SetInputFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"        
+        tools:layout="@layout/set_input_view" />
+    <fragment
+        android:id="@+id/set_edit_button_fragment"
+        android:name="com.dosolves.gym.app.performance.gui.SetEditButtonsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"                
+        tools:layout="@layout/set_edit_buttons_view" />
+    
+</LinearLayout>

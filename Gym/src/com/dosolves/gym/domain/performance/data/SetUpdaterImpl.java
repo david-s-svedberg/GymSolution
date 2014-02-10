@@ -38,4 +38,13 @@ public class SetUpdaterImpl implements SetUpdater {
 		return values;
 	}
 
+	@Override
+	public void update(Set set, int newReps, double newWeight) {
+		Map<String, Object> values = new HashMap<String, Object>();
+		values.put(SetStructureGiver.REPS_PROPERTY_NAME, newReps);
+		values.put(SetStructureGiver.WEIGHT_PROPERTY_NAME, newWeight);
+		
+		dataAccess.update(SetStructureGiver.SET_TYPE_NAME_PLURAL, SetStructureGiver.ID_PROPERTY_NAME, set.getId(), values);		
+	}
+
 }

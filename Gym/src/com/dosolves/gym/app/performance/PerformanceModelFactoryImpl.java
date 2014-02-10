@@ -8,13 +8,17 @@ import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.performance.database.SetDbStructureGiver;
+import com.dosolves.gym.app.performance.gui.EditSetFragmentDialogShower;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
+import com.dosolves.gym.app.performance.gui.SetMenuAlertDialog;
 import com.dosolves.gym.domain.CurrentDateGiver;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.DbStructureGiver;
+import com.dosolves.gym.domain.performance.EditSetDialogShower;
 import com.dosolves.gym.domain.performance.PerformanceController;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
+import com.dosolves.gym.domain.performance.SetMenuDialogShower;
 import com.dosolves.gym.domain.performance.data.CursorSetFactory;
 import com.dosolves.gym.domain.performance.data.CursorSetRetriever;
 import com.dosolves.gym.domain.performance.data.PerformanceBuilder;
@@ -37,8 +41,10 @@ public class PerformanceModelFactoryImpl implements PerformanceModelFactory {
 		CurrentDateGiver currentDateGiver = new CurrentDateGiverImpl();
 		SetUpdaterImpl updater = new SetUpdaterImpl(dataAccess, currentDateGiver);
 		PerformanceBuilder builder = new PerformanceBuilder();
+		EditSetDialogShower editDialog = new EditSetFragmentDialogShower(context);
+		SetMenuDialogShower setMenuDialog = new SetMenuAlertDialog(context);
 		
-		return new PerformanceController(adapter, holder, retriever, builder, updater);
+		return new PerformanceController(adapter, holder, retriever, builder, updater, editDialog,setMenuDialog);
 	}
 	
 	private DataAccess createDataAccess() {

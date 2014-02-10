@@ -237,7 +237,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(performanceActivityMock);
 		
-		verify(performanceAdapterMock).setSetClickedCallback(performanceControllerMock);				
+		verify(performanceAdapterMock).setSetMenuRequestedCallback(performanceControllerMock);				
 	}
 	
 	
