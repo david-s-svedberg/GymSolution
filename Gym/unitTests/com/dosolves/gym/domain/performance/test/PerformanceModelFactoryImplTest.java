@@ -12,6 +12,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.content.Context;
 
+import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.app.performance.PerformanceModelFactoryImpl;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
@@ -26,8 +27,11 @@ public class PerformanceModelFactoryImplTest {
 	PerformanceAdapter adapterMock;
 	@Mock
 	CurrentExerciseHolder holderMock;
+	@Mock
+	FragmentManagerProvider fragmentManagerProviderMock;
 	
 	PerformanceModelFactory sut;
+	
 	
 	@Before
 	public void setUp() throws Exception{
@@ -44,7 +48,7 @@ public class PerformanceModelFactoryImplTest {
 	
 	@Test
 	public void can_create_controller(){
-		assertNotNull(sut.createController(contextMock, adapterMock, holderMock));		
+		assertNotNull(sut.createController(contextMock, adapterMock, holderMock, fragmentManagerProviderMock));		
 	}
 	
 }

@@ -7,6 +7,7 @@ import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
+import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.app.performance.database.SetDbStructureGiver;
 import com.dosolves.gym.app.performance.gui.EditSetFragmentDialogShower;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
@@ -33,7 +34,7 @@ public class PerformanceModelFactoryImpl implements PerformanceModelFactory {
 	}
 
 	@Override
-	public PerformanceController createController(Context context, PerformanceAdapter adapter, CurrentExerciseHolder holder) {
+	public PerformanceController createController(Context context, PerformanceAdapter adapter, CurrentExerciseHolder holder, FragmentManagerProvider fragmentManagerProvider) {
 		DataAccess dataAccess = createDataAccess();
 		DbStructureGiver setDbStructureGiver = new SetDbStructureGiver();
 		CursorSetFactory factory = new CursorSetFactory(setDbStructureGiver);
@@ -41,7 +42,7 @@ public class PerformanceModelFactoryImpl implements PerformanceModelFactory {
 		CurrentDateGiver currentDateGiver = new CurrentDateGiverImpl();
 		SetUpdaterImpl updater = new SetUpdaterImpl(dataAccess, currentDateGiver);
 		PerformanceBuilder builder = new PerformanceBuilder();
-		EditSetDialogShower editDialog = new EditSetFragmentDialogShower(context);
+		EditSetDialogShower editDialog = new EditSetFragmentDialogShower(fragmentManagerProvider);
 		SetMenuDialogShower setMenuDialog = new SetMenuAlertDialog(context);
 		
 		return new PerformanceController(adapter, holder, retriever, builder, updater, editDialog,setMenuDialog);

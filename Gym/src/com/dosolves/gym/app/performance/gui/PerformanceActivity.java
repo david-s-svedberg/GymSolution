@@ -15,12 +15,15 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
+import com.dosolves.gym.domain.performance.Set;
+import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
 
-public class PerformanceActivity extends Activity implements CurrentExerciseHolder{
+public class PerformanceActivity extends Activity implements CurrentExerciseHolder, FragmentManagerProvider, SetShouldBeEditedCallback{
 
 	public static final String EXERCISE_BUNDLE_KEY = "EXERCISE_BUNDLE_KEY";
 
@@ -31,6 +34,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private EditText weightInput;
 
 	private NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallback;
+	private SetShouldBeEditedCallback setShouldBeEditedCallback;
 
 	private PerformanceAdapter adapter;
 
@@ -190,6 +194,15 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	
 	public void setReadyToGetDataCallback(ReadyToGetDataCallback readyToGetDataCallback) {
 		this.readyToGetDataCallback = readyToGetDataCallback;
+	}
+
+	public void setSetShouldBeEditedCallback(SetShouldBeEditedCallback setShouldBeEditedCallback) {
+		this.setShouldBeEditedCallback = setShouldBeEditedCallback;		
+	}
+
+	@Override
+	public void onSetShouldBeUpdated(Set set, int newReps, double newWeight) {
+		setShouldBeEditedCallback.onSetShouldBeUpdated(set, newReps, newWeight);
 	}
 
 }

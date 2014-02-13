@@ -1,21 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical" >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-    <fragment
-        android:id="@+id/set_edit_fragment"
-        android:name="com.dosolves.gym.app.performance.gui.SetInputFragment"
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/reps"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/weight"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@android:color/holo_red_dark" />
+
+    <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"        
-        tools:layout="@layout/set_input_view" />
-    <fragment
-        android:id="@+id/set_edit_button_fragment"
-        android:name="com.dosolves.gym.app.performance.gui.SetEditButtonsFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"                
-        tools:layout="@layout/set_edit_buttons_view" />
+        android:layout_height="wrap_content" >
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+        <EditText
+            android:id="@+id/repsInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:inputType="number"
+            android:gravity="center"
+            android:nextFocusDown="@+id/weightInput" >
+
+            <requestFocus 
+                android:layout_width="0dp"
+                android:layout_height="0dp"/>
+        </EditText>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+        
+        <EditText
+            android:id="@id/weightInput"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:gravity="center"
+            android:nextFocusDown="@id/repsInput"
+            android:textColor="@android:color/holo_red_dark" />
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <LinearLayout 
+	    style="?android:attr/buttonBarStyle"
+	    android:layout_width="match_parent"
+	    android:layout_height="45dp"
+	    android:orientation="horizontal" >
+	
+	    <Button
+	        android:id="@+id/cancel_button"
+	        style="?android:attr/buttonBarButtonStyle"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:text="@string/cancel"/>
+	
+	    <Button
+	        android:id="@+id/save_button"
+	        style="?android:attr/buttonBarButtonStyle"
+	        android:layout_width="0dp"
+	        android:layout_height="match_parent"
+	        android:layout_weight="1"
+	        android:text="@string/Save" />
+	    
+	</LinearLayout>
     
 </LinearLayout>

@@ -17,7 +17,7 @@ public class PerformanceController implements ReadyToGetDataCallback,
 											  EditSetDialogRequestedCallback,
 											  SetShouldBeEditedCallback,
 											  SetShouldBeDeletedCallback{
-
+	
 	private PerformanceAdapter adapter;
 	private SetRetriever retriever;
 	private PerformanceBuilder performanceBuilder;

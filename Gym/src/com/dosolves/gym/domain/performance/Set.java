@@ -1,9 +1,11 @@
 package com.dosolves.gym.domain.performance;
 
+import java.io.Serializable;
 import java.util.Date;
+public class Set implements Serializable{
 
-public class Set {
-
+	private static final long serialVersionUID = 1L;
+	
 	private int id;
 	private int exerciseId;
 	private int reps;

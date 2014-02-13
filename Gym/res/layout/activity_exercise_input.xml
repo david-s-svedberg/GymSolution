@@ -9,16 +9,9 @@
         android:name="com.dosolves.gym.app.performance.gui.SetInputFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         tools:layout="@layout/set_input_view" />
-    
-    <fragment
-        android:id="@+id/set_enter_button_fragment"
-        android:name="com.dosolves.gym.app.performance.gui.SetEnterButtonFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:layout="@layout/set_enter_button_view" />
-    
+
     <View
 	    android:layout_width="fill_parent"
 	    android:layout_height="1dp"

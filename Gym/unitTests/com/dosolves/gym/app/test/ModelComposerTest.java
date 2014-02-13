@@ -196,12 +196,12 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceModelFactoryMock).createAdapter(performanceActivityMock);
-		verify(performanceModelFactoryMock).createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock);		
+		verify(performanceModelFactoryMock).createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock, performanceActivityMock);		
 	}
 
 	private void stubPerformanceAdapterAndControllerCreation() {
 		when(performanceModelFactoryMock.createAdapter(performanceActivityMock)).thenReturn(performanceAdapterMock);
-		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock)).thenReturn(performanceControllerMock);
+		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock, performanceActivityMock)).thenReturn(performanceControllerMock);
 	}
 	
 	@Test
@@ -229,6 +229,15 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceActivityMock).setNewSetShouldBeCreatedCallback(performanceControllerMock);				
+	}
+	
+	@Test
+	public void sets_controller_as_SetShouldBeEditedCallback(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceActivityMock).setSetShouldBeEditedCallback(performanceControllerMock);				
 	}
 	
 	@Test
