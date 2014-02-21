@@ -26,6 +26,6 @@ public class CreateItemAlertDialogShower implements CreateItemDialogShower {
 				callback.onItemShouldBeCreated(value);
 			}
 		});
-		dialog.show();		
+		dialog.show(null);		
 	}
 }

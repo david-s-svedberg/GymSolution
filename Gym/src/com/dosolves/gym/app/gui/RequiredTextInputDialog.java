@@ -27,7 +27,7 @@ public class RequiredTextInputDialog{
 		this.callback = callback;			
 	}
 
-	public void show() {
+	public void show(String oldValue) {
 		final AlertDialog.Builder alert = new AlertDialog.Builder(context);
 		alert.setTitle(title);
 		alert.setMessage(message);
@@ -35,7 +35,7 @@ public class RequiredTextInputDialog{
 		// Set an EditText view to get user input 
 		final EditText input = new EditText(context);
 		input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-		
+		input.setText(oldValue);
 		alert.setView(input);
 	
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {

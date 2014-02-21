@@ -11,6 +11,7 @@ import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
 import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
+import com.dosolves.gym.app.gui.RenameItemAlertDialogShower;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;

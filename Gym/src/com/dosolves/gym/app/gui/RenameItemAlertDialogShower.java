@@ -1,9 +1,8 @@
-package com.dosolves.gym.app.category;
+package com.dosolves.gym.app.gui;
 
 import android.content.Context;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.RequiredTextInputDialog;
 import com.dosolves.gym.domain.ItemShouldBeRenamedCallback;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.TextInputCallback;
@@ -27,7 +26,7 @@ public class RenameItemAlertDialogShower implements RenameDialogShower {
 				callback.onItemShouldBeRenamed(position, value);
 			}
 		});
-		dialog.show();
+		dialog.show(null);
 	}
 
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.category.RenameItemAlertDialogShower;
 import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
@@ -12,6 +11,7 @@ import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.exercise.gui.ContextExerciseOpener;
 import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
 import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
+import com.dosolves.gym.app.gui.RenameItemAlertDialogShower;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.DataAccess;

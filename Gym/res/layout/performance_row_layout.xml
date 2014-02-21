@@ -6,11 +6,12 @@
 
     <TextView
         android:id="@+id/performanceDate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="22"
         android:layout_height="match_parent"
-        android:paddingLeft="3dp"
+        android:paddingLeft="0dp"
         android:paddingRight="3dp"
-        android:gravity="center" />
+        android:gravity="right|center_vertical" />
     
     <View
 	    android:layout_width="4dp"
@@ -22,7 +23,8 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="78"
         android:layout_height="match_parent" >
 
         <LinearLayout
