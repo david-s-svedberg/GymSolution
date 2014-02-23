@@ -2,6 +2,6 @@ package com.dosolves.gym.domain;
 
 public interface RenameDialogShower {
 
-	void show(int position, ItemShouldBeRenamedCallback callback);
+	void show(int position, ItemShouldBeRenamedCallback callback, String itemCurrentName);
 
 }

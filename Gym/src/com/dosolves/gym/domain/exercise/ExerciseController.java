@@ -80,4 +80,9 @@ public class ExerciseController extends UserUpdateableItemsController {
 		updater.rename(adapter.getItem(positionOfItemToBeRenamed), newName);
 	}
 
+	@Override
+	protected String getItemCurrentName(int positionOfItem) {
+		return adapter.getItem(positionOfItem).getName();
+	}
+
 }

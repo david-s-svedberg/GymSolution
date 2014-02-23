@@ -19,6 +19,7 @@ import com.dosolves.gym.domain.UserUpdateableItemsController;
 public class UserUpdateableItemsControllerTest {
 
 	
+	private static final String ITEM_NAME = "itemName";
 	private static final int POSITION = 3456;
 	private static final String NEW_ITEM_NAME = "NEW_ITEM_NAME";
 	
@@ -63,9 +64,11 @@ public class UserUpdateableItemsControllerTest {
 	
 	@Test
 	public void shows_rename_dialog_when_user_input_requests_it(){
+		sut.setupMockItemName(ITEM_NAME);
 		sut.onRenameDialogRequested(POSITION);
 		
-		verify(renameDialogShowerMock).show(POSITION, sut);
+		verify(renameDialogShowerMock).show(POSITION, sut, ITEM_NAME);
+		assertTrue(sut.getItemCurrentNameCalled());
 	}
 	
 	@Test
@@ -123,9 +126,19 @@ public class UserUpdateableItemsControllerTest {
 		private boolean handleItemShouldBeOpenedCalled = false;
 		private int position = -1;
 		private String newItemName = "";
+		private String itemName;
+		private boolean getItemCurrentNameCalled = false;
 		
 		public UserUpdateableItemsControllerMock(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower, RenameDialogShower renameDialogShower) {
 			super(createItemDialogShower,itemOptionMenuDialogShower,renameDialogShower);			
+		}
+
+		public boolean getItemCurrentNameCalled() {
+			return getItemCurrentNameCalled ;
+		}
+
+		public void setupMockItemName(String itemName) {
+			this.itemName = itemName;
 		}
 
 		public boolean handleItemShouldBeDeletedCalled(int position) {
@@ -172,6 +185,12 @@ public class UserUpdateableItemsControllerTest {
 		protected void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName) {
 			this.position = positionOfItemToBeRenamed;
 			this.newItemName = newName;
+		}
+
+		@Override
+		protected String getItemCurrentName(int positionOfItem) {
+			getItemCurrentNameCalled = true;
+			return itemName;
 		}
 		
 	}

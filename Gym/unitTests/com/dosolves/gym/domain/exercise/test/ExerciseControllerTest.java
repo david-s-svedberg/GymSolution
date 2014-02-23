@@ -136,6 +136,15 @@ public class ExerciseControllerTest {
 		
 		verify(exerciseOpenerMock).openExercise(exerciseMock);
 	}
+	
+	@Test
+	public void queries_adapter_for_item_name_on_rename_requested(){
+		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
+		
+		sut.onRenameDialogRequested(POSITION);
+		
+		verify(renameDialogShowerMock).show(POSITION, sut, EXERCISE_NAME);
+	}
 
 	private void verifyExercisesHaveBeenUpdated() {
 		verify(adapterMock).clear();

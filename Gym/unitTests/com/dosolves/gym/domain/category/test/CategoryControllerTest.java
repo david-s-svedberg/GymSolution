@@ -50,12 +50,15 @@ public class CategoryControllerTest {
 	private List<Category> categoriesMock;
 	
 	CategoryController sut;
+	private Category categoryMock;
 		
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
 		categoriesMock = new ArrayList<Category>();
+		
+		categoryMock = new Category(CATEGORY_ID,CATEGORY_NAME);
 		
 		sut = new CategoryController(adapterMock, 
 									 retrieverMock, 
@@ -115,8 +118,6 @@ public class CategoryControllerTest {
 	
 	@Test
 	public void calls_categoryOpener_when_category_have_been_clicked(){
-		Category categoryMock = new Category(CATEGORY_ID,NEW_CATEGORY_NAME);
-		
 		when(adapterMock.getItem(POSITION)).thenReturn(categoryMock);
 		
 		sut.onOpenItemRequested(POSITION);
@@ -124,6 +125,14 @@ public class CategoryControllerTest {
 		verify(categoryOpenerMock).openCategory(categoryMock);
 	}
 
+	@Test
+	public void queries_adapter_for_item_name_on_rename_requested(){
+		when(adapterMock.getItem(POSITION)).thenReturn(categoryMock);
+		
+		sut.onRenameDialogRequested(POSITION);
+		
+		verify(renameDialogShowerMock).show(POSITION, sut, CATEGORY_NAME);
+	}
 	private void verifyCategoriesHaveBeenUpdated() {
 		verify(adapterMock).clear();
 		verify(adapterMock).addAll(categoriesMock);

@@ -35,7 +35,7 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	
 	@Override
 	public void onRenameDialogRequested(int itemPosition) {
-		renameDialogShower.show(itemPosition, this);
+		renameDialogShower.show(itemPosition, this, getItemCurrentName(itemPosition));
 	}
 
 	@Override
@@ -71,5 +71,6 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	protected abstract void handleItemShouldBeCreated(String newItemName);
 	protected abstract void handleItemShouldBeDeleted(int positionOfItemToBeDeleted);
 	protected abstract void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName);
+	protected abstract String getItemCurrentName(int positionOfItem);
 	
 }

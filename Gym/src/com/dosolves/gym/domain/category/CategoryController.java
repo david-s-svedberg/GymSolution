@@ -69,5 +69,10 @@ public class CategoryController extends UserUpdateableItemsController {
 	protected void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName) {
 		updater.rename(adapter.getItem(positionOfItemToBeRenamed), newName);
 	}
+
+	@Override
+	protected String getItemCurrentName(int positionOfItem) {
+		return adapter.getItem(positionOfItem).getName();
+	}
 	
 }
