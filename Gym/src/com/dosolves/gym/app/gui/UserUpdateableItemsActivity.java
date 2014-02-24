@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.domain.AdsShouldBeDisplayedChecker;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
@@ -19,9 +20,10 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	private ItemMenuRequestedCallback itemMenuRequestedCallback;
 	private OpenItemRequestedCallback openItemRequestedCallback;
 	private ReadyToGetDataCallback readyToGetDataCallback;
+	private AdsShouldBeDisplayedChecker adsShouldBeDisplayedChecker;
 	
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.getListView().setLongClickable(true);
 		this.getListView().setOnItemLongClickListener(this);		
@@ -80,6 +82,10 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		openItemRequestedCallback.onOpenItemRequested(position);
+	}
+
+	public void setAdsShouldBeDisplayedChecker(AdsShouldBeDisplayedChecker adsShouldBeDisplayedChecker) {
+		this.adsShouldBeDisplayedChecker = adsShouldBeDisplayedChecker;		
 	}
 
 }

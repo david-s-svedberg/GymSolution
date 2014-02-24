@@ -17,6 +17,7 @@ import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.gui.AddItemRequestedCallBack;
 import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
+import com.dosolves.gym.domain.AdsShouldBeDisplayedChecker;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
@@ -34,8 +35,11 @@ public class UserUpdateableItemsActivityTest {
 	ReadyToGetDataCallback readyToGetDataCallbackMock;
 	@Mock
 	MenuItem menuItemMock;
+	@Mock
+	AdsShouldBeDisplayedChecker adsShouldBeDisplayedCheckerMock;
 	
-	UserUpdateableItemsActivity sut;	
+	UserUpdateableItemsActivity sut;
+		
 
 	@Before
 	public void setUp() throws Exception{
@@ -46,6 +50,7 @@ public class UserUpdateableItemsActivityTest {
 		sut.setItemMenuRequestedCallback(itemMenuRequestedCallbackMock);
 		sut.setOpenItemRequestedCallback(openItemRequestedCallbackMock);
 		sut.setReadyToGetDataCallback(readyToGetDataCallbackMock);
+		sut.setAdsShouldBeDisplayedChecker(adsShouldBeDisplayedCheckerMock);
 	}
 	
 	@Test
@@ -62,7 +67,7 @@ public class UserUpdateableItemsActivityTest {
 	}
 	
 	@Test
-	public void calls_categoryClickedCallback_when_item_is_clicked(){
+	public void calls_openItemRequestedCallback_when_item_is_clicked(){
 		sut.onListItemClick(null, null, POSITION, 0);
 		verify(openItemRequestedCallbackMock).onOpenItemRequested(POSITION);
 	}
@@ -72,5 +77,13 @@ public class UserUpdateableItemsActivityTest {
 		sut.onResume();
 		verify(readyToGetDataCallbackMock).onReadyToGetData();
 	}
+	
+	@Test
+	public void checks_if_adds_should_be_displayed_in_onCreate(){
+		sut.onCreate(null);
+		verify(adsShouldBeDisplayedCheckerMock).adsShouldBeDisplayed();
+	}
+	
+	
 	
 }

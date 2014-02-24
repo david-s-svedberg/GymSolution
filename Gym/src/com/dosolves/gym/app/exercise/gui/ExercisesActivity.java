@@ -15,7 +15,7 @@ public class ExercisesActivity extends UserUpdateableItemsActivity implements Cu
 	private Category currentCategory;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setCurrentCategory();
 		setupBackNavigation();		
