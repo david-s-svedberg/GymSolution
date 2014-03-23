@@ -5,19 +5,15 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 
-@RunWith(RobolectricTestRunner.class)
 public class UserUpdateableItemsControllerTest {
-
 	
 	private static final String ITEM_NAME = "itemName";
 	private static final int POSITION = 3456;
@@ -31,7 +27,6 @@ public class UserUpdateableItemsControllerTest {
 	RenameDialogShower renameDialogShowerMock;
 	
 	UserUpdateableItemsControllerMock sut;
-	
 	
 	@Before
 	public void setUp() throws Exception{

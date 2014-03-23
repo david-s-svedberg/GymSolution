@@ -1,6 +1,6 @@
 package com.dosolves.gym.domain;
 
-public interface AdsShouldBeDisplayedChecker {
+public interface AdsShouldBeDisplayedDecider {
 
 	boolean adsShouldBeDisplayed();
 

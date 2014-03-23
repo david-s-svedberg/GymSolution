@@ -12,7 +12,9 @@ import org.robolectric.RobolectricTestRunner;
 import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
+import com.dosolves.gym.ads.AdsController;
 import com.dosolves.gym.app.TypeMatchingModelComposer;
+import com.dosolves.gym.app.ads.AdsModelFactory;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
@@ -54,7 +56,10 @@ public class ModelComposerTest extends AndroidTestCase{
 	PerformanceAdapter performanceAdapterMock;
 	@Mock
 	PerformanceController performanceControllerMock;
-	
+	@Mock
+	AdsModelFactory adsModelFactoryMock;
+	@Mock
+	AdsController adsControllerMock;
 	
 	ModelComposer sut;
 	
@@ -66,7 +71,8 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut = new TypeMatchingModelComposer(categorytModelFactoryMock, 
 											exerciseModelFactoryMock,
-											performanceModelFactoryMock);
+											performanceModelFactoryMock,
+											adsModelFactoryMock);
 	}
 	
 	@Test
@@ -76,12 +82,14 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(categoriesActivityMock);
 		
 		verify(categorytModelFactoryMock).createAdapter(categoriesActivityMock);
-		verify(categorytModelFactoryMock).createController(categoriesActivityMock, categoryAdapterMock);		
+		verify(categorytModelFactoryMock).createController(categoriesActivityMock, categoryAdapterMock);
+		verify(adsModelFactoryMock).createController(categoriesActivityMock);
 	}
 
 	private void stubCategoryAdapterAndControllerCreation() {
 		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
 		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		when(adsModelFactoryMock.createController(categoriesActivityMock)).thenReturn(adsControllerMock);
 	}
 	
 	@Test
@@ -130,13 +138,23 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
+	public void sets_adsController_as_SystemEventListener_for_category(){
+		stubCategoryAdapterAndControllerCreation();
+		
+		sut.compose(categoriesActivityMock);
+		
+		verify(categoriesActivityMock).setSystemEventListener(adsControllerMock);
+	}
+	
+	@Test
 	public void polls_factory_for_exercise_components(){
 		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
 		verify(exerciseModelFactoryMock).createAdapter(exercisesActivityMock);
-		verify(exerciseModelFactoryMock).createController(exercisesActivityMock, exerciseAdapterMock, exercisesActivityMock);		
+		verify(exerciseModelFactoryMock).createController(exercisesActivityMock, exerciseAdapterMock, exercisesActivityMock);
+		verify(adsModelFactoryMock).createController(exercisesActivityMock);
 	}
 	
 	@Test
@@ -183,10 +201,20 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		verify(exercisesActivityMock).setReadyToGetDataCallback(exerciseControllerMock);
 	}
-
+	
+	@Test
+	public void sets_adsController_as_SystemEventListener_for_ExercisesActivity(){
+		stubExerciseAdapterAndControllerCreation();
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exercisesActivityMock).setSystemEventListener(adsControllerMock);
+	}
+	
 	private void stubExerciseAdapterAndControllerCreation() {
 		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
 		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock,exercisesActivityMock)).thenReturn(exerciseControllerMock);
+		when(adsModelFactoryMock.createController(exercisesActivityMock)).thenReturn(adsControllerMock);
 	}
 	
 	@Test
@@ -196,12 +224,14 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceModelFactoryMock).createAdapter(performanceActivityMock);
-		verify(performanceModelFactoryMock).createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock, performanceActivityMock);		
+		verify(performanceModelFactoryMock).createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock, performanceActivityMock);
+		verify(adsModelFactoryMock).createController(performanceActivityMock);
 	}
 
 	private void stubPerformanceAdapterAndControllerCreation() {
 		when(performanceModelFactoryMock.createAdapter(performanceActivityMock)).thenReturn(performanceAdapterMock);
 		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock, performanceActivityMock)).thenReturn(performanceControllerMock);
+		when(adsModelFactoryMock.createController(performanceActivityMock)).thenReturn(adsControllerMock);
 	}
 	
 	@Test
@@ -248,6 +278,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		verify(performanceAdapterMock).setSetMenuRequestedCallback(performanceControllerMock);				
 	}
+	
 	
 	
 }

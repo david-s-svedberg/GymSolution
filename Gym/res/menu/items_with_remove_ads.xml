@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+	<!-- Add, should appear as action button -->
+    <item android:id="@+id/add_item"
+          android:icon="@drawable/ic_action_new"
+          android:title="@string/add_item"
+          android:showAsAction="ifRoom" />
+    
+    <item android:id="@+id/purchase_remove_ads"
+          android:icon="@drawable/ic_action_accounts"
+          android:title="@string/remove_ads"          
+          android:showAsAction="ifRoom" />
+
+</menu>

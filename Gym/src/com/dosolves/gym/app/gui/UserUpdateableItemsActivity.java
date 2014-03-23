@@ -10,23 +10,26 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.domain.AdsShouldBeDisplayedChecker;
+import com.dosolves.gym.ads.MenuSetter;
+import com.dosolves.gym.ads.SystemEventListener;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
-public abstract class UserUpdateableItemsActivity extends ListActivity implements OnItemLongClickListener{
+public abstract class UserUpdateableItemsActivity extends ListActivity implements OnItemLongClickListener, MenuSetter{
 
 	private AddItemRequestedCallBack addItemRequestedCallBack;
 	private ItemMenuRequestedCallback itemMenuRequestedCallback;
 	private OpenItemRequestedCallback openItemRequestedCallback;
 	private ReadyToGetDataCallback readyToGetDataCallback;
-	private AdsShouldBeDisplayedChecker adsShouldBeDisplayedChecker;
+	private SystemEventListener systemEventListener;
+	private boolean shouldDisplayPurchaseAdsRemovalMenu;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.getListView().setLongClickable(true);
-		this.getListView().setOnItemLongClickListener(this);		
+		this.getListView().setOnItemLongClickListener(this);
+		systemEventListener.onUIAboutToBeShown();
 	}
 	
 	@Override
@@ -39,6 +42,7 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 		this.addItemRequestedCallBack = addItemRequestedCallBack;		
 	}
 
+	
 	public void setItemMenuRequestedCallback(ItemMenuRequestedCallback itemMenuRequestedCallback) {
 		this.itemMenuRequestedCallback = itemMenuRequestedCallback;
 	}
@@ -51,10 +55,19 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 		this.readyToGetDataCallback = readyToGetDataCallback;
 	}
 	
+	public void setSystemEventListener(SystemEventListener systemEventListener) {
+		this.systemEventListener = systemEventListener;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.items, menu);
+		systemEventListener.onMenuShouldBeCreated();
+		getMenuInflater().inflate(decideMenuIdToShow(), menu);
 		return true;
+	}
+
+	private int decideMenuIdToShow() {
+		return shouldDisplayPurchaseAdsRemovalMenu ? R.menu.items_with_remove_ads : R.menu.items;
 	}
 	
 	@Override	
@@ -84,8 +97,14 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 		openItemRequestedCallback.onOpenItemRequested(position);
 	}
 
-	public void setAdsShouldBeDisplayedChecker(AdsShouldBeDisplayedChecker adsShouldBeDisplayedChecker) {
-		this.adsShouldBeDisplayedChecker = adsShouldBeDisplayedChecker;		
+	@Override
+	public void setAdsMenu() {
+		shouldDisplayPurchaseAdsRemovalMenu = true;
 	}
 
+	@Override
+	public void setAdsFreeMenu() {
+		shouldDisplayPurchaseAdsRemovalMenu = false;
+	}
+	
 }

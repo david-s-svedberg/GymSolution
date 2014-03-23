@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.ads.MenuSetter;
+import com.dosolves.gym.ads.SystemEventListener;
 import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
@@ -23,7 +26,7 @@ import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
 
-public class PerformanceActivity extends Activity implements CurrentExerciseHolder, FragmentManagerProvider, SetShouldBeEditedCallback{
+public class PerformanceActivity extends Activity implements CurrentExerciseHolder, FragmentManagerProvider, SetShouldBeEditedCallback, MenuSetter{
 
 	public static final String EXERCISE_BUNDLE_KEY = "EXERCISE_BUNDLE_KEY";
 
@@ -40,19 +43,34 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	private ReadyToGetDataCallback readyToGetDataCallback;
 
+	private SystemEventListener systemEventListener;
+
+	private boolean shouldDisplayPurchaseAdsRemovalMenu;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setCurrentExercise();		
-		setContentView(R.layout.activity_exercise_input);
+		systemEventListener.onUIAboutToBeShown();
+		setCurrentExercise();
 		setupViewFields();
-		
 		disableEnterButton();
 		setupAdapter();
 		setupClickListener();
 		setupButtonEnabledListener();
 		setupActionBar();
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		systemEventListener.onMenuShouldBeCreated();
+		
+		if(shouldDisplayPurchaseAdsRemovalMenu)
+			getMenuInflater().inflate(R.menu.only_remove_ads, menu);	
+		
+		return shouldDisplayPurchaseAdsRemovalMenu;
+	}
+	
+	
 	
 	private void setCurrentExercise() {
 		currentExercise = (Exercise)getIntent().getSerializableExtra(EXERCISE_BUNDLE_KEY);
@@ -203,6 +221,20 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	@Override
 	public void onSetShouldBeUpdated(Set set, int newReps, double newWeight) {
 		setShouldBeEditedCallback.onSetShouldBeUpdated(set, newReps, newWeight);
+	}
+
+	public void setSystemEventListener(SystemEventListener systemEventListener) {
+		this.systemEventListener = systemEventListener;
+	}
+	
+	@Override
+	public void setAdsMenu() {
+		shouldDisplayPurchaseAdsRemovalMenu = true;
+	}
+
+	@Override
+	public void setAdsFreeMenu() {
+		shouldDisplayPurchaseAdsRemovalMenu = false;
 	}
 
 }

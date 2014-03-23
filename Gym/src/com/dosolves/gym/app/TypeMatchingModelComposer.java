@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
+import com.dosolves.gym.ads.AdsController;
+import com.dosolves.gym.app.ads.AdsModelFactory;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
@@ -25,13 +27,16 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	private CategoryModelFactory categoryModelFactory;
 	private ExerciseModelFactory exerciseModelFactory;
 	private PerformanceModelFactory performanceModelFactory;
+	private AdsModelFactory adsModelFactory;
 
 	public TypeMatchingModelComposer(CategoryModelFactory categoryModelFactory, 
 									 ExerciseModelFactory exerciseModelFactory, 
-									 PerformanceModelFactory performanceModelFactory) {
+									 PerformanceModelFactory performanceModelFactory, 
+									 AdsModelFactory adsModelFactory) {
 		this.categoryModelFactory = categoryModelFactory;
 		this.exerciseModelFactory = exerciseModelFactory;
 		this.performanceModelFactory = performanceModelFactory;
+		this.adsModelFactory = adsModelFactory;
 	}
 
 	@Override
@@ -63,6 +68,8 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	}
 	
 	private void composeUserUpdateableItemsModel(UserUpdateableItemsActivity activity, UserUpdateableItemsController controller, ListAdapter adapter) {
+		AdsController adsController = adsModelFactory.createController(activity);
+		activity.setSystemEventListener(adsController);
 		activity.setListAdapter(adapter);
 		activity.setAddItemRequestedCallBack(controller);
 		activity.setItemMenuRequestedCallback(controller);
@@ -73,6 +80,8 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	private void composePerformanceModel(PerformanceActivity activity) {
 		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);	
 		PerformanceController controller = performanceModelFactory.createController(activity, adapter, activity, activity);
+		AdsController adsController = adsModelFactory.createController(activity);
+		activity.setSystemEventListener(adsController);
 		adapter.setSetMenuRequestedCallback(controller);
 		activity.setAdapter(adapter);
 		activity.setNewSetShouldBeCreatedCallback(controller);
@@ -81,4 +90,3 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	}
 
 }
-
