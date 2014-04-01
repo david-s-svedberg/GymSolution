@@ -24,7 +24,7 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 		PreferenceRetriever preferenceRetriever = new ContextPreferenceRetriever(activity);
 		AdsShouldBeDisplayedDecider adsShouldBeDisplayedDecider = new PreferenceAdsShouldBeDisplayedDecider(preferenceRetriever);
 		
-		return new AdsController(adsShouldBeDisplayedDecider, viewSetter, menuSetter, adsInitializer);		
+		return new AdsController(adsShouldBeDisplayedDecider, viewSetter, menuSetter, adsInitializer, null);		
 	}
 
 	private ViewSetter createViewSetter(Activity activity) {

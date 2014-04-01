@@ -1,8 +1,8 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: /home/david/Dev/Workspace/GymSolution/Gym/src/com/dosolves/gym/services/IInAppBillingService.aidl
+ * Original file: /home/david/Dev/Workspace/GymSolution/InAppBillingLib/src/com/android/vending/billing/IInAppBillingService.aidl
  */
-package com.dosolves.gym.services;
+package com.android.vending.billing;
 /**
  * InAppBillingService is the service that provides in-app billing version 3 and beyond.
  * This service provides the following features:
@@ -30,28 +30,28 @@ package com.dosolves.gym.services;
 public interface IInAppBillingService extends android.os.IInterface
 {
 /** Local-side IPC implementation stub class. */
-public static abstract class Stub extends android.os.Binder implements com.dosolves.gym.services.IInAppBillingService
+public static abstract class Stub extends android.os.Binder implements com.android.vending.billing.IInAppBillingService
 {
-private static final java.lang.String DESCRIPTOR = "com.dosolves.gym.services.IInAppBillingService";
+private static final java.lang.String DESCRIPTOR = "com.android.vending.billing.IInAppBillingService";
 /** Construct the stub at attach it to the interface. */
 public Stub()
 {
 this.attachInterface(this, DESCRIPTOR);
 }
 /**
- * Cast an IBinder object into an com.dosolves.gym.services.IInAppBillingService interface,
+ * Cast an IBinder object into an com.android.vending.billing.IInAppBillingService interface,
  * generating a proxy if needed.
  */
-public static com.dosolves.gym.services.IInAppBillingService asInterface(android.os.IBinder obj)
+public static com.android.vending.billing.IInAppBillingService asInterface(android.os.IBinder obj)
 {
 if ((obj==null)) {
 return null;
 }
 android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
-if (((iin!=null)&&(iin instanceof com.dosolves.gym.services.IInAppBillingService))) {
-return ((com.dosolves.gym.services.IInAppBillingService)iin);
+if (((iin!=null)&&(iin instanceof com.android.vending.billing.IInAppBillingService))) {
+return ((com.android.vending.billing.IInAppBillingService)iin);
 }
-return new com.dosolves.gym.services.IInAppBillingService.Stub.Proxy(obj);
+return new com.android.vending.billing.IInAppBillingService.Stub.Proxy(obj);
 }
 @Override public android.os.IBinder asBinder()
 {
@@ -170,7 +170,7 @@ return true;
 }
 return super.onTransact(code, data, reply, flags);
 }
-private static class Proxy implements com.dosolves.gym.services.IInAppBillingService
+private static class Proxy implements com.android.vending.billing.IInAppBillingService
 {
 private android.os.IBinder mRemote;
 Proxy(android.os.IBinder remote)

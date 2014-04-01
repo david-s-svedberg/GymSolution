@@ -12,8 +12,10 @@ import android.view.Menu;
 
 import com.dosolves.gym.ads.AdsController;
 import com.dosolves.gym.ads.AdsInitializer;
+import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.ads.SystemEventListener;
+import com.dosolves.gym.ads.UserGestureListener;
 import com.dosolves.gym.ads.ViewSetter;
 import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 
@@ -29,17 +31,22 @@ public class AdsControllerTest {
 	Menu menuMock;
 	@Mock
 	AdsInitializer adsInitializerMock;
+	@Mock
+	AdsRemovalBuyer adsRemovalBuyerMock;
 	
 	AdsController sut;
 	SystemEventListener sutAsSystemEventListener;
+	UserGestureListener sutAsUserGestureListener;
+	
 	
 	@Before
 	public void setUp(){
 		MockitoAnnotations.initMocks(this);
 		
-		AdsController impl = new AdsController(deciderMock, viewSetterMock, menuSetterMock, adsInitializerMock);
+		AdsController impl = new AdsController(deciderMock, viewSetterMock, menuSetterMock, adsInitializerMock, adsRemovalBuyerMock);
 		sut = impl;
-		sutAsSystemEventListener =impl; 
+		sutAsSystemEventListener = impl;
+		sutAsUserGestureListener = impl;
 	}
 	
 	@Test
@@ -89,5 +96,12 @@ public class AdsControllerTest {
 		sutAsSystemEventListener.onMenuShouldBeCreated();
 		
 		verify(menuSetterMock).setAdsFreeMenu();
+	}
+	
+	@Test
+	public void calls_AdsRemovalBuyer_when_requested(){
+		sutAsUserGestureListener.onPurchaseAdsRemovalRequested();
+		
+		verify(adsRemovalBuyerMock).buyAdsRemoval();
 	}
 }
