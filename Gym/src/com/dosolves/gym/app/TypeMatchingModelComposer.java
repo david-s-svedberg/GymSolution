@@ -6,6 +6,7 @@ import android.widget.ListAdapter;
 
 import com.dosolves.gym.ads.AdsController;
 import com.dosolves.gym.app.ads.AdsModelFactory;
+import com.dosolves.gym.app.ads.RouterActivity;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
@@ -50,7 +51,14 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		else if(activity instanceof PerformanceActivity){
 			composePerformanceModel((PerformanceActivity)activity);
 		}
+		else if(activity instanceof RouterActivity){
+			composeRouterModel((RouterActivity)activity);
+		}
 		
+	}
+
+	private void composeRouterModel(RouterActivity activity) {
+		activity.setRouterActivityCreatedListener(adsModelFactory.getAdsRemovalBuyer(activity));
 	}
 
 	private void composeExerciseModel(ExercisesActivity activity) {

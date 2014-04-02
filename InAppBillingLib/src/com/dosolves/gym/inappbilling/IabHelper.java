@@ -69,7 +69,7 @@ import java.util.List;
  * @author Bruno Oliveira (Google)
  *
  */
-public class IabHelper {
+public class IabHelper implements ActivityResultListener {
     // Is debug logging enabled?
     boolean mDebugLog = false;
     String mDebugTag = "IabHelper";
@@ -988,4 +988,9 @@ public class IabHelper {
     void logWarn(String msg) {
         Log.w(mDebugTag, "In-app billing warning: " + msg);
     }
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		handleActivityResult(requestCode, resultCode, data);
+	}
 }

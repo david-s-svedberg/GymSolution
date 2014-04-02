@@ -1,9 +1,14 @@
 package com.dosolves.gym.ads.test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.anyInt;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -91,15 +96,15 @@ public class AdsRemovalBuyerAdapterTest {
 		verify(iabHelperMock, times(1)).startSetup(Mockito.any(OnIabSetupFinishedListener.class));
 	}
 	
-	@Ignore("Wait until ActivityRouting is completed")
 	@Test
-	public void continues_with_purchase_upon_successful_initxialization_after_rerunof_startSetup_on_buyAdsRemoval_after_original_setup_failed(){
+	public void continues_with_purchase_upon_successful_initialization_after_rerun_of_startSetup_on_buyAdsRemoval_after_original_setup_failed(){
 		setCurrentResultFail();
 		stupSetupService();
 		setupSut();
 		
 		setCurrentResultSuccess();
 		sut.buyAdsRemoval();
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
 		
 		verify(iabHelperMock, times(2)).startSetup(Mockito.any(OnIabSetupFinishedListener.class));
 		verify(iabHelperMock, times(1)).launchPurchaseFlow(Mockito.any(Activity.class), anyString(), anyInt(), Mockito.any(OnIabPurchaseFinishedListener.class), anyString());
@@ -160,7 +165,6 @@ public class AdsRemovalBuyerAdapterTest {
 		verify(adsRemovalPurchasedListenerMock).onAdsRemovalPurchased();
 	}
 	
-
 	private void stupSetupService() {
 		doAnswer(new Answer<IabHelper>(){
 			@Override

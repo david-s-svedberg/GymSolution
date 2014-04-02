@@ -9,12 +9,15 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import android.app.Activity;
 import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.ads.AdsController;
 import com.dosolves.gym.app.TypeMatchingModelComposer;
 import com.dosolves.gym.app.ads.AdsModelFactory;
+import com.dosolves.gym.app.ads.AdsRemovalBuyerAdapter;
+import com.dosolves.gym.app.ads.RouterActivity;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
@@ -28,6 +31,7 @@ import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 import com.dosolves.gym.domain.performance.PerformanceController;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
+import com.dosolves.gym.inappbilling.IabHelper;
 
 @RunWith(RobolectricTestRunner.class)
 public class ModelComposerTest extends AndroidTestCase{
@@ -60,9 +64,14 @@ public class ModelComposerTest extends AndroidTestCase{
 	AdsModelFactory adsModelFactoryMock;
 	@Mock
 	AdsController adsControllerMock;
+	@Mock
+	RouterActivity routerActivityMock;
+	@Mock
+	AdsRemovalBuyerAdapter adsRemovalBuyerMock;
+	@Mock
+	IabHelper iabHelperMock;
 	
 	ModelComposer sut;
-	
 	
 	
 	@Before
@@ -279,6 +288,26 @@ public class ModelComposerTest extends AndroidTestCase{
 		verify(performanceAdapterMock).setSetMenuRequestedCallback(performanceControllerMock);				
 	}
 	
+	@Test
+	public void sets_AdsRemovalBuyer_as_RouterActivityCreatedListener_on_RouterActivity(){
 	
+		when(adsModelFactoryMock.getAdsRemovalBuyer(routerActivityMock)).thenReturn(adsRemovalBuyerMock);
+		
+		sut.compose(routerActivityMock);
+		
+		verify(routerActivityMock).setRouterActivityCreatedListener(adsRemovalBuyerMock);
+		
+	}
+	
+	@Test
+	public void sets_iabHelper_as_ActivityResultListener_on_RouterActivity(){
+	
+		when(adsModelFactoryMock.getIabHelper(routerActivityMock)).thenReturn(iabHelperMock);
+		
+		sut.compose(routerActivityMock);
+		
+		verify(routerActivityMock).setActivityResultListener(iabHelperMock);
+		
+	}
 	
 }

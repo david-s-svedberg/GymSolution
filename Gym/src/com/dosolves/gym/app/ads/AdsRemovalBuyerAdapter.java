@@ -78,7 +78,9 @@ public class AdsRemovalBuyerAdapter implements AdsRemovalBuyer, RouterActivityCr
 
 	@Override
 	public void onIabPurchaseFinished(IabResult result, Purchase info) {
-		
+		if(result.isSuccess()){
+			adsRemovalPurchasedListener.onAdsRemovalPurchased();
+		}
 	}
 
 }
