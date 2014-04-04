@@ -16,6 +16,7 @@ import com.dosolves.gym.domain.performance.Set;
 
 public class SetButton extends Button {
 
+	private static final int DARK_GREEN = Color.rgb(33, 150, 00);
 	private static final int MARGIN = 5;
 	private Rect clipBounds = new Rect();
 	private Rect textBounds = new Rect();
@@ -59,7 +60,7 @@ public class SetButton extends Button {
 		
 		float weightX = findCenterXForString(weight, clipBounds);
 		float weightY = findCenterYForWeight(weight, clipBounds);
-		textPaint.setColor(Color.BLACK);
+		textPaint.setColor(DARK_GREEN);
 		canvas.drawText(reps, repsX, repsY, textPaint);
 		textPaint.setColor(Color.RED);
 		canvas.drawText(weight, weightX, weightY, textPaint);
