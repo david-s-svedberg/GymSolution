@@ -1,6 +1,6 @@
 package com.dosolves.gym.app.test;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import android.app.Activity;
 import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
@@ -147,6 +146,15 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
+	public void sets_adsController_as_AdsUserGestureListener_for_category(){
+		stubCategoryAdapterAndControllerCreation();
+		
+		sut.compose(categoriesActivityMock);
+		
+		verify(categoriesActivityMock).setAdsUserGestureListener(adsControllerMock);
+	}
+	
+	@Test
 	public void sets_adsController_as_SystemEventListener_for_category(){
 		stubCategoryAdapterAndControllerCreation();
 		
@@ -220,6 +228,15 @@ public class ModelComposerTest extends AndroidTestCase{
 		verify(exercisesActivityMock).setSystemEventListener(adsControllerMock);
 	}
 	
+	@Test
+	public void sets_adsController_as_AdsUserGestureListener_for_exercise(){
+		stubExerciseAdapterAndControllerCreation();
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(exercisesActivityMock).setAdsUserGestureListener(adsControllerMock);
+	}
+	
 	private void stubExerciseAdapterAndControllerCreation() {
 		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
 		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock,exercisesActivityMock)).thenReturn(exerciseControllerMock);
@@ -289,6 +306,24 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
+	public void sets_adsController_as_SystemEventListener_for_performance(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceActivityMock).setSystemEventListener(adsControllerMock);
+	}
+	
+	@Test
+	public void sets_adsController_as_AdsUserGestureListener_for_performance(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceActivityMock).setAdsUserGestureListener(adsControllerMock);
+	}
+	
+	@Test
 	public void sets_AdsRemovalBuyer_as_RouterActivityCreatedListener_on_RouterActivity(){
 	
 		when(adsModelFactoryMock.getAdsRemovalBuyer(routerActivityMock)).thenReturn(adsRemovalBuyerMock);
@@ -301,7 +336,6 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_iabHelper_as_ActivityResultListener_on_RouterActivity(){
-	
 		when(adsModelFactoryMock.getIabHelper(routerActivityMock)).thenReturn(iabHelperMock);
 		
 		sut.compose(routerActivityMock);

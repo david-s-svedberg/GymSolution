@@ -1,5 +1,8 @@
 package com.dosolves.gym.app.ads;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dosolves.gym.utils.StringUtils;
 
 import android.accounts.Account;
@@ -17,11 +20,33 @@ public class GoogleAcountPayloadGenerator implements
 
 	@Override
 	public String generateUserSpecificPayload() {
-		Account[] accounts = accountManager.getAccountsByType(GOOGLE_ACCOUNT_TYPE_STRING);
+		Account[] accounts = getAllGoogleAccounts();
 		if(accounts.length > 0){
-			return accounts[0].name+"¤"+StringUtils.reverse("noitacilppamygsevlosod");
+			return generatePayloadForAccount(accounts[0]);
 		}
 		return null;
+	}
+
+	private String generatePayloadForAccount(Account account) {
+		return account.name+"¤"+StringUtils.reverse("noitacilppamygsevlosod");
+	}
+
+	private Account[] getAllGoogleAccounts() {
+		return accountManager.getAccountsByType(GOOGLE_ACCOUNT_TYPE_STRING);
+	}
+
+	@Override
+	public String[] generateAllPossiblePayloads() {
+		List<String> payloads = new ArrayList<String>();
+		Account[] accounts = getAllGoogleAccounts();
+		for(Account currentAccount:accounts){
+			payloads.add(generatePayloadForAccount(currentAccount));
+		}
+		return toStringArray(payloads);
+	}
+
+	private String[] toStringArray(List<String> payloads) {
+		return payloads.toArray(new String[0]);
 	}
 
 }

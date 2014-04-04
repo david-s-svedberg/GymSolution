@@ -1,4 +1,4 @@
-package com.dosolves.gym.app;
+package com.dosolves.gym.app.ads;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
@@ -11,18 +11,12 @@ import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.AdsRemovalPurchasedListener;
 import com.dosolves.gym.ads.ApplicationRestarter;
 import com.dosolves.gym.ads.MenuSetter;
+import com.dosolves.gym.ads.UserSpecificPayloadValidator;
 import com.dosolves.gym.ads.UserThanker;
 import com.dosolves.gym.ads.ViewSetter;
-import com.dosolves.gym.app.ads.AdsModelFactory;
-import com.dosolves.gym.app.ads.AdsRemovalBoughtController;
-import com.dosolves.gym.app.ads.AdsRemovalBuyerAdapter;
-import com.dosolves.gym.app.ads.ContextApplicationRestarter;
-import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
-import com.dosolves.gym.app.ads.GoogleAcountPayloadGenerator;
-import com.dosolves.gym.app.ads.PreferensesAdsRemovalBoughtStorer;
-import com.dosolves.gym.app.ads.RouterActivityStarter;
-import com.dosolves.gym.app.ads.ToastUserThanker;
-import com.dosolves.gym.app.ads.UserSpecificPayloadGenerator;
+import com.dosolves.gym.app.ContextPreferenceRetriever;
+import com.dosolves.gym.app.PreferenceAdsShouldBeDisplayedDecider;
+import com.dosolves.gym.app.PreferenceRetriever;
 import com.dosolves.gym.app.gui.AdsInitializerImpl;
 import com.dosolves.gym.app.gui.CategoryAndExerciseViewSetter;
 import com.dosolves.gym.app.gui.PerformaceViewSetter;
@@ -34,6 +28,8 @@ import com.dosolves.gym.utils.StringUtils;
 
 public class AdsModelFactoryImpl implements AdsModelFactory {
 
+	private static final boolean TEST = true;
+	
 	private IabHelper iabHelperInstance;
 	private AdsRemovalBuyerAdapter adsRemovalBuyerInstance;
 
@@ -76,12 +72,15 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 		UserSpecificPayloadGenerator payloadGenerator = new GoogleAcountPayloadGenerator(AccountManager.get(context));
 		PreferenceRetriever preferenceRetriver = new ContextPreferenceRetriever(context);
 		AdsRemovalBoughtStorer adsRemovalBoughtStorer = new PreferensesAdsRemovalBoughtStorer(preferenceRetriver);
-		
 		UserThanker userThanker = new ToastUserThanker(context);
 		ApplicationRestarter restarter = new ContextApplicationRestarter(context); 
-		
 		AdsRemovalPurchasedListener adsRemovalPurchasedListener = new AdsRemovalBoughtController(adsRemovalBoughtStorer, userThanker, restarter);  
-		return new AdsRemovalBuyerAdapter(iabHelper, routerActivityStarter, payloadGenerator, adsRemovalPurchasedListener);
+		UserSpecificPayloadValidator userSpecificPayloadValidator = new GoogleAccountUserSpecificPayloadValidator(payloadGenerator);
+	
+		if(TEST)
+			return new AdsRemovalBuyerAdapterForTest(iabHelper, routerActivityStarter, payloadGenerator, adsRemovalPurchasedListener, userSpecificPayloadValidator);
+		else			
+			return new AdsRemovalBuyerAdapter(iabHelper, routerActivityStarter, payloadGenerator, adsRemovalPurchasedListener, userSpecificPayloadValidator);
 	}
 
 	private String constructPublicKey() {
@@ -106,8 +105,8 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 	@Override
 	public IabHelper getIabHelper(Context context) {
 		if(iabHelperInstance == null)
-			iabHelperInstance = new IabHelper(context, constructPublicKey());
+			iabHelperInstance = new IabHelper(context, constructPublicKey(), TEST);
 		return iabHelperInstance;
 	}
-
+	
 }

@@ -54,4 +54,14 @@ public class UserSpecificPayloadGeneratorTest {
 		assertEquals("asdf@asdf.com¤dosolvesgymapplication", payload);
 	}
 	
+	@Test
+	public void generates_one_payload_for_each_google_account(){
+		Account[] accounts = new Account[]{accountMock, accountMock, accountMock};
+		when(accountManagerMock.getAccountsByType("com.google")).thenReturn(accounts);
+		
+		String[] allPossiblePayloads = sut.generateAllPossiblePayloads();
+		
+		assertEquals(accounts.length, allPossiblePayloads.length);
+	}
+	
 }

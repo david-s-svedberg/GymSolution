@@ -1,7 +1,5 @@
 package com.dosolves.gym.app.ads;
 
-import com.dosolves.gym.app.performance.gui.PerformanceActivity;
-
 import android.content.Context;
 import android.content.Intent;
 

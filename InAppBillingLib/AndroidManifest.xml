@@ -26,19 +26,7 @@
     <!-- VERY IMPORTANT! Don't forget this permission, or in-app billing won't work. -->
     <uses-permission android:name="com.android.vending.BILLING" />
 
-    <application
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name="com.example.android.trivialdrivesample.MainActivity"
-            android:label="@string/title_activity_main"
-            android:screenOrientation="portrait"
-             >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-    </application>
+    <!-- <application android:label="@string/app_name">
+       
+    </application> -->
 </manifest>

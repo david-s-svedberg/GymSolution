@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.ads.SystemEventListener;
 import com.dosolves.gym.app.gui.FragmentManagerProvider;
@@ -47,6 +48,8 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	private boolean shouldDisplayPurchaseAdsRemovalMenu;
 
+	private AdsUserGestureListener adsUserGestureListener;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,8 +72,6 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		
 		return shouldDisplayPurchaseAdsRemovalMenu;
 	}
-	
-	
 	
 	private void setCurrentExercise() {
 		currentExercise = (Exercise)getIntent().getSerializableExtra(EXERCISE_BUNDLE_KEY);
@@ -183,12 +184,22 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		boolean ret = false;
+		
 		switch (item.getItemId()) {
 		case android.R.id.home:
 			goBackToExerciseActivityWithPreviousState();			
-			return true;
+			ret = true;
+			break;
+		case R.id.purchase_remove_ads:
+			adsUserGestureListener.onPurchaseAdsRemovalRequested();
+			ret = true;
+			break;
+		default:
+			ret = super.onOptionsItemSelected(item);
 		}
-		return super.onOptionsItemSelected(item);
+		
+		return ret;
 	}
 
 	private void goBackToExerciseActivityWithPreviousState() {
@@ -200,12 +211,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	public void setNewSetShouldBeCreatedCallback(NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallback) {
 		this.newSetShouldBeCreatedCallback = newSetShouldBeCreatedCallback;		
 	}
-
-	@Override
-	public Exercise getCurrentExercise() {
-		return currentExercise;
-	}
-
+	
 	public void setAdapter(PerformanceAdapter adapter) {
 		this.adapter = adapter;		
 	}
@@ -217,14 +223,23 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	public void setSetShouldBeEditedCallback(SetShouldBeEditedCallback setShouldBeEditedCallback) {
 		this.setShouldBeEditedCallback = setShouldBeEditedCallback;		
 	}
+	
+	public void setSystemEventListener(SystemEventListener systemEventListener) {
+		this.systemEventListener = systemEventListener;
+	}
+	
+	public void setAdsUserGestureListener(AdsUserGestureListener adsUserGestureListener) {
+		this.adsUserGestureListener = adsUserGestureListener;
+	}
+
+	@Override
+	public Exercise getCurrentExercise() {
+		return currentExercise;
+	}
 
 	@Override
 	public void onSetShouldBeUpdated(Set set, int newReps, double newWeight) {
 		setShouldBeEditedCallback.onSetShouldBeUpdated(set, newReps, newWeight);
-	}
-
-	public void setSystemEventListener(SystemEventListener systemEventListener) {
-		this.systemEventListener = systemEventListener;
 	}
 	
 	@Override

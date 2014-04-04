@@ -13,7 +13,7 @@ public class PreferensesAdsRemovalBoughtStorer implements AdsRemovalBoughtStorer
 
 	@Override
 	public void storeThatAdsRemovalHasBeenBought() {
-		preferenceRetriver.getPreferences().edit().putBoolean("showAds", false);
+		preferenceRetriver.getPreferences().edit().putBoolean("showAds", false).commit();
 	}
 
 }

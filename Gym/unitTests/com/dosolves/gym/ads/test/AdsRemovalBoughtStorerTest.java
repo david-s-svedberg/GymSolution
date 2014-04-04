@@ -37,9 +37,10 @@ public class AdsRemovalBoughtStorerTest {
 	public void stores_value_correctly(){
 		when(preferenceRetriverMock.getPreferences()).thenReturn(preferenceMock);
 		when(preferenceMock.edit()).thenReturn(editorMock);
+		when(editorMock.putBoolean("showAds", false)).thenReturn(editorMock);
 		
 		sut.storeThatAdsRemovalHasBeenBought();
 		
-		verify(editorMock).putBoolean("showAds", false);
+		verify(editorMock).commit();
 	}
 }

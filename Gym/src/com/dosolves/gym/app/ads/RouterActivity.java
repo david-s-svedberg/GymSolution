@@ -29,7 +29,5 @@ public class RouterActivity extends Activity {
 
 	public void setActivityResultListener(ActivityResultListener activityResultListener) {
 		this.activityResultListener = activityResultListener;
-		
 	}
-
 }

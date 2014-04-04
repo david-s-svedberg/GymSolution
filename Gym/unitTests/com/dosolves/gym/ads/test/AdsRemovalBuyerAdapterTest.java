@@ -20,11 +20,13 @@ import android.app.Activity;
 
 import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.AdsRemovalPurchasedListener;
+import com.dosolves.gym.ads.UserSpecificPayloadValidator;
 import com.dosolves.gym.app.ads.AdsRemovalBuyerAdapter;
 import com.dosolves.gym.app.ads.RouterActivityCreatedListener;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.ads.UserSpecificPayloadGenerator;
 import com.dosolves.gym.inappbilling.IabHelper;
+import com.dosolves.gym.inappbilling.Purchase;
 import com.dosolves.gym.inappbilling.IabHelper.OnIabPurchaseFinishedListener;
 import com.dosolves.gym.inappbilling.IabHelper.OnIabSetupFinishedListener;
 import com.dosolves.gym.inappbilling.IabResult;
@@ -32,6 +34,7 @@ import com.dosolves.gym.inappbilling.IabResult;
 public class AdsRemovalBuyerAdapterTest {
 
 	private static final String USER_SPECIFIC_PAYLOAD = "userSpecificPayload";
+
 	@Mock
 	IabHelper iabHelperMock;
 	@Mock
@@ -42,13 +45,16 @@ public class AdsRemovalBuyerAdapterTest {
 	UserSpecificPayloadGenerator userSpecificPayloadGeneratorMock;
 	@Mock
 	AdsRemovalPurchasedListener adsRemovalPurchasedListenerMock;
+	@Mock
+	UserSpecificPayloadValidator userSpecificPayloadValidatorMock;
+	@Mock
+	Purchase purchaseMock;
 	
 	IabResult currentResult;
 	
 	AdsRemovalBuyer sut;
 	RouterActivityCreatedListener sutAsRouterActivityCreatedListener;
 	OnIabPurchaseFinishedListener sutAsIabPurchaseFinishedListener;
-	
 		
 	@Before
 	public void setUp(){
@@ -59,7 +65,8 @@ public class AdsRemovalBuyerAdapterTest {
 		AdsRemovalBuyerAdapter sutImpl = new AdsRemovalBuyerAdapter(iabHelperMock, 
 																	routerActivityStarterMock, 
 																	userSpecificPayloadGeneratorMock,
-																	adsRemovalPurchasedListenerMock);
+																	adsRemovalPurchasedListenerMock,
+																	userSpecificPayloadValidatorMock);
 		sut = sutImpl;
 		sutAsRouterActivityCreatedListener = sutImpl;
 		sutAsIabPurchaseFinishedListener = sutImpl;
@@ -143,6 +150,31 @@ public class AdsRemovalBuyerAdapterTest {
 	}
 	
 	@Test
+	public void ignores_concurrent_calls_fromRouterCreated(){
+		setCurrentResultSuccess();
+		stupSetupService();
+		setupSut();
+		
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		
+		verify(iabHelperMock, times(1)).launchPurchaseFlow(eq(activityMock), anyString(), anyInt(), Mockito.any(OnIabPurchaseFinishedListener.class), anyString());
+	}
+	
+	@Test
+	public void can_start_purchaseflow_after_finished_previsou_one(){
+		setCurrentResultSuccess();
+		stupSetupService();
+		setupSut();
+		
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		sutAsIabPurchaseFinishedListener.onIabPurchaseFinished(currentResult, purchaseMock);
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		
+		verify(iabHelperMock, times(2)).launchPurchaseFlow(eq(activityMock), anyString(), anyInt(), Mockito.any(OnIabPurchaseFinishedListener.class), anyString());
+	}
+	
+	@Test
 	public void generates_payload_with_UserSpecificPayloadCreator(){
 		setCurrentResultSuccess();
 		stupSetupService();
@@ -161,8 +193,25 @@ public class AdsRemovalBuyerAdapterTest {
 		stupSetupService();
 		setupSut();
 		
-		sutAsIabPurchaseFinishedListener.onIabPurchaseFinished(currentResult, null);
+		when(purchaseMock.getDeveloperPayload()).thenReturn(USER_SPECIFIC_PAYLOAD);
+		when(userSpecificPayloadValidatorMock.payloadChecksOut(anyString())).thenReturn(true);
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		sutAsIabPurchaseFinishedListener.onIabPurchaseFinished(currentResult, purchaseMock);
 		verify(adsRemovalPurchasedListenerMock).onAdsRemovalPurchased();
+	}
+	
+	@Test
+	public void doesnt_notifie_listener_if_payload_doesnt_check_out(){
+		setCurrentResultSuccess();
+		stupSetupService();
+		setupSut();
+		
+		when(purchaseMock.getDeveloperPayload()).thenReturn(USER_SPECIFIC_PAYLOAD);
+		when(userSpecificPayloadValidatorMock.payloadChecksOut(anyString())).thenReturn(false);
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		sutAsIabPurchaseFinishedListener.onIabPurchaseFinished(currentResult, purchaseMock);
+		
+		Mockito.verifyNoMoreInteractions(adsRemovalPurchasedListenerMock);
 	}
 	
 	private void stupSetupService() {

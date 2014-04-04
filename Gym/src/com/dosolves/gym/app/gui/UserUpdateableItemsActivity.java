@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.ads.SystemEventListener;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
@@ -17,12 +18,14 @@ import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
 public abstract class UserUpdateableItemsActivity extends ListActivity implements OnItemLongClickListener, MenuSetter{
 
+	private boolean shouldDisplayPurchaseAdsRemovalMenu;
+	
 	private AddItemRequestedCallBack addItemRequestedCallBack;
 	private ItemMenuRequestedCallback itemMenuRequestedCallback;
 	private OpenItemRequestedCallback openItemRequestedCallback;
 	private ReadyToGetDataCallback readyToGetDataCallback;
 	private SystemEventListener systemEventListener;
-	private boolean shouldDisplayPurchaseAdsRemovalMenu;
+	private AdsUserGestureListener adsUserGestureListener;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,6 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	public void setAddItemRequestedCallBack(AddItemRequestedCallBack addItemRequestedCallBack) {
 		this.addItemRequestedCallBack = addItemRequestedCallBack;		
 	}
-
 	
 	public void setItemMenuRequestedCallback(ItemMenuRequestedCallback itemMenuRequestedCallback) {
 		this.itemMenuRequestedCallback = itemMenuRequestedCallback;
@@ -57,6 +59,10 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	
 	public void setSystemEventListener(SystemEventListener systemEventListener) {
 		this.systemEventListener = systemEventListener;
+	}
+	
+	public void setAdsUserGestureListener(AdsUserGestureListener adsUserGestureListener) {
+		this.adsUserGestureListener = adsUserGestureListener;
 	}
 	
 	@Override
@@ -77,6 +83,10 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 		switch (item.getItemId()){
 			case R.id.add_item:
 				addItemRequestedCallBack.onAddItemRequested();
+				ret = true;
+				break;
+			case R.id.purchase_remove_ads:
+				adsUserGestureListener.onPurchaseAdsRemovalRequested();
 				ret = true;
 				break;
 			default:

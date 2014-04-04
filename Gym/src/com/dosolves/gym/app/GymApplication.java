@@ -1,6 +1,7 @@
 package com.dosolves.gym.app;
 
 import com.dosolves.gym.app.ads.AdsModelFactory;
+import com.dosolves.gym.app.ads.AdsModelFactoryImpl;
 import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;

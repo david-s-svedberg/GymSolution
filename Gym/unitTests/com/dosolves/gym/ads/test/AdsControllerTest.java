@@ -15,7 +15,7 @@ import com.dosolves.gym.ads.AdsInitializer;
 import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.ads.SystemEventListener;
-import com.dosolves.gym.ads.UserGestureListener;
+import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.ViewSetter;
 import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 
@@ -36,7 +36,7 @@ public class AdsControllerTest {
 	
 	AdsController sut;
 	SystemEventListener sutAsSystemEventListener;
-	UserGestureListener sutAsUserGestureListener;
+	AdsUserGestureListener sutAsUserGestureListener;
 	
 	
 	@Before

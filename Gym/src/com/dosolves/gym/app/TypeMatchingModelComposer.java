@@ -59,6 +59,7 @@ public class TypeMatchingModelComposer implements ModelComposer {
 
 	private void composeRouterModel(RouterActivity activity) {
 		activity.setRouterActivityCreatedListener(adsModelFactory.getAdsRemovalBuyer(activity));
+		activity.setActivityResultListener(adsModelFactory.getIabHelper(activity));
 	}
 
 	private void composeExerciseModel(ExercisesActivity activity) {
@@ -78,6 +79,7 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	private void composeUserUpdateableItemsModel(UserUpdateableItemsActivity activity, UserUpdateableItemsController controller, ListAdapter adapter) {
 		AdsController adsController = adsModelFactory.createController(activity);
 		activity.setSystemEventListener(adsController);
+		activity.setAdsUserGestureListener(adsController);
 		activity.setListAdapter(adapter);
 		activity.setAddItemRequestedCallBack(controller);
 		activity.setItemMenuRequestedCallback(controller);
@@ -89,8 +91,10 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);	
 		PerformanceController controller = performanceModelFactory.createController(activity, adapter, activity, activity);
 		AdsController adsController = adsModelFactory.createController(activity);
-		activity.setSystemEventListener(adsController);
+		
 		adapter.setSetMenuRequestedCallback(controller);
+		activity.setSystemEventListener(adsController);
+		activity.setAdsUserGestureListener(adsController);
 		activity.setAdapter(adapter);
 		activity.setNewSetShouldBeCreatedCallback(controller);
 		activity.setSetShouldBeEditedCallback(controller);

@@ -4,4 +4,6 @@ public interface UserSpecificPayloadGenerator {
 
 	String generateUserSpecificPayload();
 
+	String[] generateAllPossiblePayloads();
+
 }

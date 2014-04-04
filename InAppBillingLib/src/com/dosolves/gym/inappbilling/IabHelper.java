@@ -95,7 +95,8 @@ public class IabHelper implements ActivityResultListener {
     Context mContext;
 
     // Connection to the service
-    IInAppBillingService mService;
+    protected IInAppBillingService mService;
+    
     ServiceConnection mServiceConn;
 
     // The request code used to launch purchase flow
@@ -160,9 +161,11 @@ public class IabHelper implements ActivityResultListener {
      *     public key in your application's page on Google Play Developer Console. Note that this
      *     is NOT your "developer public key".
      */
-    public IabHelper(Context ctx, String base64PublicKey) {
+    public IabHelper(Context ctx, String base64PublicKey, boolean testMode) {
         mContext = ctx.getApplicationContext();
         mSignatureBase64 = base64PublicKey;
+        if(testMode)
+        	Security.setTestMode();
         logDebug("IAB helper created.");
     }
 

@@ -42,6 +42,8 @@ public class Security {
     private static final String KEY_FACTORY_ALGORITHM = "RSA";
     private static final String SIGNATURE_ALGORITHM = "SHA1withRSA";
 
+	private static boolean testMode;
+
     /**
      * Verifies that the data was signed with the given signature, and returns
      * the verified purchase. The data is in JSON format and signed
@@ -55,6 +57,8 @@ public class Security {
         if (TextUtils.isEmpty(signedData) || TextUtils.isEmpty(base64PublicKey) ||
                 TextUtils.isEmpty(signature)) {
             Log.e(TAG, "Purchase verification failed: missing data.");
+            if(testMode)
+            	return true;
             return false;
         }
 
@@ -116,4 +120,8 @@ public class Security {
         }
         return false;
     }
+
+	public static void setTestMode() {
+		testMode = true;
+	}
 }

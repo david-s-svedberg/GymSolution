@@ -1,6 +1,6 @@
 package com.dosolves.gym.ads;
 
-public interface UserGestureListener {
+public interface AdsUserGestureListener {
 
 	void onPurchaseAdsRemovalRequested();
 

@@ -2,7 +2,7 @@ package com.dosolves.gym.ads;
 
 import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 
-public class AdsController implements SystemEventListener, UserGestureListener {
+public class AdsController implements SystemEventListener, AdsUserGestureListener {
 
 	private AdsShouldBeDisplayedDecider decider;
 	private ViewSetter viewSetter;
