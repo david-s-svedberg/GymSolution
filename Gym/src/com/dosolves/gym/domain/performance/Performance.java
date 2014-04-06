@@ -17,7 +17,7 @@ public class Performance {
 	}
 
 	public Date getDate() {
-		Date ret = new Date();
+		Date ret = sets.get(0).getDate();
 		for(Set current: sets)
 			if(current.getDate().getTime()<ret.getTime())
 				ret = current.getDate();		

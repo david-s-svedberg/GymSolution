@@ -27,7 +27,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	}
 
 	private ModelComposer createModelComposer() {
-		AdsModelFactory adsModelFactory = new AdsModelFactoryImpl();
+		AdsModelFactory adsModelFactory = new AdsModelFactoryImpl(false);
 		PerformanceModelFactory performanceModelFactory = new PerformanceModelFactoryImpl();
 		ExerciseModelFactory exerciseModelFactory = new ExerciseModelFactoryImpl();
 		CategoryModelFactory categoryModelFactory = new CategoryModelFactoryImpl();

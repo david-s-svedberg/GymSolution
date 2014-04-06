@@ -27,12 +27,16 @@ import com.dosolves.gym.inappbilling.IabHelper;
 import com.dosolves.gym.utils.StringUtils;
 
 public class AdsModelFactoryImpl implements AdsModelFactory {
-
-	private static final boolean TEST = true;
 	
 	private IabHelper iabHelperInstance;
 	private AdsRemovalBuyerAdapter adsRemovalBuyerInstance;
+	
+	private boolean testMode;
 
+	public AdsModelFactoryImpl(boolean testMode){
+		this.testMode = testMode;		
+	}
+	
 	@Override
 	public AdsController createController(Activity activity) {
 		ViewSetter viewSetter = createViewSetter(activity);
@@ -77,7 +81,7 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 		AdsRemovalPurchasedListener adsRemovalPurchasedListener = new AdsRemovalBoughtController(adsRemovalBoughtStorer, userThanker, restarter);  
 		UserSpecificPayloadValidator userSpecificPayloadValidator = new GoogleAccountUserSpecificPayloadValidator(payloadGenerator);
 	
-		if(TEST)
+		if(testMode)
 			return new AdsRemovalBuyerAdapterForTest(iabHelper, routerActivityStarter, payloadGenerator, adsRemovalPurchasedListener, userSpecificPayloadValidator);
 		else			
 			return new AdsRemovalBuyerAdapter(iabHelper, routerActivityStarter, payloadGenerator, adsRemovalPurchasedListener, userSpecificPayloadValidator);
@@ -105,7 +109,7 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 	@Override
 	public IabHelper getIabHelper(Context context) {
 		if(iabHelperInstance == null)
-			iabHelperInstance = new IabHelper(context, constructPublicKey(), TEST);
+			iabHelperInstance = new IabHelper(context, constructPublicKey(), testMode);
 		return iabHelperInstance;
 	}
 	

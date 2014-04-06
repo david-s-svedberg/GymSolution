@@ -40,10 +40,29 @@ public class PerformanceTest {
 	private Date createDateWithDayHourAndMinute(int day, int hour, int minute) {
 		return new Date(100,1,day,hour,minute,0);
 	}
+	
+	@SuppressWarnings("deprecation")
+	private Set createSetWithYearMonthDayHourAndMinute(int year, int month,int day, int hour, int minute) {
+		return createSetWithDate(new Date(year-1900,month,day,hour,minute,0));
+	}
+	
+	
 
 	@Test
 	public void getDateReturnsEarliestDateFromSets(){
 		assertEquals(earlierDate, sut.getDate());
+	}
+	
+	@Test
+	public void gets_earliest_date_within_sets_even_if_current_date_is_earlier(){
+		sets.clear();
+		Set futureEarly = createSetWithYearMonthDayHourAndMinute(3000, 1, 1, 1, 1);
+		Set futureLate = createSetWithYearMonthDayHourAndMinute(3000, 1, 1, 1, 2);
+		
+		sets.add(futureEarly);
+		sets.add(futureLate);
+		
+		assertEquals(futureEarly.getDate(), sut.getDate());
 	}
 	
 	private Set createSetWithDate(Date date) {
