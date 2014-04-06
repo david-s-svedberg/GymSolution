@@ -57,7 +57,7 @@ public class CursorSetFactoryTest {
 	public void returns_empty_list_for_empty_cursor(){
 		when(cursorMock.moveToFirst()).thenReturn(true);
 		when(cursorMock.isAfterLast()).thenReturn(true);
-		assertEquals(0, sut.CreateSets(cursorMock).size());
+		assertEquals(0, sut.createSets(cursorMock).size());
 	}
 	
 	@Test
@@ -78,7 +78,7 @@ public class CursorSetFactoryTest {
 		when(cursorMock.getDouble(WEIGHT_ID_COLUMN_INDEX)).thenReturn(WEIGHT);		
 		when(cursorMock.getLong(DATE_ID_COLUMN_INDEX)).thenReturn(dateMock.getTime());
 		
-		List<Set> sets = sut.CreateSets(cursorMock);
+		List<Set> sets = sut.createSets(cursorMock);
 				
 		assertEquals(1, sets.size());
 		Set set = sets.get(0);
@@ -107,14 +107,14 @@ public class CursorSetFactoryTest {
 		when(cursorMock.getDouble(WEIGHT_ID_COLUMN_INDEX)).thenReturn(WEIGHT);		
 		when(cursorMock.getLong(DATE_ID_COLUMN_INDEX)).thenReturn(dateMock.getTime());
 		
-		assertEquals(2, sut.CreateSets(cursorMock).size());
+		assertEquals(2, sut.createSets(cursorMock).size());
 	}
 
 	@Test
 	public void closes_cursor(){
 		when(cursorMock.moveToFirst()).thenReturn(true);
 		when(cursorMock.isAfterLast()).thenReturn(true);
-		sut.CreateSets(cursorMock);
+		sut.createSets(cursorMock);
 		verify(cursorMock).close();
 	}
 	

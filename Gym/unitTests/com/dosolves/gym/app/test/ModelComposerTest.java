@@ -1,6 +1,7 @@
 package com.dosolves.gym.app.test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +31,7 @@ import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 import com.dosolves.gym.domain.performance.PerformanceController;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
+import com.dosolves.gym.domain.performance.SetLastResultUseCaseControllerImpl;
 import com.dosolves.gym.inappbilling.IabHelper;
 
 @RunWith(RobolectricTestRunner.class)
@@ -69,8 +71,11 @@ public class ModelComposerTest extends AndroidTestCase{
 	AdsRemovalBuyerAdapter adsRemovalBuyerMock;
 	@Mock
 	IabHelper iabHelperMock;
+	@Mock
+	SetLastResultUseCaseControllerImpl setLastResultControllerMock;
 	
 	ModelComposer sut;
+	
 	
 	
 	@Before
@@ -257,6 +262,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	private void stubPerformanceAdapterAndControllerCreation() {
 		when(performanceModelFactoryMock.createAdapter(performanceActivityMock)).thenReturn(performanceAdapterMock);
 		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock, performanceActivityMock)).thenReturn(performanceControllerMock);
+		when(performanceModelFactoryMock.createSetLastResultUseCaseController(performanceActivityMock)).thenReturn(setLastResultControllerMock);
 		when(adsModelFactoryMock.createController(performanceActivityMock)).thenReturn(adsControllerMock);
 	}
 	
@@ -311,7 +317,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(performanceActivityMock);
 		
-		verify(performanceActivityMock).setSystemEventListener(adsControllerMock);
+		verify(performanceActivityMock).addSystemEventListener(adsControllerMock);
 	}
 	
 	@Test
@@ -321,6 +327,15 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceActivityMock).setAdsUserGestureListener(adsControllerMock);
+	}
+	
+	@Test
+	public void adds_SetLastResultUseCaseController_as_PerformanceSystemEventListener_for_performance(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceActivityMock).addSystemEventListener(setLastResultControllerMock);
 	}
 	
 	@Test

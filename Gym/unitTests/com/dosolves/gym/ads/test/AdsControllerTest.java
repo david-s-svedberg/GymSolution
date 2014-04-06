@@ -14,9 +14,9 @@ import com.dosolves.gym.ads.AdsController;
 import com.dosolves.gym.ads.AdsInitializer;
 import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.MenuSetter;
-import com.dosolves.gym.ads.SystemEventListener;
 import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.ViewSetter;
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 
 public class AdsControllerTest {
@@ -51,7 +51,7 @@ public class AdsControllerTest {
 	
 	@Test
 	public void calls_decider_when_gui_is_about_to_be_shown(){
-		sutAsSystemEventListener.onUIAboutToBeShown();
+		sutAsSystemEventListener.onUIAboutToBeCreated();
 		
 		verify(deciderMock).adsShouldBeDisplayed();
 	}
@@ -59,7 +59,7 @@ public class AdsControllerTest {
 	@Test
 	public void initzilizes_apps_if_ads_should_be_displayed(){
 		when(deciderMock.adsShouldBeDisplayed()).thenReturn(true);
-		sutAsSystemEventListener.onUIAboutToBeShown();
+		sutAsSystemEventListener.onUIAboutToBeCreated();
 		
 		verify(adsInitializerMock).init();
 	}
@@ -67,7 +67,7 @@ public class AdsControllerTest {
 	@Test
 	public void setsAdsView_if_ads_should_be_displayed(){
 		when(deciderMock.adsShouldBeDisplayed()).thenReturn(true);
-		sutAsSystemEventListener.onUIAboutToBeShown();
+		sutAsSystemEventListener.onUIAboutToBeCreated();
 		
 		verify(viewSetterMock).setAdsView();
 	}
@@ -75,7 +75,7 @@ public class AdsControllerTest {
 	@Test
 	public void setsNoAdsView_if_ads_should_not_be_displayed(){
 		when(deciderMock.adsShouldBeDisplayed()).thenReturn(false);
-		sutAsSystemEventListener.onUIAboutToBeShown();
+		sutAsSystemEventListener.onUIAboutToBeCreated();
 		
 		verify(viewSetterMock).setAdsFreeView();
 	}

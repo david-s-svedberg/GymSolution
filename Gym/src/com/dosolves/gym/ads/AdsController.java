@@ -1,5 +1,6 @@
 package com.dosolves.gym.ads;
 
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 
 public class AdsController implements SystemEventListener, AdsUserGestureListener {
@@ -23,7 +24,7 @@ public class AdsController implements SystemEventListener, AdsUserGestureListene
 	}
 
 	@Override
-	public void onUIAboutToBeShown() {
+	public void onUIAboutToBeCreated() {
 		if(decider.adsShouldBeDisplayed()){
 			viewSetter.setAdsView();
 			adsInitializer.init();
@@ -31,6 +32,11 @@ public class AdsController implements SystemEventListener, AdsUserGestureListene
 		else{
 			viewSetter.setAdsFreeView();
 		}
+	}
+	
+	@Override
+	public void onUICreated() {
+		//Ignore
 	}
 
 	@Override

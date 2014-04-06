@@ -22,6 +22,7 @@ import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 import com.dosolves.gym.domain.performance.PerformanceController;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
+import com.dosolves.gym.domain.performance.SetLastResultUseCaseControllerImpl;
 
 public class TypeMatchingModelComposer implements ModelComposer {
 
@@ -91,9 +92,11 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);	
 		PerformanceController controller = performanceModelFactory.createController(activity, adapter, activity, activity);
 		AdsController adsController = adsModelFactory.createController(activity);
+		SetLastResultUseCaseControllerImpl setLastResultUCC = performanceModelFactory.createSetLastResultUseCaseController(activity);
 		
 		adapter.setSetMenuRequestedCallback(controller);
-		activity.setSystemEventListener(adsController);
+		activity.addSystemEventListener(adsController);
+		activity.addSystemEventListener(setLastResultUCC);
 		activity.setAdsUserGestureListener(adsController);
 		activity.setAdapter(adapter);
 		activity.setNewSetShouldBeCreatedCallback(controller);

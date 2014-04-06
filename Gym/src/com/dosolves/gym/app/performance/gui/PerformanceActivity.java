@@ -1,5 +1,8 @@
 package com.dosolves.gym.app.performance.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +21,7 @@ import android.widget.ListView;
 import com.dosolves.gym.R;
 import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.MenuSetter;
-import com.dosolves.gym.ads.SystemEventListener;
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
@@ -26,8 +29,10 @@ import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
+import com.dosolves.gym.domain.performance.StartValueSetter;
+import com.dosolves.gym.utils.StringUtils;
 
-public class PerformanceActivity extends Activity implements CurrentExerciseHolder, FragmentManagerProvider, SetShouldBeEditedCallback, MenuSetter{
+public class PerformanceActivity extends Activity implements CurrentExerciseHolder, FragmentManagerProvider, SetShouldBeEditedCallback, MenuSetter, StartValueSetter{
 
 	public static final String EXERCISE_BUNDLE_KEY = "EXERCISE_BUNDLE_KEY";
 
@@ -44,16 +49,19 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	private ReadyToGetDataCallback readyToGetDataCallback;
 
-	private SystemEventListener systemEventListener;
-
 	private boolean shouldDisplayPurchaseAdsRemovalMenu;
 
 	private AdsUserGestureListener adsUserGestureListener;
+	private List<SystemEventListener> systemEventListeners;
 
+	public PerformanceActivity(){
+		systemEventListeners = new ArrayList<SystemEventListener>();
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		systemEventListener.onUIAboutToBeShown();
+		notifySystemEventListenersThatUIAboutToBeCreated();
 		setCurrentExercise();
 		setupViewFields();
 		disableEnterButton();
@@ -61,11 +69,12 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		setupClickListener();
 		setupButtonEnabledListener();
 		setupActionBar();
+		notifySystemEventListenersThatUIHasBeenCreated();
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		systemEventListener.onMenuShouldBeCreated();
+		notifySystemEventListenersThatMenuShouldBeCreated();
 		
 		if(shouldDisplayPurchaseAdsRemovalMenu)
 			getMenuInflater().inflate(R.menu.only_remove_ads, menu);	
@@ -224,10 +233,6 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		this.setShouldBeEditedCallback = setShouldBeEditedCallback;		
 	}
 	
-	public void setSystemEventListener(SystemEventListener systemEventListener) {
-		this.systemEventListener = systemEventListener;
-	}
-	
 	public void setAdsUserGestureListener(AdsUserGestureListener adsUserGestureListener) {
 		this.adsUserGestureListener = adsUserGestureListener;
 	}
@@ -250,6 +255,32 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	@Override
 	public void setAdsFreeMenu() {
 		shouldDisplayPurchaseAdsRemovalMenu = false;
+	}
+
+	@Override
+	public void setStartValues(Set set) {
+		repsInput.setText(String.format("%d",set.getReps()));
+		weightInput.setText(StringUtils.doubleToStringRemoveTrailingZeros(set.getWeight()));
+	}
+
+	public void addSystemEventListener(SystemEventListener systemEventListener) {
+		systemEventListeners.add(systemEventListener);
+	}
+	
+	private void notifySystemEventListenersThatUIHasBeenCreated() {
+		for(SystemEventListener systemEventListener: systemEventListeners)
+			systemEventListener.onUICreated();
+		
+	}
+
+	private void notifySystemEventListenersThatUIAboutToBeCreated() {
+		for(SystemEventListener systemEventListener: systemEventListeners)
+			systemEventListener.onUIAboutToBeCreated();
+	}
+	
+	private void notifySystemEventListenersThatMenuShouldBeCreated() {
+		for(SystemEventListener systemEventListener: systemEventListeners)
+			systemEventListener.onMenuShouldBeCreated();	
 	}
 
 }

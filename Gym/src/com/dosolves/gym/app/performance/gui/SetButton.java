@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.domain.performance.Set;
+import com.dosolves.gym.utils.StringUtils;
 
 public class SetButton extends Button {
 
@@ -53,7 +54,7 @@ public class SetButton extends Button {
 		super.onDraw(canvas);
 		canvas.getClipBounds(clipBounds);
 		String reps = Integer.toString(set.getReps());
-		String weight = doubleToStringRemoveTrailingZeros(set.getWeight());
+		String weight = StringUtils.doubleToStringRemoveTrailingZeros(set.getWeight());
 		
 		float repsX = findCenterXForString(reps, clipBounds);
 		float repsY = findCenterYForReps(reps, clipBounds);
@@ -66,15 +67,6 @@ public class SetButton extends Button {
 		canvas.drawText(weight, weightX, weightY, textPaint);
 	}
 	
-	@SuppressLint("DefaultLocale")
-	public static String doubleToStringRemoveTrailingZeros(double d)
-	{
-	    if(d == (int) d)
-	        return String.format("%d",(int)d);
-	    else
-	        return String.format("%s",d);
-	}
-
 	private float findCenterYForReps(String reps, Rect rect) {		
 		return (rect.height()/2) - MARGIN;
 	}

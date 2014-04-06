@@ -9,4 +9,6 @@ public interface SetRetriever {
 
 	List<Set> getSetsInExercise(Exercise exercise);
 
+	Set getLastSetForExercise(Exercise exerciseMock);
+
 }

@@ -28,6 +28,8 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 	private static final int FILTER_ID = 3465;
 
 	private static final String FILTER_ID_PROPERTY_NAME = "filterIdPropertyName";
+	
+	private static final String DATE_PROPERTY_NAME = "datePropertyName";
 
 	private static final int ID = 234;
 
@@ -153,6 +155,30 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 			}
 			
 		}), isNull(String.class), isNull(String.class), isNull(String.class));		
+	}
+	
+	@Test
+	public void getLast_with_id_filter_creates_correct_select_parameters() {
+		when(openHelperMock.getReadableDatabase()).thenReturn(dbMock);		
+		when(typeDbStructureGiverMock.getAllColumns()).thenReturn(columns);
+		
+		sut.getLast(TYPE_NAME, FILTER_ID_PROPERTY_NAME, FILTER_ID, DATE_PROPERTY_NAME);
+		
+		verify(dbMock).query(eq(TYPE_NAME), eq(columns), eq(String.format("%s = ?", FILTER_ID_PROPERTY_NAME)), argThat(new ArgumentMatcher<String[]>(){
+
+			@Override
+			public boolean matches(Object argument) {
+				return selectArgumentsContainsFilterId((String[])argument);
+			}
+
+			private boolean selectArgumentsContainsFilterId(String[] selectArguments) {
+				for(String current: selectArguments)
+					if(current.equals(Integer.toString(FILTER_ID)))
+						return true;
+				return false;
+			}
+			
+		}), isNull(String.class), isNull(String.class), eq(DATE_PROPERTY_NAME+" DESC"),eq("1"));		
 	}
 	
 	@Test

@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.dosolves.gym.R;
 import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.MenuSetter;
-import com.dosolves.gym.ads.SystemEventListener;
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
@@ -32,7 +32,7 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 		super.onCreate(savedInstanceState);
 		this.getListView().setLongClickable(true);
 		this.getListView().setOnItemLongClickListener(this);
-		systemEventListener.onUIAboutToBeShown();
+		systemEventListener.onUIAboutToBeCreated();
 	}
 	
 	@Override

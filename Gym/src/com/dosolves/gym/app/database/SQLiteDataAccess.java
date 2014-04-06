@@ -47,6 +47,17 @@ public class SQLiteDataAccess implements DataAccess {
 		
 		return new SQLiteGymCursorAdapter(db.query(type, columns, select, selectArgs, null, null, null), db);	
 	}
+	
+	@Override
+	public GymCursor getLast(String type, String filterIdPropertyName, int filterId, String datePropertyName) {
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+		
+		String[] columns = dbStructureGivers.get(type).getAllColumns();
+		String select = String.format("%s = ?",filterIdPropertyName);
+		String[] selectArgs = new String[]{Integer.toString(filterId)};
+		
+		return new SQLiteGymCursorAdapter(db.query(type, columns, select, selectArgs, null, null, String.format("%s DESC", datePropertyName),"1"), db);
+	}
 
 	@Override
 	public void create(String type, Map<String, Object> keysAndvalues) {
@@ -55,15 +66,6 @@ public class SQLiteDataAccess implements DataAccess {
 		
 		db.insert(type, null, contentValues);
 		db.close();
-	}
-
-	private ContentValues createContentValues(Map<String, Object> keysAndvalues) {
-		Parcel parcel = Parcel.obtain();
-		parcel.writeMap(keysAndvalues);
-		parcel.setDataPosition(0);
-		ContentValues contentValues = ContentValues.CREATOR.createFromParcel(parcel);
-		parcel.recycle();
-		return contentValues;
 	}
 
 	@Override
@@ -79,6 +81,15 @@ public class SQLiteDataAccess implements DataAccess {
 		ContentValues contentValues = createContentValues(updateKeysAndValues);
 		db.update(type, contentValues, String.format("%s = ?", typeIdPropertyName), new String[]{Integer.toString(id)});
 		db.close();
+	}
+
+	private ContentValues createContentValues(Map<String, Object> keysAndvalues) {
+		Parcel parcel = Parcel.obtain();
+		parcel.writeMap(keysAndvalues);
+		parcel.setDataPosition(0);
+		ContentValues contentValues = ContentValues.CREATOR.createFromParcel(parcel);
+		parcel.recycle();
+		return contentValues;
 	}
 
 }

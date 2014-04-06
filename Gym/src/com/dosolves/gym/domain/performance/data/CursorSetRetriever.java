@@ -18,7 +18,12 @@ public class CursorSetRetriever implements SetRetriever {
 
 	@Override
 	public List<Set> getSetsInExercise(Exercise exercise) {
-		return setFactory.CreateSets(dataAccess.get(SetStructureGiver.SET_TYPE_NAME_PLURAL,SetStructureGiver.EXERCISE_ID_PROPERTY_NAME,exercise.getId()));
+		return setFactory.createSets(dataAccess.get(SetStructureGiver.SET_TYPE_NAME_PLURAL,SetStructureGiver.EXERCISE_ID_PROPERTY_NAME,exercise.getId()));
+	}
+
+	@Override
+	public Set getLastSetForExercise(Exercise exercise) {
+		return setFactory.createSet(dataAccess.getLast(SetStructureGiver.SET_TYPE_NAME_PLURAL,SetStructureGiver.EXERCISE_ID_PROPERTY_NAME,exercise.getId(),SetStructureGiver.DATE_PROPERTY_NAME));
 	}
 
 }

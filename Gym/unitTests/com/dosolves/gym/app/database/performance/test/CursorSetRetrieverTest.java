@@ -22,6 +22,7 @@ import com.dosolves.gym.domain.performance.data.SetRetriever;
 @RunWith(RobolectricTestRunner.class)
 public class CursorSetRetrieverTest {
 
+	private static final String DATE_PROPERTY_NAME = "Date";
 	private static final String EXERCISE_ID_PROPERTY_NAME = "ExerciseId";
 	private static final String SETS = "Sets";
 	private static final int CATEGORY_ID = 2345;
@@ -49,7 +50,7 @@ public class CursorSetRetrieverTest {
 	}
 	
 	@Test
-	public void querries_dao_when_asked_for_exercises(){		
+	public void querries_dao_when_asked_for_sets(){		
 		sut.getSetsInExercise(exerciseMock);		
 		verify(daoMock).get(SETS, EXERCISE_ID_PROPERTY_NAME, EXERCISE_ID);		
 	}
@@ -58,7 +59,13 @@ public class CursorSetRetrieverTest {
 	public void delegates_building_of_sets_to_factory(){
 		when(daoMock.get(anyString(),anyString(), anyInt())).thenReturn(cursorMock);
 		sut.getSetsInExercise(exerciseMock);
-		verify(setFactoryMock).CreateSets(cursorMock);		
+		verify(setFactoryMock).createSets(cursorMock);		
+	}
+
+	@Test
+	public void querries_dao_when_asked_for_last_set(){		
+		sut.getLastSetForExercise(exerciseMock);		
+		verify(daoMock).getLast(SETS, EXERCISE_ID_PROPERTY_NAME, EXERCISE_ID, DATE_PROPERTY_NAME);		
 	}
 	
 }
