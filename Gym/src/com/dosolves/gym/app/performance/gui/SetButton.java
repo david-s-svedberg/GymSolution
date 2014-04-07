@@ -2,7 +2,6 @@ package com.dosolves.gym.app.performance.gui;
 
 import java.util.Date;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;

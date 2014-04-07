@@ -24,7 +24,6 @@ import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 import com.dosolves.gym.inappbilling.IabHelper;
-import com.dosolves.gym.utils.StringUtils;
 
 public class AdsModelFactoryImpl implements AdsModelFactory {
 	
@@ -87,29 +86,10 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 			return new AdsRemovalBuyerAdapter(iabHelper, routerActivityStarter, payloadGenerator, adsRemovalPurchasedListener, userSpecificPayloadValidator);
 	}
 
-	private String constructPublicKey() {
-		return "MIIBIjANBgkqhkiG9w0BA" +
-			   "QEFAAOCAQ8AMIIBCgKCAQE" +
-			   "Aj5xFv7lUEDoj4YgMMZMS+f" +
-			   StringUtils.reverse("AvatyaJLS061Bz7R0NXpeil8hL") +
-			   "Ubf39Kuuwdc7w0" + 
-			   "GyF6+IdvOFfnUZKgBGixWbcnx" + 
-			   StringUtils.reverse("f9f31QW/wgzfHv5wmBOAPqQyhqjEGc0sWBX") + 
-			   "M1tYxHerkYUa1/W3GA3l" + 
-			   "Rm/6wRc+P7H8Uy7Gipf8wXIhUo" + 
-			   "F9PP57ft7swnqcSCmNHOR8OSsOs1Gcub36J" + 
-			   "tC8pHMYaYnfOu" + 
-			   StringUtils.reverse("QHqu+I1oeJs4hmp3Z0q+iQN") +
-			   "NVhEXqa1hhSkdnir" + 
-			   "W3wu6R7a84osceHesN8SIjliMN4ii3" + 
-			   "E5O5j7zKsokiubJjUGwb4SMuqxyd" + 
-			   "DMofhas0ustBjtWoqF/H8AJjo8QhwIDAQAB";
-	}
-
 	@Override
 	public IabHelper getIabHelper(Context context) {
 		if(iabHelperInstance == null)
-			iabHelperInstance = new IabHelper(context, constructPublicKey(), testMode);
+			iabHelperInstance = new IabHelper(context, PublicKeyConstructor.constructPublicKey(), testMode);
 		return iabHelperInstance;
 	}
 	
