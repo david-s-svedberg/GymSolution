@@ -67,6 +67,8 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		ArrayAdapter<Exercise> adapter = exerciseModelFactory.createAdapter(activity);
 		ExerciseController controller = exerciseModelFactory.createController(activity, adapter, activity);
 		
+		activity.setExerciseAdapter(adapter);
+		
 		composeUserUpdateableItemsModel(activity, controller, adapter);
 	}
 
@@ -74,14 +76,15 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		ArrayAdapter<Category> adapter = categoryModelFactory.createAdapter(activity);
 		CategoryController controller = categoryModelFactory.createController(activity, adapter);
 		
+		activity.setCategoryAdapter(adapter);
+		
 		composeUserUpdateableItemsModel(activity, controller, adapter);		
 	}
 	
 	private void composeUserUpdateableItemsModel(UserUpdateableItemsActivity activity, UserUpdateableItemsController controller, ListAdapter adapter) {
 		AdsController adsController = adsModelFactory.createController(activity);
 		activity.setSystemEventListener(adsController);
-		activity.setAdsUserGestureListener(adsController);
-		activity.setListAdapter(adapter);
+		activity.setAdsUserGestureListener(adsController);		
 		activity.setAddItemRequestedCallBack(controller);
 		activity.setItemMenuRequestedCallback(controller);
 		activity.setOpenItemRequestedCallback(controller);

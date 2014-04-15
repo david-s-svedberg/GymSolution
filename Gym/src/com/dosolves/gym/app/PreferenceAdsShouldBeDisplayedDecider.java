@@ -1,6 +1,6 @@
 package com.dosolves.gym.app;
 
-import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
+import com.dosolves.gym.ads.AdsShouldBeDisplayedDecider;
 
 public class PreferenceAdsShouldBeDisplayedDecider implements AdsShouldBeDisplayedDecider{
 

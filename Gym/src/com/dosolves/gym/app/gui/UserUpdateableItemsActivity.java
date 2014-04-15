@@ -30,9 +30,9 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		systemEventListener.onUIAboutToBeCreated();
 		this.getListView().setLongClickable(true);
 		this.getListView().setOnItemLongClickListener(this);
-		systemEventListener.onUIAboutToBeCreated();
 	}
 	
 	@Override
@@ -116,5 +116,7 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	public void setAdsFreeMenu() {
 		shouldDisplayPurchaseAdsRemovalMenu = false;
 	}
+	
+	protected abstract int getIdOfItemAtPosition(int postition);
 	
 }

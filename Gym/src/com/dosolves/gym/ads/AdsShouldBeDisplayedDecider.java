@@ -1,4 +1,4 @@
-package com.dosolves.gym.domain;
+package com.dosolves.gym.ads;
 
 public interface AdsShouldBeDisplayedDecider {
 

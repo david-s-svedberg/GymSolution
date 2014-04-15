@@ -1,0 +1,38 @@
+SystemEventListener
+	readyForInteraction()
+	readyToCreateUserInterface()
+	userInterfaceCreated()
+
+UserRequestListener
+	addItemRequested();
+	deleteItemsRequested(int[] ids);
+	renameItemRequested();
+
+CategoryDataRetriever
+	...
+	boolean hasExercises(int categoryId);
+
+ExerciseDataRetriever
+	...
+	boolean hasSets(int exerciseId);
+
+DataAccess
+	boolean exists(String type, String filterIdPropertyName, int filterId);
+
+ShouldDeleteAsker implements RouterActivityCreatedListener
+	askUserIfItemsShouldBeDeleted(int[] ids){
+		startRouterActivity();
+	}
+	
+	onCreated(activity){
+		showDialog(activity.getFragmentManager())
+	}
+
+RouterActivity::
+	onCreate(){
+		createdListener.onCreated()
+	}
+
+ItemsDeleter
+	deleteItems(int[] ids);
+	

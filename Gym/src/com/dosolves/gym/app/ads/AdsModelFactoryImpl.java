@@ -9,6 +9,7 @@ import com.dosolves.gym.ads.AdsInitializer;
 import com.dosolves.gym.ads.AdsRemovalBoughtStorer;
 import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.AdsRemovalPurchasedListener;
+import com.dosolves.gym.ads.AdsShouldBeDisplayedDecider;
 import com.dosolves.gym.ads.ApplicationRestarter;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.ads.UserSpecificPayloadValidator;
@@ -22,7 +23,6 @@ import com.dosolves.gym.app.gui.CategoryAndExerciseViewSetter;
 import com.dosolves.gym.app.gui.PerformaceViewSetter;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
-import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 import com.dosolves.gym.inappbilling.IabHelper;
 
 public class AdsModelFactoryImpl implements AdsModelFactory {

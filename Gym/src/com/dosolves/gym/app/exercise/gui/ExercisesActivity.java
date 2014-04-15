@@ -3,10 +3,12 @@ package com.dosolves.gym.app.exercise.gui;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.category.Category;
+import com.dosolves.gym.domain.exercise.Exercise;
 
 public class ExercisesActivity extends UserUpdateableItemsActivity implements CurrentCategoryHolder {
 
@@ -14,6 +16,18 @@ public class ExercisesActivity extends UserUpdateableItemsActivity implements Cu
 	
 	private Category currentCategory;
 
+	private ArrayAdapter<Exercise> adapter;
+
+	public void setExerciseAdapter(ArrayAdapter<Exercise> adapter) {
+		super.setListAdapter(adapter);
+		this.adapter = adapter;
+	}
+	
+	@Override
+	protected int getIdOfItemAtPosition(int position) {
+		return adapter.getItem(position).getId();
+	}
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

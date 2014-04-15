@@ -111,7 +111,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categoriesActivityMock).setListAdapter(categoryAdapterMock);
+		verify(categoriesActivityMock).setCategoryAdapter(categoryAdapterMock);		
 	}
 	
 	@Test
@@ -185,7 +185,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(exercisesActivityMock);
 		
-		verify(exercisesActivityMock).setListAdapter(exerciseAdapterMock);
+		verify(exercisesActivityMock).setExerciseAdapter(exerciseAdapterMock);		
 	}
 	
 	@Test

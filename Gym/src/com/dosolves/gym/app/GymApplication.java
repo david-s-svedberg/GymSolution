@@ -16,6 +16,8 @@ import android.content.Context;
 
 public class GymApplication extends Application implements ContextSetter, ContextProvider{
 	
+	private static final boolean TEST_MODE = true;
+	
 	private ContextSetter contextSetter;
 	private ActivityLifecycleCallbacks activityCreatedListener;
 	private ContextProvider contextProvider;
@@ -27,7 +29,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	}
 
 	private ModelComposer createModelComposer() {
-		AdsModelFactory adsModelFactory = new AdsModelFactoryImpl(true);
+		AdsModelFactory adsModelFactory = new AdsModelFactoryImpl(TEST_MODE);
 		PerformanceModelFactory performanceModelFactory = new PerformanceModelFactoryImpl();
 		ExerciseModelFactory exerciseModelFactory = new ExerciseModelFactoryImpl();
 		CategoryModelFactory categoryModelFactory = new CategoryModelFactoryImpl();

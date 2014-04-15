@@ -3,14 +3,20 @@ package com.dosolves.gym.acceptancetest;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
+import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
+import com.dosolves.gym.domain.category.Category;
+import com.dosolves.gym.domain.exercise.Exercise;
 import com.robotium.solo.Solo;
 
 public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 
 	private static final String CATEGORY_NAME = "categoryName";
+	private static final String EXERCISE_NAME = "exerciseName";
+	
 	private static final int TIME_TO_WAIT_FOR_DIALOG = 5000;
 	
 	private Solo solo;
@@ -73,6 +79,56 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 			deleteCreatedCategory(CATEGORY_NAME);
 		}
 	}
+	
+	@LargeTest
+	public void test_delete_category_that_has_exercises_displays_dialog_deletes_on_yes(){
+		try{
+			createCategory(CATEGORY_NAME);
+			programaticallyCreateSingleExerciseOnOnlyCategory();
+			
+			deleteCreatedCategory(CATEGORY_NAME);
+			assertTrue("warning dialog didn't open", solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
+			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.category_has_exercises)));
+			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.delete_anyway)));
+			solo.clickOnButton(getActivity().getString(R.string.yes));
+			assertFalse("Category was not deleted", solo.searchText(CATEGORY_NAME));
+		}
+		finally{
+			deleteCreatedCategory(CATEGORY_NAME);
+		}
+	}
+	
+	@LargeTest
+	public void test_delete_category_that_has_exercises_displays_dialog_but_does_not_delete_on_no(){
+		try{
+			createCategory(CATEGORY_NAME);
+			programaticallyCreateSingleExerciseOnOnlyCategory();
+			
+			deleteCreatedCategory(CATEGORY_NAME);
+			assertTrue("warning dialog didn't open", solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
+			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.category_has_exercises)));
+			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.delete_anyway)));
+			solo.clickOnButton(getActivity().getString(R.string.no));
+			assertTrue("Category was deleted even though it shouldn't have been", solo.searchText(CATEGORY_NAME));
+		}
+		finally{
+			deleteCreatedCategory(CATEGORY_NAME);
+		}
+	}
+	
+	public void test_delete_category_that_has_no_exercises_does_not_displays_dialog(){
+		try{
+			createCategory(CATEGORY_NAME);
+			
+			deleteCreatedCategory(CATEGORY_NAME);
+			assertFalse("warning dialog opened even though it should not", solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
+			
+			assertFalse("Category was not deleted", solo.searchText(CATEGORY_NAME));
+		}
+		finally{
+			deleteCreatedCategory(CATEGORY_NAME);
+		}
+	}
 
 	private void createCategory(String categoryName) {
 		solo.clickOnActionBarItem(R.id.add_item);
@@ -83,13 +139,25 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	}
 	
 	private void deleteCreatedCategory(String categoryName) {
-		solo.clickLongOnText(categoryName);
-		solo.clickOnText("Delete");
+		try{
+			solo.clickLongOnText(categoryName);
+			solo.clickOnText("Delete");	
+		}
+		finally{}
+	}
+	
+	private void programaticallyCreateSingleExerciseOnOnlyCategory() {
+		ExerciseModelFactoryImpl exercisefactory = new ExerciseModelFactoryImpl();
+		CategoryModelFactoryImpl categoryFactory = new CategoryModelFactoryImpl();
+		
+		Category onlyCategory = (categoryFactory.createRetriever()).getCategories().get(0);
+		
+		(exercisefactory.createUpdater()).create(EXERCISE_NAME, onlyCategory.getId());
 	}
 	
 	@Override
 	protected int numberOfTestCases() {
-		return 4;
+		return 5;
 	}
 	
 }

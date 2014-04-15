@@ -13,11 +13,11 @@ import org.robolectric.RobolectricTestRunner;
 import android.view.MenuItem;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.ads.AdsShouldBeDisplayedDecider;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.gui.AddItemRequestedCallBack;
 import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
-import com.dosolves.gym.domain.AdsShouldBeDisplayedDecider;
 import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
 

@@ -1,5 +1,22 @@
 package com.dosolves.gym.app.category.gui;
 
-import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
+import android.widget.ArrayAdapter;
 
-public class CategoriesActivity extends UserUpdateableItemsActivity{}
+import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
+import com.dosolves.gym.domain.category.Category;
+
+public class CategoriesActivity extends UserUpdateableItemsActivity{
+	
+	private ArrayAdapter<Category> adapter;
+
+	public void setCategoryAdapter(ArrayAdapter<Category> adapter) {
+		super.setListAdapter(adapter);
+		this.adapter = adapter;
+	}
+
+	@Override
+	protected int getIdOfItemAtPosition(int position) {
+		return adapter.getItem(position).getId();
+	}
+	
+}
