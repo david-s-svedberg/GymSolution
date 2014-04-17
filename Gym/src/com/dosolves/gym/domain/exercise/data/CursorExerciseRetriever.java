@@ -2,9 +2,9 @@ package com.dosolves.gym.domain.exercise.data;
 
 import java.util.List;
 
-import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.GymCursor;
 import com.dosolves.gym.domain.category.Category;
+import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
 
 public class CursorExerciseRetriever implements ExerciseRetriever {

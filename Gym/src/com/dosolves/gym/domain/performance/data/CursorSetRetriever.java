@@ -2,7 +2,7 @@ package com.dosolves.gym.domain.performance.data;
 
 import java.util.List;
 
-import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.Set;
 

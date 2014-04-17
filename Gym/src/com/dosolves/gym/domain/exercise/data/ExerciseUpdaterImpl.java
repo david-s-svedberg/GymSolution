@@ -3,7 +3,7 @@ package com.dosolves.gym.domain.exercise.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
 
 public class ExerciseUpdaterImpl implements ExerciseUpdater {

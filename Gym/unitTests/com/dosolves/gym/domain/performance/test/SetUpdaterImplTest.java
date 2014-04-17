@@ -17,7 +17,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.CurrentDateGiver;
-import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.domain.performance.data.SetStructureGiver;
 import com.dosolves.gym.domain.performance.data.SetUpdater;

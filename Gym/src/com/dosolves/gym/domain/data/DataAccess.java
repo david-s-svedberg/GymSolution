@@ -1,6 +1,8 @@
-package com.dosolves.gym.domain;
+package com.dosolves.gym.domain.data;
 
 import java.util.Map;
+
+import com.dosolves.gym.domain.GymCursor;
 
 public interface DataAccess {
 

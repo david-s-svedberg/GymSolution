@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dosolves.gym.domain.CurrentDateGiver;
-import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.performance.Set;
 
 public class SetUpdaterImpl implements SetUpdater {

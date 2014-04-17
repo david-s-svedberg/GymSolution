@@ -12,11 +12,11 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.data.CategoryStructureGiver;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
 import com.dosolves.gym.domain.category.data.CategoryUpdaterImpl;
+import com.dosolves.gym.domain.data.DataAccess;
 
 @RunWith(RobolectricTestRunner.class)
 public class CategoryUpdaterTest {

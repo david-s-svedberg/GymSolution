@@ -8,9 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Parcel;
 
-import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.GymCursor;
+import com.dosolves.gym.domain.data.DataAccess;
 
 public class SQLiteDataAccess implements DataAccess {
 

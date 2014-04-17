@@ -13,7 +13,6 @@ import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
 import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
 import com.dosolves.gym.app.gui.RenameItemAlertDialogShower;
 import com.dosolves.gym.domain.CreateItemDialogShower;
-import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
@@ -24,6 +23,7 @@ import com.dosolves.gym.domain.category.data.CategoryUpdater;
 import com.dosolves.gym.domain.category.data.CategoryUpdaterImpl;
 import com.dosolves.gym.domain.category.data.CursorCategoryFactory;
 import com.dosolves.gym.domain.category.data.CursorCategoryRetriever;
+import com.dosolves.gym.domain.data.DataAccess;
 
 public class CategoryModelFactoryImpl implements CategoryModelFactory{
 

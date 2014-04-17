@@ -19,8 +19,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
 
 import com.dosolves.gym.app.database.SQLiteDataAccess;
-import com.dosolves.gym.domain.DataAccess;
 import com.dosolves.gym.domain.DbStructureGiver;
+import com.dosolves.gym.domain.data.DataAccess;
 
 @RunWith(RobolectricTestRunner.class)
 public class SQLiteDataAccessTest extends AndroidTestCase {

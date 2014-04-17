@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import com.dosolves.gym.domain.DataAccess;
+import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.data.ExerciseStructureGiver;
 import com.dosolves.gym.domain.exercise.data.ExerciseUpdater;
