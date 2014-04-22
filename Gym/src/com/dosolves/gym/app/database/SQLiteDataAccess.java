@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Parcel;
@@ -90,6 +91,21 @@ public class SQLiteDataAccess implements DataAccess {
 		ContentValues contentValues = ContentValues.CREATOR.createFromParcel(parcel);
 		parcel.recycle();
 		return contentValues;
+	}
+
+	@Override
+	public boolean exists(String type, String typeIdPropertyName, int id) {
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+		
+		Cursor cursor = db.rawQuery(String.format("SELECT EXISTS(SELECT 1 FROM %s WHERE %s=? LIMIT 1)", type, typeIdPropertyName, id), new String[]{Integer.toString(id)});
+		cursor.moveToFirst();
+		
+		boolean exists = cursor.getInt(0) == 1;
+		
+		cursor.close();
+		db.close();
+		
+		return exists;		
 	}
 
 }

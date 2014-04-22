@@ -18,6 +18,7 @@ import android.content.Intent;
 import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 
 @RunWith(RobolectricTestRunner.class)
 public class RouterActivityStarterTest {
@@ -38,7 +39,7 @@ public class RouterActivityStarterTest {
 	@Test
 	public void calls_startActivity_when_startRouterActivity_is_called(){
 		
-		sut.startRouterActivity();
+		sut.startRouterActivity(RouteReason.FOR_IN_APP_BILLING);
 		
 		verify(contextMock).startActivity(argThat(new ArgumentMatcher<Intent>(){
 

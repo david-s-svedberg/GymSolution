@@ -1,7 +1,9 @@
 package com.dosolves.gym.app.ads;
 
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
+
 public interface RouterActivityStarter {
 
-	void startRouterActivity();
+	void startRouterActivity(RouteReason reason);
 
 }

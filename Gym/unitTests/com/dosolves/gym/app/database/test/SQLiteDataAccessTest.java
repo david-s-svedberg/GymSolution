@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.test.AndroidTestCase;
@@ -47,11 +48,12 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 	DbStructureGiver typeDbStructureGiverMock;
 	@Mock
 	SQLiteDatabase dbMock;
+	@Mock
+	Cursor cursorMock;
 
 	String[] columns = new String[]{"columnA", "columnB"};
 	
 	DataAccess sut;
-	
 	
 	@Before
 	public void setUp(){
@@ -225,6 +227,58 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 		
 		sut.update(TYPE_NAME, ID_COLUMN_NAME, ID, keysAndvalues);
 		
+		verify(dbMock).close();
+	}
+	
+	@Test
+	public void exists_sends_correct_querry_to_db() {
+		when(openHelperMock.getReadableDatabase()).thenReturn(dbMock);		
+		when(dbMock.rawQuery(anyString(),any(String[].class))).thenReturn(cursorMock);
+		when(cursorMock.getInt(anyInt())).thenReturn(0);
+		
+		sut.exists(TYPE_NAME,ID_COLUMN_NAME,ID);
+		
+		verify(dbMock).rawQuery(eq(String.format("SELECT EXISTS(SELECT 1 FROM %s WHERE %s=? LIMIT 1)", TYPE_NAME,ID_COLUMN_NAME)), argThat(new ArgumentMatcher<String[]>(){
+
+			@Override
+			public boolean matches(Object argument) {
+				String[] whereArgs = (String[]) argument;
+				if(whereArgs.length == 1 && whereArgs[0].equals(Integer.toString(ID)))
+					return true;
+				else						
+					return false;
+			}
+			
+		}));
+	}
+	
+	@Test
+	public void exists_returns_true_if_qursor_contains_a_1() {
+		when(openHelperMock.getReadableDatabase()).thenReturn(dbMock);		
+		when(dbMock.rawQuery(anyString(),any(String[].class))).thenReturn(cursorMock);
+		when(cursorMock.getInt(anyInt())).thenReturn(1);
+		
+		assertTrue(sut.exists(TYPE_NAME,ID_COLUMN_NAME,ID));
+	}
+	
+	@Test
+	public void exists_returns_false_if_qursor_contains_a_0() {
+		when(openHelperMock.getReadableDatabase()).thenReturn(dbMock);		
+		when(dbMock.rawQuery(anyString(),any(String[].class))).thenReturn(cursorMock);
+		when(cursorMock.getInt(anyInt())).thenReturn(0);
+		
+		assertFalse(sut.exists(TYPE_NAME,ID_COLUMN_NAME,ID));
+	}
+	
+	@Test
+	public void exists_closes_db_and_cursor() {
+		when(openHelperMock.getReadableDatabase()).thenReturn(dbMock);		
+		when(dbMock.rawQuery(anyString(),any(String[].class))).thenReturn(cursorMock);
+		when(cursorMock.getInt(anyInt())).thenReturn(0);
+		
+		sut.exists(TYPE_NAME,ID_COLUMN_NAME,ID);
+		
+		verify(cursorMock).close();
 		verify(dbMock).close();
 	}
 	

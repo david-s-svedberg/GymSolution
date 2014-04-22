@@ -9,7 +9,6 @@ import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.domain.category.Category;
-import com.dosolves.gym.domain.exercise.Exercise;
 import com.robotium.solo.Solo;
 
 public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{

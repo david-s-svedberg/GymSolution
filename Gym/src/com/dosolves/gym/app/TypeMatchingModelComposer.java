@@ -1,14 +1,18 @@
 package com.dosolves.gym.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
 import com.dosolves.gym.ads.AdsController;
 import com.dosolves.gym.app.ads.AdsModelFactory;
 import com.dosolves.gym.app.ads.RouterActivity;
+import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
+import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
@@ -55,12 +59,51 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		else if(activity instanceof RouterActivity){
 			composeRouterModel((RouterActivity)activity);
 		}
-		
 	}
 
 	private void composeRouterModel(RouterActivity activity) {
+		Intent startIntent = activity.getIntent();
+		
+		switch(getRoutReason(startIntent)){
+			case FOR_DELETE_DIALOG:
+				composeDeleteDialogRouting(activity, startIntent);	
+				break;
+			case FOR_IN_APP_BILLING:
+				composeInAppBillingRouting(activity);
+				break;		
+		}
+		
+	}
+
+	private void composeInAppBillingRouting(RouterActivity activity) {
 		activity.setRouterActivityCreatedListener(adsModelFactory.getAdsRemovalBuyer(activity));
 		activity.setActivityResultListener(adsModelFactory.getIabHelper(activity));
+	}
+
+	private void composeDeleteDialogRouting(RouterActivity activity, Intent startIntent) {
+		UserAskerImpl userAsker = null;
+		
+		switch(getRouteModule(startIntent)){
+			case CATEGORY:
+				userAsker = categoryModelFactory.getUserAsker();
+				break;
+			case EXERCISE:
+				userAsker = exerciseModelFactory.getUserAsker();
+				break;
+			default:
+				throw new IllegalArgumentException();
+		}
+		
+		activity.setDialogResultListener(userAsker.getCurrentResponseListener());
+		activity.setRouterActivityCreatedListener(userAsker);
+	}
+
+	private RouteModule getRouteModule(Intent startIntent) {
+		return (RouteModule)startIntent.getSerializableExtra(RouterActivity.MODULE_KEY);
+	}
+
+	private RouteReason getRoutReason(Intent startIntent) {
+		return (RouteReason)startIntent.getSerializableExtra(RouterActivity.REASON_KEY);
 	}
 
 	private void composeExerciseModel(ExercisesActivity activity) {

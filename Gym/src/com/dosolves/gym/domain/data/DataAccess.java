@@ -14,5 +14,7 @@ public interface DataAccess {
 	void delete(String type, String typeIdPropertyName,	int id);
 	void update(String type, String typeIdPropertyName, int id, Map<String, Object> updateKeysAndValues);
 	
+	boolean exists(String type, String typeIdPropertyName, int id);
+	
 
 }

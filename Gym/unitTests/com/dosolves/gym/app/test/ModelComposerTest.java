@@ -10,6 +10,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import android.content.Intent;
 import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
@@ -18,11 +19,15 @@ import com.dosolves.gym.app.TypeMatchingModelComposer;
 import com.dosolves.gym.app.ads.AdsModelFactory;
 import com.dosolves.gym.app.ads.AdsRemovalBuyerAdapter;
 import com.dosolves.gym.app.ads.RouterActivity;
+import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
+import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
+import com.dosolves.gym.domain.UserResponseListener;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
@@ -40,7 +45,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	@Mock
 	CategoriesActivity categoriesActivityMock;
 	@Mock
-	CategoryModelFactory categorytModelFactoryMock;
+	CategoryModelFactory categoryModelFactoryMock;
 	@Mock
 	ArrayAdapter<Category> categoryAdapterMock;
 	@Mock
@@ -73,8 +78,14 @@ public class ModelComposerTest extends AndroidTestCase{
 	IabHelper iabHelperMock;
 	@Mock
 	SetLastResultUseCaseControllerImpl setLastResultControllerMock;
+	@Mock
+	UserAskerImpl userAskerMock;
+	@Mock
+	UserResponseListener userResponseListenerMock;
 	
 	ModelComposer sut;
+	
+	
 	
 	
 	
@@ -82,7 +93,7 @@ public class ModelComposerTest extends AndroidTestCase{
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new TypeMatchingModelComposer(categorytModelFactoryMock, 
+		sut = new TypeMatchingModelComposer(categoryModelFactoryMock, 
 											exerciseModelFactoryMock,
 											performanceModelFactoryMock,
 											adsModelFactoryMock);
@@ -94,14 +105,14 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categorytModelFactoryMock).createAdapter(categoriesActivityMock);
-		verify(categorytModelFactoryMock).createController(categoriesActivityMock, categoryAdapterMock);
+		verify(categoryModelFactoryMock).createAdapter(categoriesActivityMock);
+		verify(categoryModelFactoryMock).createController(categoriesActivityMock, categoryAdapterMock);
 		verify(adsModelFactoryMock).createController(categoriesActivityMock);
 	}
 
 	private void stubCategoryAdapterAndControllerCreation() {
-		when(categorytModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
-		when(categorytModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
+		when(categoryModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
+		when(categoryModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		when(adsModelFactoryMock.createController(categoriesActivityMock)).thenReturn(adsControllerMock);
 	}
 	
@@ -340,7 +351,11 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_AdsRemovalBuyer_as_RouterActivityCreatedListener_on_RouterActivity(){
-	
+		Intent startIntent = new Intent();
+		startIntent.putExtra(RouterActivity.REASON_KEY, RouteReason.FOR_IN_APP_BILLING);
+		startIntent.putExtra(RouterActivity.MODULE_KEY, RouteModule.NONE);
+		when(routerActivityMock.getIntent()).thenReturn(startIntent);
+		
 		when(adsModelFactoryMock.getAdsRemovalBuyer(routerActivityMock)).thenReturn(adsRemovalBuyerMock);
 		
 		sut.compose(routerActivityMock);
@@ -351,12 +366,77 @@ public class ModelComposerTest extends AndroidTestCase{
 	
 	@Test
 	public void sets_iabHelper_as_ActivityResultListener_on_RouterActivity(){
+		Intent startIntent = new Intent();
+		startIntent.putExtra(RouterActivity.REASON_KEY, RouteReason.FOR_IN_APP_BILLING);
+		startIntent.putExtra(RouterActivity.MODULE_KEY, RouteModule.NONE);
+		when(routerActivityMock.getIntent()).thenReturn(startIntent);
+		
 		when(adsModelFactoryMock.getIabHelper(routerActivityMock)).thenReturn(iabHelperMock);
 		
 		sut.compose(routerActivityMock);
 		
 		verify(routerActivityMock).setActivityResultListener(iabHelperMock);
 		
+	}
+	
+	@Test
+	public void sets_category_UserAskerImpls_currentResponseListener_as_DialogResultListener_on_RouterActivity_for_delete_dialog(){
+		Intent startIntent = new Intent();
+		startIntent.putExtra(RouterActivity.REASON_KEY, RouteReason.FOR_DELETE_DIALOG);
+		startIntent.putExtra(RouterActivity.MODULE_KEY, RouteModule.CATEGORY);
+		
+		when(routerActivityMock.getIntent()).thenReturn(startIntent);
+		when(categoryModelFactoryMock.getUserAsker()).thenReturn(userAskerMock);
+		when(userAskerMock.getCurrentResponseListener()).thenReturn(userResponseListenerMock);
+		
+		sut.compose(routerActivityMock);
+		
+		verify(routerActivityMock).setDialogResultListener(userResponseListenerMock);
+		
+	}
+	@Test
+	public void sets_exercise_UserAskerImpls_currentResponseListener_as_DialogResultListener_on_RouterActivity_for_delete_dialog(){
+		Intent startIntent = new Intent();
+		startIntent.putExtra(RouterActivity.REASON_KEY, RouteReason.FOR_DELETE_DIALOG);
+		startIntent.putExtra(RouterActivity.MODULE_KEY, RouteModule.EXERCISE);
+		
+		when(routerActivityMock.getIntent()).thenReturn(startIntent);
+		when(exerciseModelFactoryMock.getUserAsker()).thenReturn(userAskerMock);
+		when(userAskerMock.getCurrentResponseListener()).thenReturn(userResponseListenerMock);
+		
+		sut.compose(routerActivityMock);
+		
+		verify(routerActivityMock).setDialogResultListener(userResponseListenerMock);
+	}
+	
+	@Test
+	public void sets_exercise_UserAskerImpls_as_RouterActivityCreatedListener(){
+		Intent startIntent = new Intent();
+		startIntent.putExtra(RouterActivity.REASON_KEY, RouteReason.FOR_DELETE_DIALOG);
+		startIntent.putExtra(RouterActivity.MODULE_KEY, RouteModule.EXERCISE);
+		
+		when(routerActivityMock.getIntent()).thenReturn(startIntent);
+		when(exerciseModelFactoryMock.getUserAsker()).thenReturn(userAskerMock);
+		when(userAskerMock.getCurrentResponseListener()).thenReturn(userResponseListenerMock);
+		
+		sut.compose(routerActivityMock);
+		
+		verify(routerActivityMock).setRouterActivityCreatedListener(userAskerMock);
+	}
+	
+	@Test
+	public void sets_category_UserAskerImpls_as_RouterActivityCreatedListener(){
+		Intent startIntent = new Intent();
+		startIntent.putExtra(RouterActivity.REASON_KEY, RouteReason.FOR_DELETE_DIALOG);
+		startIntent.putExtra(RouterActivity.MODULE_KEY, RouteModule.CATEGORY);
+		
+		when(routerActivityMock.getIntent()).thenReturn(startIntent);
+		when(categoryModelFactoryMock.getUserAsker()).thenReturn(userAskerMock);
+		when(userAskerMock.getCurrentResponseListener()).thenReturn(userResponseListenerMock);
+		
+		sut.compose(routerActivityMock);
+		
+		verify(routerActivityMock).setRouterActivityCreatedListener(userAskerMock);
 	}
 	
 }

@@ -6,5 +6,7 @@ public abstract class AbstractUserResponseListener implements UserResponseListen
 	
 	@Override
 	public void yes() {}
+	@Override
+	public void no() {}
 	
 }

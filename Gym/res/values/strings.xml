@@ -30,6 +30,7 @@
     <string name="title_activity_router">RouterActivity</string>
     <string name="thank_you">Thank you!</string>
     <string name="category_has_exercises">Category has exercises</string>
+    <string name="exercise_has_sets">Exercise has sets</string>
     <string name="delete_anyway">Delete anyway?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

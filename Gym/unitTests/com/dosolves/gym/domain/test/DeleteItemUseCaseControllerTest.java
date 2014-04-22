@@ -86,6 +86,25 @@ public class DeleteItemUseCaseControllerTest {
 	}
 	
 	@Test
+	public void dont_deletes_item_if_user_wants__doesnt_want_to(){
+		when(itemHasSubItemsCheckerMock.hasSubItems(ITEM_ID)).thenReturn(true);
+		
+		doAnswer(new Answer<Void>(){
+			@Override
+			public Void answer(InvocationOnMock invocation) throws Throwable {
+				UserResponseListener callback = (UserResponseListener) invocation.getArguments()[0];
+				callback.no();
+				return null;
+			}
+			
+		}).when(userAskerMock).shouldParentItemBeDeleted(any(UserResponseListener.class));
+		
+		sut.deleteItemRequested(ITEM_ID);
+		
+		verifyZeroInteractions(itemDeleterMock);
+	}
+	
+	@Test
 	public void deletes_item_if_item_has_no_subitems(){
 		when(itemHasSubItemsCheckerMock.hasSubItems(ITEM_ID)).thenReturn(false);
 		
