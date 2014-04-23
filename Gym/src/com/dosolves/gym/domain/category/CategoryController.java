@@ -13,9 +13,7 @@ public class CategoryController extends UserUpdateableItemsController {
 
 	private ArrayAdapter<Category> adapter;
 	private CategoryRetriever retriever;
-	
 	private CategoryUpdater updater;
-	
 	private CategoryOpener categoryOpener;
 
 	public CategoryController(ArrayAdapter<Category> adapter, 
@@ -54,7 +52,7 @@ public class CategoryController extends UserUpdateableItemsController {
 	
 	@Override
 	protected void handleItemShouldBeDeleted(int positionOfItemToBeDeleted) {
-		updater.delete(adapter.getItem(positionOfItemToBeDeleted));        
+		updater.delete(adapter.getItem(positionOfItemToBeDeleted).getId());        
 	}
 	
 	private boolean categoryWithSameNameExists(String newCategoryName) {

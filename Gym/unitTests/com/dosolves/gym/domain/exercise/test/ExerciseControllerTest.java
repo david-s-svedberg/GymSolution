@@ -83,7 +83,7 @@ public class ExerciseControllerTest {
     public void onReadyToGetData_updates_exercises(){            
             
             when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
-			when(retrieverMock.getExercisesInCategory(categoryMock)).thenReturn(exercisesMock);
+			when(retrieverMock.getExercisesInCategory(CATEGORY_ID)).thenReturn(exercisesMock);
             
             sut.onReadyToGetData();
             
@@ -93,14 +93,17 @@ public class ExerciseControllerTest {
 	@Test
 	public void calls_exerciseUpdater_when_category_should_be_deleted(){
 		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
+		when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
 		
 		sut.onItemShouldBeDeleted(POSITION);
-		verify(exerciseUpdaterMock).delete(exerciseMock);
+		
+		verify(exerciseUpdaterMock).delete(EXERCISE_ID);
 	}
 	
 	@Test
 	public void calls_exerciseUpdater_when_item_should_be_renamed(){
 		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
+		when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
 		
 		sut.onItemShouldBeRenamed(POSITION, NEW_EXERCISE_NAME);
 		
@@ -110,6 +113,7 @@ public class ExerciseControllerTest {
 	@Test
 	public void calls_exerciseUpdater_when_item_should_be_created(){
 		when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
+		when(retrieverMock.getExercisesInCategory(CATEGORY_ID)).thenReturn(exercisesMock);
 		
 		sut.onItemShouldBeCreated(NEW_EXERCISE_NAME);
 		
@@ -121,7 +125,7 @@ public class ExerciseControllerTest {
 		exercisesMock.add(new Exercise(EXERCISE_ID,CATEGORY_ID,EXERCISE_NAME));
 		
 		when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
-		when(retrieverMock.getExercisesInCategory(categoryMock)).thenReturn(exercisesMock);
+		when(retrieverMock.getExercisesInCategory(CATEGORY_ID)).thenReturn(exercisesMock);
 		
 		sut.onItemShouldBeCreated(EXERCISE_NAME);
 		

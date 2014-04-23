@@ -47,7 +47,7 @@ public class ExerciseController extends UserUpdateableItemsController {
 
 	private List<Exercise> getExercisesForCurrentCategory() {
 		Category currentCategory = currentCategoryHolder.getCurrentCategory();
-		return retriever.getExercisesInCategory(currentCategory);
+		return retriever.getExercisesInCategory(currentCategory.getId());
 	}
 
 	@Override
@@ -72,7 +72,7 @@ public class ExerciseController extends UserUpdateableItemsController {
 
 	@Override
 	protected void handleItemShouldBeDeleted(int positionOfItemToBeDeleted) {
-		updater.delete(adapter.getItem(positionOfItemToBeDeleted));
+		updater.delete(adapter.getItem(positionOfItemToBeDeleted).getId());
 	}
 
 	@Override

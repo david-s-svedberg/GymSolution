@@ -86,7 +86,7 @@ public class CategoryControllerTest {
 		when(adapterMock.getItem(POSITION)).thenReturn(category);
 		
 		sut.onItemShouldBeDeleted(POSITION);
-		verify(categoryUpdaterMock).delete(category);
+		verify(categoryUpdaterMock).delete(CATEGORY_ID);
 	}
 	
 	@Test

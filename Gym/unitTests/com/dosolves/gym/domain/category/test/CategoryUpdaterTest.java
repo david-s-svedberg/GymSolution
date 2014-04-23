@@ -60,9 +60,7 @@ public class CategoryUpdaterTest {
 	
 	@Test
 	public void delete_calls_dataAccess_with_correct_idcolumnName(){
-		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
-		
-		sut.delete(category);
+		sut.delete(CATEGORY_ID);
 		
 		verify(dataAccessMock).delete(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL,CategoryStructureGiver.ID_PROPERTY_NAME, CATEGORY_ID);
 	}

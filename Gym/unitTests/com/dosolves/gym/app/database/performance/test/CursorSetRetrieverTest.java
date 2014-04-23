@@ -51,14 +51,14 @@ public class CursorSetRetrieverTest {
 	
 	@Test
 	public void querries_dao_when_asked_for_sets(){		
-		sut.getSetsInExercise(exerciseMock);		
+		sut.getSetsInExercise(EXERCISE_ID);		
 		verify(daoMock).get(SETS, EXERCISE_ID_PROPERTY_NAME, EXERCISE_ID);		
 	}
 	
 	@Test
 	public void delegates_building_of_sets_to_factory(){
 		when(daoMock.get(anyString(),anyString(), anyInt())).thenReturn(cursorMock);
-		sut.getSetsInExercise(exerciseMock);
+		sut.getSetsInExercise(EXERCISE_ID);
 		verify(setFactoryMock).createSets(cursorMock);		
 	}
 

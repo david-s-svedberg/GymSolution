@@ -72,9 +72,7 @@ public class SetUpdaterImplTest {
 	
 	@Test
 	public void delete_calls_dataAccess_with_correct_idcolumnName(){
-		Set set = new Set(SET_ID,EXERCISE_ID,REPS,WEIGHT, new Date(DATE_MILLISECONDS));
-		
-		sut.delete(set);
+		sut.delete(SET_ID);
 		
 		verify(dataAccessMock).delete(SetStructureGiver.SET_TYPE_NAME_PLURAL,SetStructureGiver.ID_PROPERTY_NAME, SET_ID);
 	}

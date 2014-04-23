@@ -29,6 +29,7 @@ import com.dosolves.gym.domain.performance.data.SetUpdater;
 @RunWith(RobolectricTestRunner.class)
 public class PerformanceControllerTest {
 
+	private static final int SET_ID = 12;
 	private static final double NEW_WEIGHT = 50.55;
 	private static final int NEW_REPS = 12;
 	private static final double WEIGHT = 50.5;
@@ -117,6 +118,8 @@ public class PerformanceControllerTest {
 	
 	@Test
     public void calls_updater_when_set_should_be_updated(){
+		when(exerciseHolderMock.getCurrentExercise()).thenReturn(exerciseMock);
+		
 		sut.onSetShouldBeUpdated(setMock, NEW_REPS, NEW_WEIGHT);
         
         verify(updaterMock).update(setMock, NEW_REPS,NEW_WEIGHT);
@@ -133,9 +136,11 @@ public class PerformanceControllerTest {
 	
 	@Test
     public void calls_updater_when_set_should_be_deleted(){
+		when(exerciseHolderMock.getCurrentExercise()).thenReturn(exerciseMock);
+		
 		sut.onSetShouldBeDeleted(setMock);
         
-        verify(updaterMock).delete(setMock);
+        verify(updaterMock).delete(SET_ID);
     }
 	
 	@Test
@@ -149,7 +154,7 @@ public class PerformanceControllerTest {
 
 	private void stubPerformanceUpdating() {
 		when(exerciseHolderMock.getCurrentExercise()).thenReturn(exerciseMock);
-		when(retrieverMock.getSetsInExercise(exerciseMock)).thenReturn(setsMock);
+		when(retrieverMock.getSetsInExercise(EXERCISE_ID)).thenReturn(setsMock);
         when(performanceBuilderMock.build(setsMock)).thenReturn(performancesMock);
 	}
 	
@@ -161,7 +166,7 @@ public class PerformanceControllerTest {
 
 	private List<Set> createSets() {
 		List<Set> sets = new ArrayList<Set>();
-		setMock = new Set(12,312,12,55.5,new Date());
+		setMock = new Set(SET_ID,312,12,55.5,new Date());
 		sets.add(setMock);
 		return sets;
 	}

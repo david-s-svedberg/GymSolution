@@ -71,9 +71,7 @@ public class ExerciseUpdaterImplTest {
 	
 	@Test
 	public void delete_calls_dataAccess_with_correct_idcolumnName(){
-		Exercise exercise = new Exercise(EXERCISE_ID, CATEGORY_ID, EXERCISE_NAME);
-		
-		sut.delete(exercise);
+		sut.delete(EXERCISE_ID);
 		
 		verify(dataAccessMock).delete(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL,ExerciseStructureGiver.ID_PROPERTY_NAME, EXERCISE_ID);
 	}

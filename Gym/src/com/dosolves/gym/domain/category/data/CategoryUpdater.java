@@ -7,7 +7,7 @@ public interface CategoryUpdater {
 
 	void create(String newCategoryName);
 
-	void delete(Category categoryToBeDeleted);
+	void delete(int categoryId);
 
 	void rename(Category categoryToBeRenamed, String newCategoryName);
 

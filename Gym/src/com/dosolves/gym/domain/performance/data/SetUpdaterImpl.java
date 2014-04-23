@@ -23,8 +23,8 @@ public class SetUpdaterImpl implements SetUpdater {
 	}
 	
 	@Override
-	public void delete(Set set) {
-		dataAccess.delete(SetStructureGiver.SET_TYPE_NAME_PLURAL, SetStructureGiver.ID_PROPERTY_NAME, set.getId());
+	public void delete(int setId) {
+		dataAccess.delete(SetStructureGiver.SET_TYPE_NAME_PLURAL, SetStructureGiver.ID_PROPERTY_NAME, setId);
 	}
 
 	private Map<String, Object> createValuesMap(int exerciseId, int reps, double weight) {

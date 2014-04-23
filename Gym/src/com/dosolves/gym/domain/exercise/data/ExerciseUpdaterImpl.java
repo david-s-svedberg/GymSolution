@@ -31,8 +31,8 @@ public class ExerciseUpdaterImpl implements ExerciseUpdater {
 	}
 
 	@Override
-	public void delete(Exercise exerciseToBeDeleted) {
-		dataAccess.delete(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.ID_PROPERTY_NAME, exerciseToBeDeleted.getId());
+	public void delete(int exerciseId) {
+		dataAccess.delete(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.ID_PROPERTY_NAME, exerciseId);
 	}
 
 	@Override

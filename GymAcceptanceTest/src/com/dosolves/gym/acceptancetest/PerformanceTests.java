@@ -42,8 +42,9 @@ public class PerformanceTests extends CleanDbTestCase<PerformanceActivity>{
 	private void createSingleExercise() {
 		Category category = createSingleCategory();
 		ExerciseModelFactoryImpl factory = new ExerciseModelFactoryImpl();
-		(factory.createUpdater()).create(EXERCISE_NAME, category.getId());
-		exercise = (factory.createRetriever()).getExercisesInCategory(category).get(0);
+		int categoryId = category.getId();
+		(factory.createUpdater()).create(EXERCISE_NAME, categoryId);
+		exercise = (factory.createRetriever()).getExercisesInCategory(categoryId).get(0);
 	}
 	
 	private Category createSingleCategory() {

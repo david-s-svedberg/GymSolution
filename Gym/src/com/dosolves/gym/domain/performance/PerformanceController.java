@@ -55,7 +55,7 @@ public class PerformanceController implements ReadyToGetDataCallback,
 
 	private void updatePerformances() {
 		Exercise exercise = exerciseHolder.getCurrentExercise();
-		List<Set> sets = retriever.getSetsInExercise(exercise);
+		List<Set> sets = retriever.getSetsInExercise(exercise.getId());
 		List<Performance> performances = performanceBuilder.build(sets);
 		
 		adapter.clear();
@@ -76,7 +76,7 @@ public class PerformanceController implements ReadyToGetDataCallback,
 
 	@Override
 	public void onSetShouldBeDeleted(Set setToBeDeleted) {
-		updater.delete(setToBeDeleted);
+		updater.delete(setToBeDeleted.getId());
 		updatePerformances();
 	}
 

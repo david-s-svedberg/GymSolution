@@ -22,8 +22,8 @@ public class CategoryUpdaterImpl implements CategoryUpdater {
 	}
 
 	@Override
-	public void delete(Category categoryToBeDeleted) {
-		dataAccess.delete(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL, CategoryStructureGiver.ID_PROPERTY_NAME, categoryToBeDeleted.getId());
+	public void delete(int categoryId) {
+		dataAccess.delete(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL, CategoryStructureGiver.ID_PROPERTY_NAME, categoryId);
 	}
 
 	@Override

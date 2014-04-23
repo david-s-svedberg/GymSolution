@@ -5,7 +5,7 @@ import com.dosolves.gym.domain.exercise.Exercise;
 public interface ExerciseUpdater {
 
 	void create(String newExerciseName, int categoryId);
-	void delete(Exercise exercise);
+	void delete(int exerciseId);
 	void rename(Exercise exercise, String newExerciseName);
 
 }
