@@ -1,6 +1,5 @@
 package com.dosolves.gym.domain.exercise;
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
@@ -12,6 +11,6 @@ public interface ExerciseModelFactory {
 	ArrayAdapter<Exercise> createAdapter(Context context);
 	ExerciseController createController(Context context, ArrayAdapter<Exercise> adapter, CurrentCategoryHolder holder);
 	UserAskerImpl getUserAsker();
-	UserAskerImpl createUserAsker(Activity activity);
+	UserAskerImpl createUserAsker(Context context);
 
 }

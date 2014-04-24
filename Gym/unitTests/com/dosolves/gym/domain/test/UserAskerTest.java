@@ -20,6 +20,7 @@ import android.app.FragmentManager;
 import com.dosolves.gym.app.ads.RouterActivity;
 import com.dosolves.gym.app.ads.RouterActivityCreatedListener;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
+import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
 import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.UserResponseListener;
@@ -46,7 +47,7 @@ public class UserAskerTest {
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		UserAskerImpl sutImpl = new UserAskerImpl(routerStarterMock,dialogMock);
+		UserAskerImpl sutImpl = new UserAskerImpl(routerStarterMock,dialogMock, RouteModule.CATEGORY);
 		
 		sut = sutImpl;
 		sutAsRouterActivityCreatedListener =sutImpl; 
@@ -56,7 +57,7 @@ public class UserAskerTest {
 	public void starts_router_activity(){
 		sut.shouldParentItemBeDeleted(responseListenerMock);
 		
-		verify(routerStarterMock).startRouterActivity(RouterActivity.RouteReason.FOR_DELETE_DIALOG);
+		verify(routerStarterMock).startRouterActivity(RouterActivity.RouteReason.FOR_DELETE_DIALOG, RouteModule.CATEGORY);
 	}
 	
 	@Test

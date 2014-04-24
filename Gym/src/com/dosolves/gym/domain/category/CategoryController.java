@@ -3,6 +3,7 @@ package com.dosolves.gym.domain.category;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
+import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
@@ -15,19 +16,20 @@ public class CategoryController extends UserUpdateableItemsController {
 	private CategoryRetriever retriever;
 	private CategoryUpdater updater;
 	private CategoryOpener categoryOpener;
-
+	
 	public CategoryController(ArrayAdapter<Category> adapter, 
 							  CategoryRetriever retriever, 
 							  CreateItemDialogShower createItemDialogShower, 
 							  CategoryUpdater categoryUpdater, 
 							  ItemOptionMenuDialogShower itemOptionMenuDialogShower, 
 							  CategoryOpener categoryOpener,
-							  RenameDialogShower renameDialogShower) {
-		super(createItemDialogShower, itemOptionMenuDialogShower, renameDialogShower);
+							  RenameDialogShower renameDialogShower, 
+							  DeleteItemUseCaseController categoryDeleteUseCase) {
+		super(createItemDialogShower, itemOptionMenuDialogShower, renameDialogShower, categoryDeleteUseCase);
 		this.adapter = adapter;
 		this.retriever = retriever;
 		this.updater = categoryUpdater;
-		this.categoryOpener = categoryOpener;		
+		this.categoryOpener = categoryOpener;			
 	}
 
 	@Override
@@ -50,11 +52,6 @@ public class CategoryController extends UserUpdateableItemsController {
 		
 	}
 	
-	@Override
-	protected void handleItemShouldBeDeleted(int positionOfItemToBeDeleted) {
-		updater.delete(adapter.getItem(positionOfItemToBeDeleted).getId());        
-	}
-	
 	private boolean categoryWithSameNameExists(String newCategoryName) {
 		for(Category current: retriever.getCategories())
 			if (current.getName().equalsIgnoreCase(newCategoryName))
@@ -71,6 +68,11 @@ public class CategoryController extends UserUpdateableItemsController {
 	@Override
 	protected String getItemCurrentName(int positionOfItem) {
 		return adapter.getItem(positionOfItem).getName();
+	}
+
+	@Override
+	protected int getItemId(int positionOfItem) {
+		return adapter.getItem(positionOfItem).getId();
 	}
 	
 }

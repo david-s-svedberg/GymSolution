@@ -6,6 +6,7 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
+import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
@@ -28,8 +29,9 @@ public class ExerciseController extends UserUpdateableItemsController {
 							  ItemOptionMenuDialogShower itemOptionMenuDialogShower, 
 							  ExerciseOpener opener, 
 							  CurrentCategoryHolder currentCategoryHolder,
-							  RenameDialogShower renameDialogShower) {
-		super(createItemDialogShower, itemOptionMenuDialogShower, renameDialogShower);
+							  RenameDialogShower renameDialogShower,
+							  DeleteItemUseCaseController deleteItemUseCase) {
+		super(createItemDialogShower, itemOptionMenuDialogShower, renameDialogShower,deleteItemUseCase);
 		this.adapter = adapter;
 		this.retriever = retriever;
 		this.updater = updater;
@@ -69,12 +71,7 @@ public class ExerciseController extends UserUpdateableItemsController {
 				return true;
 		return false;
 	}
-
-	@Override
-	protected void handleItemShouldBeDeleted(int positionOfItemToBeDeleted) {
-		updater.delete(adapter.getItem(positionOfItemToBeDeleted).getId());
-	}
-
+	
 	@Override
 	protected void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName) {
 		updater.rename(adapter.getItem(positionOfItemToBeRenamed), newName);
@@ -83,6 +80,11 @@ public class ExerciseController extends UserUpdateableItemsController {
 	@Override
 	protected String getItemCurrentName(int positionOfItem) {
 		return adapter.getItem(positionOfItem).getName();
+	}
+
+	@Override
+	protected int getItemId(int positionOfItem) {
+		return adapter.getItem(positionOfItem).getId();
 	}
 
 }

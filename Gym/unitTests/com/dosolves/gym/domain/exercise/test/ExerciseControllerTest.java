@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
+import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
@@ -53,12 +54,15 @@ public class ExerciseControllerTest {
 	CurrentCategoryHolder currentCategoryHolderMock;
 	@Mock
 	RenameDialogShower renameDialogShowerMock;
+	@Mock
+	DeleteItemUseCaseController deleteItemUseCaseMock;
 	
 	List<Exercise> exercisesMock;
 	Category categoryMock;
 	Exercise exerciseMock;
 	
 	ExerciseController sut;
+	
 		
 	@Before
 	public void setUp() throws Exception{
@@ -76,7 +80,8 @@ public class ExerciseControllerTest {
 									 itemOptionMenuDialogShowerMock,
 									 exerciseOpenerMock,
 									 currentCategoryHolderMock,
-									 renameDialogShowerMock);
+									 renameDialogShowerMock,
+									 deleteItemUseCaseMock);
 	}
 	
 	@Test
@@ -91,13 +96,13 @@ public class ExerciseControllerTest {
     }
 	
 	@Test
-	public void calls_exerciseUpdater_when_category_should_be_deleted(){
+	public void gets_itemId_from_adapter_when_deleting_item(){
 		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
 		when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
 		
 		sut.onItemShouldBeDeleted(POSITION);
 		
-		verify(exerciseUpdaterMock).delete(EXERCISE_ID);
+		verify(adapterMock).getItem(POSITION);
 	}
 	
 	@Test

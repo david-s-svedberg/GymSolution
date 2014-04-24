@@ -22,13 +22,13 @@ public class YesNoDialog extends DialogFragment {
 	private int messageId = -1;
 
 	@Override
-	public void onResume() {
-		super.onResume();
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 		userResponseListener = extractUserResponseListener();
 		titleId = extractTitleId();
 		messageId = extractMessageId();
 	}
-
+	
 	private int extractMessageId() {
 		return getArguments().getInt(MESSAGE_KEY);
 	}
@@ -53,6 +53,7 @@ public class YesNoDialog extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				userResponseListener.yes();
+				closeRouterActivity();
 			}
 			
 		});
@@ -62,11 +63,22 @@ public class YesNoDialog extends DialogFragment {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				userResponseListener.no();
+				closeRouterActivity();
 			}
 			
 		});
 		
 		return builder.create();
+	}
+	
+	@Override
+	public void onCancel(DialogInterface dialog) {
+		super.onCancel(dialog);
+		closeRouterActivity();
+	}
+
+	protected void closeRouterActivity() {
+		getActivity().finish();
 	}
 	
 }

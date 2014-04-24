@@ -16,6 +16,7 @@ import org.robolectric.RobolectricTestRunner;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
+import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
@@ -46,11 +47,14 @@ public class CategoryControllerTest {
 	CategoryOpener categoryOpenerMock;
 	@Mock
 	RenameDialogShower renameDialogShowerMock;
+	@Mock
+	DeleteItemUseCaseController categoryDeleteUseCaseMock;
 	
 	private List<Category> categoriesMock;
 	
 	CategoryController sut;
 	private Category categoryMock;
+	
 		
 	@Before
 	public void setUp() throws Exception{
@@ -66,7 +70,8 @@ public class CategoryControllerTest {
 									 categoryUpdaterMock, 
 									 itemOptionMenuDialogShowerMock,
 									 categoryOpenerMock,
-									 renameDialogShowerMock);
+									 renameDialogShowerMock,
+									 categoryDeleteUseCaseMock);
 	}
 	
 	@Test
@@ -81,12 +86,13 @@ public class CategoryControllerTest {
     }
 	
 	@Test
-	public void calls_categoryUpdater_when_category_should_be_deleted(){
+	public void calls_delete_use_case_when_deletion_is_requested(){
 		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
 		when(adapterMock.getItem(POSITION)).thenReturn(category);
 		
 		sut.onItemShouldBeDeleted(POSITION);
-		verify(categoryUpdaterMock).delete(CATEGORY_ID);
+		
+		verify(categoryDeleteUseCaseMock).deleteItemRequested(CATEGORY_ID);
 	}
 	
 	@Test

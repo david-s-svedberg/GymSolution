@@ -9,12 +9,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
+import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 
 public class UserUpdateableItemsControllerTest {
 	
+	private static final int ITEM_ID = 1235;
 	private static final String ITEM_NAME = "itemName";
 	private static final int POSITION = 3456;
 	private static final String NEW_ITEM_NAME = "NEW_ITEM_NAME";
@@ -25,6 +27,8 @@ public class UserUpdateableItemsControllerTest {
 	ItemOptionMenuDialogShower itemOptionMenuDialogShowerMock;
 	@Mock
 	RenameDialogShower renameDialogShowerMock;
+	@Mock
+	DeleteItemUseCaseController itemDeleteUseCaseMock;
 	
 	UserUpdateableItemsControllerMock sut;
 	
@@ -34,7 +38,8 @@ public class UserUpdateableItemsControllerTest {
 		
 		sut = new UserUpdateableItemsControllerMock(createItemDialogShowerMock, 
 													itemOptionMenuDialogShowerMock,
-													renameDialogShowerMock);
+													renameDialogShowerMock,
+													itemDeleteUseCaseMock);
 	}
 	
 	@Test
@@ -81,10 +86,18 @@ public class UserUpdateableItemsControllerTest {
 	}
 	
 	@Test
-	public void calls_handleItemShouldBeDeleted_on_subtype_when_requested(){
+	public void calls_getItemId_when_deletion_requested(){
 		sut.onItemShouldBeDeleted(POSITION);
 		
-		assertTrue(sut.handleItemShouldBeDeletedCalled(POSITION));
+		assertTrue(sut.getItemIdCalled(POSITION));
+	}
+	
+	@Test
+	public void calls_delete_use_case_when_requested(){
+		sut.setupMockItemId(ITEM_ID);
+		sut.onItemShouldBeDeleted(POSITION);
+		
+		verify(itemDeleteUseCaseMock).deleteItemRequested(ITEM_ID);
 	}
 	
 	@Test
@@ -123,9 +136,14 @@ public class UserUpdateableItemsControllerTest {
 		private String newItemName = "";
 		private String itemName;
 		private boolean getItemCurrentNameCalled = false;
+		private int itemId;
 		
-		public UserUpdateableItemsControllerMock(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower, RenameDialogShower renameDialogShower) {
-			super(createItemDialogShower,itemOptionMenuDialogShower,renameDialogShower);			
+		public UserUpdateableItemsControllerMock(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower, RenameDialogShower renameDialogShower,DeleteItemUseCaseController deleteItemUseCase) {
+			super(createItemDialogShower,itemOptionMenuDialogShower,renameDialogShower,deleteItemUseCase);			
+		}
+
+		public boolean getItemIdCalled(int position) {
+			return this.position == position;
 		}
 
 		public boolean getItemCurrentNameCalled() {
@@ -135,9 +153,9 @@ public class UserUpdateableItemsControllerTest {
 		public void setupMockItemName(String itemName) {
 			this.itemName = itemName;
 		}
-
-		public boolean handleItemShouldBeDeletedCalled(int position) {
-			return this.position == position;
+		
+		public void setupMockItemId(int id) {
+			this.itemId = id;
 		}
 		
 		public boolean handleItemShouldBeRenamedCalled(int position, String expectedName) {
@@ -172,11 +190,6 @@ public class UserUpdateableItemsControllerTest {
 		}
 
 		@Override
-		protected void handleItemShouldBeDeleted(int positionOfItemToBeDeleted) {
-			this.position = positionOfItemToBeDeleted;			
-		}
-
-		@Override
 		protected void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName) {
 			this.position = positionOfItemToBeRenamed;
 			this.newItemName = newName;
@@ -186,6 +199,12 @@ public class UserUpdateableItemsControllerTest {
 		protected String getItemCurrentName(int positionOfItem) {
 			getItemCurrentNameCalled = true;
 			return itemName;
+		}
+
+		@Override
+		protected int getItemId(int positionOfItem) {
+			position = positionOfItem;
+			return itemId;
 		}
 		
 	}

@@ -1,7 +1,6 @@
 package com.dosolves.gym.domain.category;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
@@ -12,6 +11,6 @@ public interface CategoryModelFactory {
 	ArrayAdapter<Category> createAdapter(Context context);
 	CategoryController createController(Context context,ArrayAdapter<Category> adapter);
 	UserAskerImpl getUserAsker();
-	UserAskerImpl createUserAsker(Activity activity);
+	UserAskerImpl createUserAsker(Context context);
 
 }

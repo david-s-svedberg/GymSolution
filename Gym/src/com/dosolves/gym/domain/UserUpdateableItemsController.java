@@ -16,11 +16,16 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	private CreateItemDialogShower createItemDialogShower;
 	private ItemOptionMenuDialogShower itemOptionMenuDialogShower;
 	private RenameDialogShower renameDialogShower;
+	private DeleteItemUseCaseController deleteItemUseCase;
 
-	public UserUpdateableItemsController(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower, RenameDialogShower renameDialogShower) {
+	public UserUpdateableItemsController(CreateItemDialogShower createItemDialogShower, 
+										 ItemOptionMenuDialogShower itemOptionMenuDialogShower, 
+										 RenameDialogShower renameDialogShower, 
+										 DeleteItemUseCaseController deleteItemUseCase) {
 		this.createItemDialogShower = createItemDialogShower;
 		this.itemOptionMenuDialogShower = itemOptionMenuDialogShower;
 		this.renameDialogShower = renameDialogShower;
+		this.deleteItemUseCase = deleteItemUseCase;
 	}
 	
 	@Override
@@ -46,7 +51,7 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	
 	@Override
 	public void onItemShouldBeDeleted(int itemPosition) {
-		handleItemShouldBeDeleted(itemPosition);
+		deleteItemUseCase.deleteItemRequested(getItemId(itemPosition));
 		handleUpdateItems();
 	}
 	
@@ -69,8 +74,9 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	protected abstract void handleUpdateItems();
 	protected abstract void handleItemShouldBeOpened(int positionOfItemToBeOpened);
 	protected abstract void handleItemShouldBeCreated(String newItemName);
-	protected abstract void handleItemShouldBeDeleted(int positionOfItemToBeDeleted);
 	protected abstract void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName);
+	
 	protected abstract String getItemCurrentName(int positionOfItem);
+	protected abstract int getItemId(int positionOfItem);
 	
 }

@@ -1,5 +1,6 @@
 package com.dosolves.gym.acceptancetest;
 
+import junit.framework.AssertionFailedError;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
@@ -93,7 +94,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 			assertFalse("Category was not deleted", solo.searchText(CATEGORY_NAME));
 		}
 		finally{
-			deleteCreatedCategory(CATEGORY_NAME);
+			cleanUpCreatedCategory(CATEGORY_NAME);
 		}
 	}
 	
@@ -125,7 +126,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 			assertFalse("Category was not deleted", solo.searchText(CATEGORY_NAME));
 		}
 		finally{
-			deleteCreatedCategory(CATEGORY_NAME);
+			cleanUpCreatedCategory(CATEGORY_NAME);
 		}
 	}
 
@@ -138,11 +139,18 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	}
 	
 	private void deleteCreatedCategory(String categoryName) {
+		solo.clickLongOnText(categoryName);
+		solo.clickOnText("Delete");
+	}
+	
+	private void cleanUpCreatedCategory(String categoryName) {
 		try{
 			solo.clickLongOnText(categoryName);
 			solo.clickOnText("Delete");	
 		}
-		finally{}
+		catch(AssertionFailedError ex){
+			//Ignore just for cleanUp
+		}		
 	}
 	
 	private void programaticallyCreateSingleExerciseOnOnlyCategory() {
@@ -156,7 +164,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	
 	@Override
 	protected int numberOfTestCases() {
-		return 5;
+		return 7;
 	}
 	
 }
