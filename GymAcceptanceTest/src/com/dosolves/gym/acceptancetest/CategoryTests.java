@@ -4,10 +4,10 @@ import junit.framework.AssertionFailedError;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
+import com.dosolves.gym.app.CommonModelFactory;
+import com.dosolves.gym.app.CommonModelFactoryImpl;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
-import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.domain.category.Category;
 import com.robotium.solo.Solo;
@@ -154,12 +154,11 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	}
 	
 	private void programaticallyCreateSingleExerciseOnOnlyCategory() {
-		ExerciseModelFactoryImpl exercisefactory = new ExerciseModelFactoryImpl();
-		CategoryModelFactoryImpl categoryFactory = new CategoryModelFactoryImpl();
+		CommonModelFactory factory = new CommonModelFactoryImpl();
 		
-		Category onlyCategory = (categoryFactory.createRetriever()).getCategories().get(0);
+		Category onlyCategory = (factory.getCategoryRetriever()).getCategories().get(0);
 		
-		(exercisefactory.createUpdater()).create(EXERCISE_NAME, onlyCategory.getId());
+		(factory.getExerciseUpdater()).create(EXERCISE_NAME, onlyCategory.getId());
 	}
 	
 	@Override

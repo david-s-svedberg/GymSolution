@@ -16,6 +16,7 @@ import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.domain.performance.EditSetDialogShower;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
+import com.dosolves.gym.utils.StringUtils;
 
 public class EditSetFragmentDialogShower implements EditSetDialogShower {
 
@@ -43,8 +44,8 @@ public class EditSetFragmentDialogShower implements EditSetDialogShower {
 		private SetShouldBeEditedCallback editCallback;
 
 		@Override
-		public void onResume() {
-			super.onResume();
+		public void onCreate(Bundle savedInstanceState) {
+			super.onCreate(savedInstanceState);
 			set = (Set) getArguments().getSerializable(EditSetFragmentDialogShower.SET_KEY);
 			editCallback= (SetShouldBeEditedCallback)getActivity();
 		}
@@ -63,6 +64,9 @@ public class EditSetFragmentDialogShower implements EditSetDialogShower {
 			final EditText weightInput = (EditText)dialogView.findViewById(R.id.weightInput);
 			final Button saveButton = (Button)dialogView.findViewById(R.id.save_button);
 			final Button cancelButton = (Button)dialogView.findViewById(R.id.cancel_button);
+			
+			repsInput.setText(Integer.toString(set.getReps()));
+			weightInput.setText(StringUtils.doubleToStringRemoveTrailingZeros(set.getWeight()));
 			
 			saveButton.setOnClickListener(new View.OnClickListener() {
 				@Override

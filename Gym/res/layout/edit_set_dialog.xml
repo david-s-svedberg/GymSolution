@@ -60,7 +60,8 @@
             android:ems="10"
             android:inputType="number"
             android:gravity="center"
-            android:nextFocusDown="@+id/weightInput" >
+            android:nextFocusDown="@+id/weightInput" 
+            android:textColor="@android:color/holo_green_dark">
 
             <requestFocus 
                 android:layout_width="0dp"

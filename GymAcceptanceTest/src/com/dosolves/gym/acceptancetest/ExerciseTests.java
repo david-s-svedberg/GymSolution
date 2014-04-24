@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
+import com.dosolves.gym.app.CommonModelFactory;
+import com.dosolves.gym.app.CommonModelFactoryImpl;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.domain.category.Category;
@@ -40,9 +41,9 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 	}
 
 	private void createSingleCategory() {
-		CategoryModelFactoryImpl factory = new CategoryModelFactoryImpl();
-		(factory.createUpdater()).create(CATEGORY_NAME);
-		category = (factory.createRetriever()).getCategories().get(0);
+		CommonModelFactory factory = new CommonModelFactoryImpl();
+		(factory.getCategoryUpdater()).create(CATEGORY_NAME);
+		category = (factory.getCategoryRetriever()).getCategories().get(0);
 	}
 	
 	@Override

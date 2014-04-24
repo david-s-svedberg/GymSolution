@@ -6,8 +6,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
-import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
+import com.dosolves.gym.app.CommonModelFactory;
+import com.dosolves.gym.app.CommonModelFactoryImpl;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.exercise.Exercise;
@@ -41,16 +41,16 @@ public class PerformanceTests extends CleanDbTestCase<PerformanceActivity>{
 	
 	private void createSingleExercise() {
 		Category category = createSingleCategory();
-		ExerciseModelFactoryImpl factory = new ExerciseModelFactoryImpl();
+		CommonModelFactoryImpl factory = new CommonModelFactoryImpl();
 		int categoryId = category.getId();
-		(factory.createUpdater()).create(EXERCISE_NAME, categoryId);
-		exercise = (factory.createRetriever()).getExercisesInCategory(categoryId).get(0);
+		(factory.getExerciseUpdater()).create(EXERCISE_NAME, categoryId);
+		exercise = (factory.getExerciseRetriever()).getExercisesInCategory(categoryId).get(0);
 	}
 	
 	private Category createSingleCategory() {
-		CategoryModelFactoryImpl factory = new CategoryModelFactoryImpl();
-		(factory.createUpdater()).create(CATEGORY_NAME);
-		return (factory.createRetriever()).getCategories().get(0);
+		CommonModelFactory factory = new CommonModelFactoryImpl();
+		(factory.getCategoryUpdater()).create(CATEGORY_NAME);
+		return (factory.getCategoryRetriever()).getCategories().get(0);
 	}
 	
 	@Override

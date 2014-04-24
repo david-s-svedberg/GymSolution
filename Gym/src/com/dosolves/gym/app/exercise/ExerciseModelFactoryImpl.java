@@ -5,24 +5,17 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.CurrentDateGiverImpl;
+import com.dosolves.gym.app.CommonModelFactory;
 import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
-import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
-import com.dosolves.gym.app.database.SQLiteDataAccess;
-import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
-import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.exercise.gui.ContextExerciseOpener;
-import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
-import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
-import com.dosolves.gym.app.gui.RenameItemAlertDialogShower;
 import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.YesNoDialog;
-import com.dosolves.gym.app.performance.database.SetDbStructureGiver;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.DeleteItemUseCaseControllerImpl;
+import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.data.DataAccess;
@@ -30,22 +23,18 @@ import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 import com.dosolves.gym.domain.exercise.ExerciseOpener;
-import com.dosolves.gym.domain.exercise.data.CascadingExerciseDeleter;
-import com.dosolves.gym.domain.exercise.data.CursorExerciseFactory;
-import com.dosolves.gym.domain.exercise.data.CursorExerciseRetriever;
 import com.dosolves.gym.domain.exercise.data.ExerciseRetriever;
 import com.dosolves.gym.domain.exercise.data.ExerciseUpdater;
-import com.dosolves.gym.domain.exercise.data.ExerciseUpdaterImpl;
 import com.dosolves.gym.domain.exercise.data.ExericseItemHasSubItemsChecker;
-import com.dosolves.gym.domain.performance.data.CursorSetFactory;
-import com.dosolves.gym.domain.performance.data.CursorSetRetriever;
-import com.dosolves.gym.domain.performance.data.HighLevelSetIdRetriever;
-import com.dosolves.gym.domain.performance.data.SetDeleter;
-import com.dosolves.gym.domain.performance.data.SetUpdaterImpl;
 
 public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 
 	private UserAskerImpl userAsker;
+	private CommonModelFactory commonModelFactory;
+
+	public ExerciseModelFactoryImpl(CommonModelFactory commonModelFactory) {
+		this.commonModelFactory = commonModelFactory;
+	}
 
 	@Override
 	public ArrayAdapter<Exercise> createAdapter(Context context) {
@@ -55,47 +44,27 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 	@Override
 	public ExerciseController createController(Context context, ArrayAdapter<Exercise> adapter, CurrentCategoryHolder holder){
 		
-		ExerciseRetriever retriever = createRetriever();
-		ExerciseUpdater updater = createUpdater();
+		ExerciseRetriever retriever = commonModelFactory.getExerciseRetriever();
+		ExerciseUpdater updater = commonModelFactory.getExerciseUpdater();
+		CreateItemDialogShower createExercisedialogShower = commonModelFactory.createCreateItemDialogShower(context, context.getString(R.string.create_exercise));
+		ItemOptionMenuDialogShower categoryOptionMenuDialog = commonModelFactory.createItemOptionMenuDialogShower(context);
+		RenameDialogShower renameDialogShower = commonModelFactory.createRenameDialogShower(context, context.getString(R.string.rename_exercise));
 		
-		CreateItemDialogShower createExercisedialogShower = new CreateItemAlertDialogShower(context, context.getString(R.string.create_exercise));
-		ItemOptionMenuDialogShower categoryOptionMenuDialog = new ItemOptionMenuAlertDialogShower(context);
-		ExerciseOpener categoryOpener = new ContextExerciseOpener(context);
-		RenameDialogShower renameDialogShower = new RenameItemAlertDialogShower(context, context.getString(R.string.rename_exercise));
 		DeleteItemUseCaseController deleteItemUseCase = createDeleteUseCase(context);
+		ExerciseOpener exerciseOpener = new ContextExerciseOpener(context);
 		
-		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, categoryOptionMenuDialog, categoryOpener, holder,renameDialogShower, deleteItemUseCase);
-		
+		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, categoryOptionMenuDialog, exerciseOpener, holder,renameDialogShower, deleteItemUseCase);
 	}
 
 	private DeleteItemUseCaseController createDeleteUseCase(Context context) {
-		DataAccess dataAccess = createDataAccess();
-		ExerciseUpdaterImpl exerciseUpdater = new ExerciseUpdaterImpl(dataAccess);
-		CurrentDateGiverImpl currentDateGiver = new CurrentDateGiverImpl();
-		SetUpdaterImpl setUpdater = new SetUpdaterImpl(dataAccess, currentDateGiver);
-		SetDeleter setDeleter = new SetDeleter(setUpdater);
-		SetDbStructureGiver setDbStructureGiver = new SetDbStructureGiver();
-		CursorSetFactory setFactory = new CursorSetFactory(setDbStructureGiver);
-		CursorSetRetriever setRetriever = new CursorSetRetriever(dataAccess,  setFactory);
-		HighLevelSetIdRetriever setIdRetriever = new HighLevelSetIdRetriever(setRetriever);
-		CascadingExerciseDeleter exerciseDeleter = new CascadingExerciseDeleter(setIdRetriever, setDeleter, exerciseUpdater);
+		DataAccess dataAccess = commonModelFactory.getDataAccess();
+		ItemDeleter exerciseDeleter = commonModelFactory.getExerciseDeleter();
+		
 		UserAskerImpl userAsker = createUserAsker(context);
 		ExericseItemHasSubItemsChecker exericseItemHasSubItemsChecker = new ExericseItemHasSubItemsChecker(dataAccess);
 		DeleteItemUseCaseController deleteItemUseCase = new DeleteItemUseCaseControllerImpl(exericseItemHasSubItemsChecker, userAsker, exerciseDeleter);
 		
 		return deleteItemUseCase;
-	}
-
-	public ExerciseUpdater createUpdater() {
-		return new ExerciseUpdaterImpl(createDataAccess());
-	}
-
-	public ExerciseRetriever createRetriever() {
-		return new CursorExerciseRetriever(createDataAccess(), new CursorExerciseFactory(new ExerciseDbStructureGiver()));
-	}
-
-	private DataAccess createDataAccess() {
-		return new SQLiteDataAccess(SQLiteOpenHelperSingeltonHolder.getDbHelper(), new ExerciseDbStructureGiver(), new CategoryDbStructureGiver(), new SetDbStructureGiver());
 	}
 
 	@Override
