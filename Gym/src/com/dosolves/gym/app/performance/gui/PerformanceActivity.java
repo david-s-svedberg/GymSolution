@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +40,8 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private Exercise currentExercise;
 	private ListView performanceListView;
 	private Button enterButton;
+	private Button plusButton;
+	private Button minusButton;
 	private EditText repsInput;
 	private EditText weightInput;
 
@@ -66,7 +69,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		setupViewFields();
 		disableEnterButton();
 		setupAdapter();
-		setupClickListener();
+		setupClickListeners();
 		setupButtonEnabledListener();
 		setupActionBar();
 		notifySystemEventListenersThatUIHasBeenCreated();
@@ -154,7 +157,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		return ret;
 	}
 
-	private void setupClickListener() {
+	private void setupClickListeners() {
 		enterButton.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -170,8 +173,42 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			}
 			
 		});
+		
+		plusButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				incrementRepsText();
+			}
+			
+		});
+		
+		minusButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				decrementRepsText();
+			}
+			
+		});
+		
 	}
 		
+	protected void decrementRepsText() {
+		if(repsHasValidValue()) {
+			int reps = getReps();
+			if(reps > 1)
+				repsInput.setText(Integer.toString(reps-1));
+		}		
+	}
+
+	protected void incrementRepsText() {
+		if(repsHasValidValue())
+			repsInput.setText(Integer.toString(getReps()+1));
+		else
+			repsInput.setText(Integer.toString(1));
+	}
+
 	private double getWeight() {
 		return Double.parseDouble(weightInput.getText().toString());
 	}
@@ -185,6 +222,8 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		enterButton = (Button)findViewById(R.id.enterSetButton);
 		repsInput = (EditText)findViewById(R.id.repsInput);
 		weightInput = (EditText)findViewById(R.id.weightInput);
+		plusButton = (Button)findViewById(R.id.plus_button);
+		minusButton = (Button)findViewById(R.id.minus_button);
 	}
 	
 	private void setupActionBar() {

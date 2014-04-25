@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical" >
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-    <Space
+        <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.3" />
-    
-    <TextView
-        android:id="@+id/repsLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="@string/reps"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/holo_green_dark" />
-    
-    <Space
+
+        <TextView
+            android:id="@+id/repsLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/reps"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/holo_green_dark" />
+
+        <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2" />
 
-    <TextView
-        android:id="@+id/weightLabel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:text="@string/weight"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@android:color/holo_red_dark" />
+        <TextView
+            android:id="@+id/weightLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/weight"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/holo_red_dark" />
 
-    <Space
+        <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.3" />
@@ -48,82 +49,102 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="60dp" >
 
-        <Space
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
-        
+            android:layout_weight="1" >
+            
+            <Button
+                android:id="@+id/plus_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:text="+"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <Button
+                android:id="@+id/minus_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:text="-"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+        </RelativeLayout>
+
         <EditText
             android:id="@+id/repsInput"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:ems="10"
-            android:inputType="number"
             android:gravity="center"
+            android:inputType="number"
             android:nextFocusDown="@+id/weightInput"
             android:textColor="@android:color/holo_green_dark" >
 
-            <requestFocus 
+            <requestFocus
                 android:layout_width="0dp"
-                android:layout_height="0dp"/>
+                android:layout_height="0dp" />
         </EditText>
 
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-        
+
         <EditText
             android:id="@id/weightInput"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="2"
-            android:ems="10"
-            android:inputType="numberDecimal"
             android:gravity="center"
+            android:inputType="numberDecimal"
             android:nextFocusDown="@id/repsInput"
             android:textColor="@android:color/holo_red_dark" />
-        
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:orientation="horizontal" >
+
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1" />
 
+        <Button
+            android:id="@+id/enterSetButton"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/enter" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
     </LinearLayout>
-    
+
     <Space
-            android:layout_width="match_parent"
-            android:layout_height="20dp" />
-    
-    <LinearLayout 
         android:layout_width="match_parent"
-	    android:layout_height="45dp"
-	    android:orientation="horizontal" >
-	    
-	        <Space
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1" />
-	        
-	        <Button
-	            android:id="@+id/enterSetButton"
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="3"
-	            android:gravity="center"
-	            android:text="@string/enter" />
-	        
-	        <Space
-	            android:layout_width="0dp"
-	            android:layout_height="match_parent"
-	            android:layout_weight="1" />
-	</LinearLayout>
-	
-    <Space
-            android:layout_width="match_parent"
-            android:layout_height="7dp" />
+        android:layout_height="7dp" />
 
 </LinearLayout>
