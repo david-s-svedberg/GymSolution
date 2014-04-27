@@ -3,6 +3,8 @@ package com.dosolves.gym.domain.test;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -10,7 +12,6 @@ import org.mockito.MockitoAnnotations;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 
@@ -24,8 +25,6 @@ public class UserUpdateableItemsControllerTest {
 	@Mock
 	CreateItemDialogShower createItemDialogShowerMock;
 	@Mock
-	ItemOptionMenuDialogShower itemOptionMenuDialogShowerMock;
-	@Mock
 	RenameDialogShower renameDialogShowerMock;
 	@Mock
 	DeleteItemUseCaseController itemDeleteUseCaseMock;
@@ -37,7 +36,6 @@ public class UserUpdateableItemsControllerTest {
 		MockitoAnnotations.initMocks(this);
 		
 		sut = new UserUpdateableItemsControllerMock(createItemDialogShowerMock, 
-													itemOptionMenuDialogShowerMock,
 													renameDialogShowerMock,
 													itemDeleteUseCaseMock);
 	}
@@ -56,18 +54,13 @@ public class UserUpdateableItemsControllerTest {
 	}
 	
 	@Test
-	public void shows_menu_item_option_when_user_input_requests_it(){
-		sut.onItemMenuRequested(POSITION);
-		
-		verify(itemOptionMenuDialogShowerMock).show(POSITION, sut, sut);
-	}
-	
-	@Test
 	public void shows_rename_dialog_when_user_input_requests_it(){
 		sut.setupMockItemName(ITEM_NAME);
-		sut.onRenameDialogRequested(POSITION);
 		
-		verify(renameDialogShowerMock).show(POSITION, sut, ITEM_NAME);
+		sut.renameItem(ITEM_ID);
+		
+		verify(renameDialogShowerMock).show(ITEM_ID, sut, ITEM_NAME);
+		
 		assertTrue(sut.getItemCurrentNameCalled());
 	}
 	
@@ -86,18 +79,11 @@ public class UserUpdateableItemsControllerTest {
 	}
 	
 	@Test
-	public void calls_getItemId_when_deletion_requested(){
-		sut.onItemShouldBeDeleted(POSITION);
-		
-		assertTrue(sut.getItemIdCalled(POSITION));
-	}
-	
-	@Test
 	public void calls_delete_use_case_when_requested(){
-		sut.setupMockItemId(ITEM_ID);
-		sut.onItemShouldBeDeleted(POSITION);
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		sut.deleteItems(ids);
 		
-		verify(itemDeleteUseCaseMock).deleteItemRequested(ITEM_ID);
+		verify(itemDeleteUseCaseMock).deleteItemsRequested(ids);
 	}
 	
 	@Test
@@ -116,7 +102,7 @@ public class UserUpdateableItemsControllerTest {
 	
 	@Test
 	public void updates_items_after_deletion(){
-		sut.onItemShouldBeDeleted(POSITION);
+		sut.deleteItems(null);
 		
 		assertTrue(sut.handleUpdateItemsCalled());
 	}
@@ -136,14 +122,9 @@ public class UserUpdateableItemsControllerTest {
 		private String newItemName = "";
 		private String itemName;
 		private boolean getItemCurrentNameCalled = false;
-		private int itemId;
 		
-		public UserUpdateableItemsControllerMock(CreateItemDialogShower createItemDialogShower, ItemOptionMenuDialogShower itemOptionMenuDialogShower, RenameDialogShower renameDialogShower,DeleteItemUseCaseController deleteItemUseCase) {
-			super(createItemDialogShower,itemOptionMenuDialogShower,renameDialogShower,deleteItemUseCase);			
-		}
-
-		public boolean getItemIdCalled(int position) {
-			return this.position == position;
+		public UserUpdateableItemsControllerMock(CreateItemDialogShower createItemDialogShower, RenameDialogShower renameDialogShower,DeleteItemUseCaseController deleteItemUseCase) {
+			super(createItemDialogShower,renameDialogShower,deleteItemUseCase);			
 		}
 
 		public boolean getItemCurrentNameCalled() {
@@ -152,10 +133,6 @@ public class UserUpdateableItemsControllerTest {
 
 		public void setupMockItemName(String itemName) {
 			this.itemName = itemName;
-		}
-		
-		public void setupMockItemId(int id) {
-			this.itemId = id;
 		}
 		
 		public boolean handleItemShouldBeRenamedCalled(int position, String expectedName) {
@@ -199,12 +176,6 @@ public class UserUpdateableItemsControllerTest {
 		protected String getItemCurrentName(int positionOfItem) {
 			getItemCurrentNameCalled = true;
 			return itemName;
-		}
-
-		@Override
-		protected int getItemId(int positionOfItem) {
-			position = positionOfItem;
-			return itemId;
 		}
 		
 	}

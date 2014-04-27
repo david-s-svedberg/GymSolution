@@ -28,8 +28,13 @@ public class SetLastResultUseCaseControllerImpl implements SetLastResultUseCaseC
 	
 	@Override
 	public void onUIAboutToBeCreated() {} // Ignore
-
 	@Override
 	public void onMenuShouldBeCreated() {} // Ignore
+	@Override
+	public void onUIHidden() {} // Ignore
+	@Override
+	public void onUIInteractive() {} //Ignore
+	@Override
+	public void onUIDestroyed() {} //Ignore
 	
 }

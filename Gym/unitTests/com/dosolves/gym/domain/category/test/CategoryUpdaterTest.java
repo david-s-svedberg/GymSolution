@@ -1,5 +1,6 @@
 package com.dosolves.gym.domain.category.test;
-import static org.mockito.Matchers.*;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -12,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
-import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.data.CategoryStructureGiver;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
 import com.dosolves.gym.domain.category.data.CategoryUpdaterImpl;
@@ -24,8 +24,6 @@ public class CategoryUpdaterTest {
 	private static final int CATEGORY_ID = 123;
 
 	private static final String NEW_CATEGORY_NAME = "newCategoryName";
-
-	private static final String CATEGORY_NAME = "CATEGORY_NAME";
 
 	@Mock
 	DataAccess dataAccessMock;
@@ -67,9 +65,7 @@ public class CategoryUpdaterTest {
 	
 	@Test
 	public void rename_calls_dataAccess_with_correct_parameters(){
-		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
-		
-		sut.rename(category, NEW_CATEGORY_NAME);
+		sut.rename(CATEGORY_ID, NEW_CATEGORY_NAME);
 		
 		verify(dataAccessMock).update(eq(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL),eq(CategoryStructureGiver.ID_PROPERTY_NAME), eq(CATEGORY_ID), argThat(new ArgumentMatcher<Map<String,Object>>(){
 			

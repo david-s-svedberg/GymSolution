@@ -14,7 +14,6 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.domain.data.DataAccess;
-import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.data.ExerciseStructureGiver;
 import com.dosolves.gym.domain.exercise.data.ExerciseUpdater;
 import com.dosolves.gym.domain.exercise.data.ExerciseUpdaterImpl;
@@ -23,12 +22,9 @@ import com.dosolves.gym.domain.exercise.data.ExerciseUpdaterImpl;
 public class ExerciseUpdaterImplTest {
 
 	private static final int CATEGORY_ID = 235;
-
 	private static final int EXERCISE_ID = 123;
 
 	private static final String NEW_EXERCISE_NAME = "newExerciseName";
-
-	private static final String EXERCISE_NAME = "EXERCISE_NAME";
 
 	@Mock
 	DataAccess dataAccessMock;
@@ -78,9 +74,7 @@ public class ExerciseUpdaterImplTest {
 	
 	@Test
 	public void rename_calls_dataAccess_with_correct_parameters(){
-		Exercise exercise = new Exercise(EXERCISE_ID, CATEGORY_ID, EXERCISE_NAME);
-		
-		sut.rename(exercise, NEW_EXERCISE_NAME);
+		sut.rename(EXERCISE_ID, NEW_EXERCISE_NAME);
 		
 		verify(dataAccessMock).update(eq(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL),eq(ExerciseStructureGiver.ID_PROPERTY_NAME), eq(EXERCISE_ID), argThat(new ArgumentMatcher<Map<String,Object>>(){
 			

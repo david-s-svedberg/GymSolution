@@ -11,28 +11,26 @@ import org.mockito.MockitoAnnotations;
 
 import android.app.Activity;
 
-import com.dosolves.gym.ads.AdsInitializer;
-import com.dosolves.gym.app.gui.AdsInitializerImpl;
+import com.dosolves.gym.ads.AdViewStateHandler;
+import com.dosolves.gym.app.ads.AdViewStateHandlerImpl;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
-public class AdsInitializerTest {
+public class AdsStateControllerTest {
 	
 	@Mock
 	Activity activityMock;
 	@Mock
 	AdView adViewMock;
 	
-	AdsInitializer sut;
-
-	
+	AdViewStateHandler sut;
 	
 	@Before
 	public void setUp(){
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new AdsInitializerImpl(activityMock);		 
+		sut = new AdViewStateHandlerImpl(activityMock);		 
 	}
 	
 	@Test

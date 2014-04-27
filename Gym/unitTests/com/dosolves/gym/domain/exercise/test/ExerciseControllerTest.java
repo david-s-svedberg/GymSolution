@@ -18,7 +18,6 @@ import android.widget.ArrayAdapter;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.exercise.Exercise;
@@ -44,8 +43,6 @@ public class ExerciseControllerTest {
 	ExerciseRetriever retrieverMock;
 	@Mock
 	CreateItemDialogShower createItemDialogShowerMock;
-	@Mock
-	ItemOptionMenuDialogShower itemOptionMenuDialogShowerMock; 
 	@Mock
 	ExerciseUpdater exerciseUpdaterMock;
 	@Mock
@@ -77,7 +74,6 @@ public class ExerciseControllerTest {
 									 retrieverMock, 
 									 createItemDialogShowerMock, 
 									 exerciseUpdaterMock, 
-									 itemOptionMenuDialogShowerMock,
 									 exerciseOpenerMock,
 									 currentCategoryHolderMock,
 									 renameDialogShowerMock,
@@ -96,23 +92,13 @@ public class ExerciseControllerTest {
     }
 	
 	@Test
-	public void gets_itemId_from_adapter_when_deleting_item(){
-		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
-		when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
-		
-		sut.onItemShouldBeDeleted(POSITION);
-		
-		verify(adapterMock).getItem(POSITION);
-	}
-	
-	@Test
 	public void calls_exerciseUpdater_when_item_should_be_renamed(){
-		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
 		when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
+		when(retrieverMock.getExercisesInCategory(CATEGORY_ID)).thenReturn(exercisesMock);
 		
-		sut.onItemShouldBeRenamed(POSITION, NEW_EXERCISE_NAME);
+		sut.onItemShouldBeRenamed(EXERCISE_ID, NEW_EXERCISE_NAME);
 		
-		verify(exerciseUpdaterMock).rename(exerciseMock, NEW_EXERCISE_NAME);		
+		verify(exerciseUpdaterMock).rename(EXERCISE_ID, NEW_EXERCISE_NAME);		
 	}
 	
 	@Test
@@ -146,15 +132,6 @@ public class ExerciseControllerTest {
 		verify(exerciseOpenerMock).openExercise(exerciseMock);
 	}
 	
-	@Test
-	public void queries_adapter_for_item_name_on_rename_requested(){
-		when(adapterMock.getItem(POSITION)).thenReturn(exerciseMock);
-		
-		sut.onRenameDialogRequested(POSITION);
-		
-		verify(renameDialogShowerMock).show(POSITION, sut, EXERCISE_NAME);
-	}
-
 	private void verifyExercisesHaveBeenUpdated() {
 		verify(adapterMock).clear();
 		verify(adapterMock).addAll(exercisesMock);

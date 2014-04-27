@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.dosolves.gym.domain.data.DataAccess;
-import com.dosolves.gym.domain.exercise.Exercise;
 
 public class ExerciseUpdaterImpl implements ExerciseUpdater {
 
@@ -36,11 +35,11 @@ public class ExerciseUpdaterImpl implements ExerciseUpdater {
 	}
 
 	@Override
-	public void rename(Exercise exercise, String newExerciseName) {
+	public void rename(int id, String newExerciseName) {
 		Map<String, Object> keysAndvalues = new HashMap<String, Object>();
 		keysAndvalues.put(ExerciseStructureGiver.NAME_PROPERTY_NAME, newExerciseName);
 		
-		dataAccess.update(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.ID_PROPERTY_NAME, exercise.getId(), keysAndvalues);
+		dataAccess.update(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, ExerciseStructureGiver.ID_PROPERTY_NAME, id, keysAndvalues);
 	}
 
 }

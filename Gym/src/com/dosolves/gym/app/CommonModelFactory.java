@@ -2,9 +2,10 @@ package com.dosolves.gym.app;
 
 import android.content.Context;
 
+import com.dosolves.gym.app.gui.ContextualMenuHandler;
+import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemDeleter;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
@@ -29,9 +30,10 @@ public interface CommonModelFactory {
 	
 	CreateItemDialogShower createCreateItemDialogShower(Context context, String title);
 	RenameDialogShower createRenameDialogShower(Context context, String title);
-	ItemOptionMenuDialogShower createItemOptionMenuDialogShower(Context context);
-
+	
 	ItemDeleter getExerciseDeleter();
 	ItemDeleter getCategoryDeleter();
+
+	ContextualMenuHandler createContextualMenuHandler(UserUpdateableItemsActivity activity);
 	
 }

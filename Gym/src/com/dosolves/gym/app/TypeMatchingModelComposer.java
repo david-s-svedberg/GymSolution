@@ -12,6 +12,7 @@ import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
+import com.dosolves.gym.app.gui.ContextualMenuHandler;
 import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
@@ -34,15 +35,18 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	private ExerciseModelFactory exerciseModelFactory;
 	private PerformanceModelFactory performanceModelFactory;
 	private AdsModelFactory adsModelFactory;
+	private CommonModelFactory commonModelFactory;
 
 	public TypeMatchingModelComposer(CategoryModelFactory categoryModelFactory, 
 									 ExerciseModelFactory exerciseModelFactory, 
 									 PerformanceModelFactory performanceModelFactory, 
-									 AdsModelFactory adsModelFactory) {
+									 AdsModelFactory adsModelFactory, 
+									 CommonModelFactory commonModelFactory) {
 		this.categoryModelFactory = categoryModelFactory;
 		this.exerciseModelFactory = exerciseModelFactory;
 		this.performanceModelFactory = performanceModelFactory;
 		this.adsModelFactory = adsModelFactory;
+		this.commonModelFactory = commonModelFactory;
 	}
 
 	@Override
@@ -126,10 +130,14 @@ public class TypeMatchingModelComposer implements ModelComposer {
 	
 	private void composeUserUpdateableItemsModel(UserUpdateableItemsActivity activity, UserUpdateableItemsController controller, ListAdapter adapter) {
 		AdsController adsController = adsModelFactory.createController(activity);
-		activity.setSystemEventListener(adsController);
+		
+		ContextualMenuHandler contextualMenuHandler = commonModelFactory.createContextualMenuHandler(activity);
+		contextualMenuHandler.addUserRequestListener(controller);
+		
+		activity.addSystemEventListener(adsController);
 		activity.setAdsUserGestureListener(adsController);		
 		activity.setAddItemRequestedCallBack(controller);
-		activity.setItemMenuRequestedCallback(controller);
+		activity.setMultiChoiceModeListener(contextualMenuHandler);
 		activity.setOpenItemRequestedCallback(controller);
 		activity.setReadyToGetDataCallback(controller);		
 	}

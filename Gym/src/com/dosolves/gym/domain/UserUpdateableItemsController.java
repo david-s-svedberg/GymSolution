@@ -1,29 +1,25 @@
 package com.dosolves.gym.domain;
 
+import java.util.List;
+
 import com.dosolves.gym.app.gui.AddItemRequestedCallBack;
 import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
-import com.dosolves.gym.app.gui.RenameDialogRequestedCallback;
 
 public abstract class UserUpdateableItemsController implements ReadyToGetDataCallback,
 															   AddItemRequestedCallBack, 
-															   ItemMenuRequestedCallback,
-															   RenameDialogRequestedCallback,
 															   ItemShouldBeCreatedCallback, 
-															   ItemShouldBeDeletedCallback,
 															   ItemShouldBeRenamedCallback,
-															   OpenItemRequestedCallback{
+															   OpenItemRequestedCallback,
+															   UserRequestListener{
 
 	private CreateItemDialogShower createItemDialogShower;
-	private ItemOptionMenuDialogShower itemOptionMenuDialogShower;
 	private RenameDialogShower renameDialogShower;
 	private DeleteItemUseCaseController deleteItemUseCase;
 
 	public UserUpdateableItemsController(CreateItemDialogShower createItemDialogShower, 
-										 ItemOptionMenuDialogShower itemOptionMenuDialogShower, 
 										 RenameDialogShower renameDialogShower, 
 										 DeleteItemUseCaseController deleteItemUseCase) {
 		this.createItemDialogShower = createItemDialogShower;
-		this.itemOptionMenuDialogShower = itemOptionMenuDialogShower;
 		this.renameDialogShower = renameDialogShower;
 		this.deleteItemUseCase = deleteItemUseCase;
 	}
@@ -34,30 +30,14 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	}
 	
 	@Override
-	public void onItemMenuRequested(int itemPosition) {
-		itemOptionMenuDialogShower.show(itemPosition, this, this);
-	}
-	
-	@Override
-	public void onRenameDialogRequested(int itemPosition) {
-		renameDialogShower.show(itemPosition, this, getItemCurrentName(itemPosition));
-	}
-
-	@Override
 	public void onItemShouldBeCreated(String newItemName) {
 		handleItemShouldBeCreated(newItemName);
 		handleUpdateItems();
 	}
 	
 	@Override
-	public void onItemShouldBeDeleted(int itemPosition) {
-		deleteItemUseCase.deleteItemRequested(getItemId(itemPosition));
-		handleUpdateItems();
-	}
-	
-	@Override
-	public void onItemShouldBeRenamed(int itemPosition, String newItemName) {
-		handleItemShouldBeRenamed(itemPosition, newItemName);
+	public void onItemShouldBeRenamed(int id, String newItemName) {
+		handleItemShouldBeRenamed(id, newItemName);
 		handleUpdateItems();
 	}
 	
@@ -71,12 +51,22 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 		handleUpdateItems();
 	}
 	
+	@Override
+	public void deleteItems(List<Integer> ids) {
+		deleteItemUseCase.deleteItemsRequested(ids);
+		handleUpdateItems();	
+	}
+	
+	@Override
+	public void renameItem(Integer id) {
+		renameDialogShower.show(id, this, getItemCurrentName(id));
+	}
+	
 	protected abstract void handleUpdateItems();
 	protected abstract void handleItemShouldBeOpened(int positionOfItemToBeOpened);
 	protected abstract void handleItemShouldBeCreated(String newItemName);
-	protected abstract void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName);
+	protected abstract void handleItemShouldBeRenamed(int id, String newName);
 	
-	protected abstract String getItemCurrentName(int positionOfItem);
-	protected abstract int getItemId(int positionOfItem);
+	protected abstract String getItemCurrentName(int id);
 	
 }

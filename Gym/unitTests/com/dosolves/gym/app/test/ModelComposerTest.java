@@ -1,7 +1,6 @@
 package com.dosolves.gym.app.test;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +14,7 @@ import android.test.AndroidTestCase;
 import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.ads.AdsController;
+import com.dosolves.gym.app.CommonModelFactory;
 import com.dosolves.gym.app.TypeMatchingModelComposer;
 import com.dosolves.gym.app.ads.AdsModelFactory;
 import com.dosolves.gym.app.ads.AdsRemovalBuyerAdapter;
@@ -23,6 +23,7 @@ import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
+import com.dosolves.gym.app.gui.ContextualMenuHandlerImpl;
 import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
@@ -82,12 +83,12 @@ public class ModelComposerTest extends AndroidTestCase{
 	UserAskerImpl userAskerMock;
 	@Mock
 	UserResponseListener userResponseListenerMock;
+	@Mock
+	ContextualMenuHandlerImpl contextMenuHandlerMock;
+	@Mock
+	CommonModelFactory commonModelFactory;
 	
 	ModelComposer sut;
-	
-	
-	
-	
 	
 	@Before
 	public void setUp() throws Exception{
@@ -96,7 +97,8 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut = new TypeMatchingModelComposer(categoryModelFactoryMock, 
 											exerciseModelFactoryMock,
 											performanceModelFactoryMock,
-											adsModelFactoryMock);
+											adsModelFactoryMock,
+											commonModelFactory);
 	}
 	
 	@Test
@@ -114,6 +116,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		when(categoryModelFactoryMock.createAdapter(categoriesActivityMock)).thenReturn(categoryAdapterMock);
 		when(categoryModelFactoryMock.createController(categoriesActivityMock, categoryAdapterMock)).thenReturn(categoryControllerMock);
 		when(adsModelFactoryMock.createController(categoriesActivityMock)).thenReturn(adsControllerMock);
+		when(commonModelFactory.createContextualMenuHandler(categoriesActivityMock)).thenReturn(contextMenuHandlerMock);
 	}
 	
 	@Test
@@ -135,12 +138,12 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_ItemMenuRequestedCallback_on_CategoriesActivity(){
+	public void sets_contextMenuHandler_as_MultiChoiceModeListener_on_category_activity(){
 		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categoriesActivityMock).setItemMenuRequestedCallback(categoryControllerMock);
+		verify(categoriesActivityMock).setMultiChoiceModeListener(contextMenuHandlerMock);
 	}
 	
 	@Test
@@ -176,7 +179,16 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categoriesActivityMock).setSystemEventListener(adsControllerMock);
+		verify(categoriesActivityMock).addSystemEventListener(adsControllerMock);
+	}
+	
+	@Test
+	public void sets_controller_as_userRequestListener_on_contextMenuHandler(){
+		stubCategoryAdapterAndControllerCreation();
+		
+		sut.compose(categoriesActivityMock);
+		
+		verify(contextMenuHandlerMock).addUserRequestListener(categoryControllerMock);
 	}
 	
 	@Test
@@ -209,12 +221,21 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_ItemMenuRequestedCallback_on_ExercisesActivity(){
+	public void sets_contextMenuHandler_as_MultiChoiceModeListener_on_exercise_activity(){
 		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
-		verify(exercisesActivityMock).setItemMenuRequestedCallback(exerciseControllerMock);
+		verify(exercisesActivityMock).setMultiChoiceModeListener(contextMenuHandlerMock);
+	}
+	
+	@Test
+	public void sets_controller_as_userRequestListener_on_contextMenuHandler_exercise(){
+		stubExerciseAdapterAndControllerCreation();
+		
+		sut.compose(exercisesActivityMock);
+		
+		verify(contextMenuHandlerMock).addUserRequestListener(exerciseControllerMock);
 	}
 	
 	@Test
@@ -241,7 +262,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		
 		sut.compose(exercisesActivityMock);
 		
-		verify(exercisesActivityMock).setSystemEventListener(adsControllerMock);
+		verify(exercisesActivityMock).addSystemEventListener(adsControllerMock);
 	}
 	
 	@Test
@@ -257,6 +278,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		when(exerciseModelFactoryMock.createAdapter(exercisesActivityMock)).thenReturn(exerciseAdapterMock);
 		when(exerciseModelFactoryMock.createController(exercisesActivityMock, exerciseAdapterMock,exercisesActivityMock)).thenReturn(exerciseControllerMock);
 		when(adsModelFactoryMock.createController(exercisesActivityMock)).thenReturn(adsControllerMock);
+		when(commonModelFactory.createContextualMenuHandler(exercisesActivityMock)).thenReturn(contextMenuHandlerMock);
 	}
 	
 	@Test

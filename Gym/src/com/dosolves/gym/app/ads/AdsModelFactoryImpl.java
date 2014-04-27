@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.dosolves.gym.ads.AdsController;
-import com.dosolves.gym.ads.AdsInitializer;
+import com.dosolves.gym.ads.AdViewStateHandler;
 import com.dosolves.gym.ads.AdsRemovalBoughtStorer;
 import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.AdsRemovalPurchasedListener;
@@ -18,7 +18,6 @@ import com.dosolves.gym.ads.ViewSetter;
 import com.dosolves.gym.app.ContextPreferenceRetriever;
 import com.dosolves.gym.app.PreferenceAdsShouldBeDisplayedDecider;
 import com.dosolves.gym.app.PreferenceRetriever;
-import com.dosolves.gym.app.gui.AdsInitializerImpl;
 import com.dosolves.gym.app.gui.CategoryAndExerciseViewSetter;
 import com.dosolves.gym.app.gui.PerformaceViewSetter;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
@@ -39,7 +38,7 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 	@Override
 	public AdsController createController(Activity activity) {
 		ViewSetter viewSetter = createViewSetter(activity);
-		AdsInitializer adsInitializer = new AdsInitializerImpl(activity);
+		AdViewStateHandler adsInitializer = new AdViewStateHandlerImpl(activity);
 		MenuSetter menuSetter = (MenuSetter)activity;
 		PreferenceRetriever preferenceRetriever = new ContextPreferenceRetriever(activity);
 		AdsShouldBeDisplayedDecider adsShouldBeDisplayedDecider = new PreferenceAdsShouldBeDisplayedDecider(preferenceRetriever);

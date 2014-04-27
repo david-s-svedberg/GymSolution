@@ -4,7 +4,6 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
@@ -21,11 +20,10 @@ public class CategoryController extends UserUpdateableItemsController {
 							  CategoryRetriever retriever, 
 							  CreateItemDialogShower createItemDialogShower, 
 							  CategoryUpdater categoryUpdater, 
-							  ItemOptionMenuDialogShower itemOptionMenuDialogShower, 
 							  CategoryOpener categoryOpener,
 							  RenameDialogShower renameDialogShower, 
 							  DeleteItemUseCaseController categoryDeleteUseCase) {
-		super(createItemDialogShower, itemOptionMenuDialogShower, renameDialogShower, categoryDeleteUseCase);
+		super(createItemDialogShower, renameDialogShower, categoryDeleteUseCase);
 		this.adapter = adapter;
 		this.retriever = retriever;
 		this.updater = categoryUpdater;
@@ -61,18 +59,13 @@ public class CategoryController extends UserUpdateableItemsController {
 	}
 
 	@Override
-	protected void handleItemShouldBeRenamed(int positionOfItemToBeRenamed, String newName) {
-		updater.rename(adapter.getItem(positionOfItemToBeRenamed), newName);
+	protected void handleItemShouldBeRenamed(int id, String newName) {
+		updater.rename(id, newName);
 	}
 
 	@Override
-	protected String getItemCurrentName(int positionOfItem) {
-		return adapter.getItem(positionOfItem).getName();
-	}
-
-	@Override
-	protected int getItemId(int positionOfItem) {
-		return adapter.getItem(positionOfItem).getId();
+	protected String getItemCurrentName(int id) {
+		return retriever.getCategory(id).getName();
 	}
 	
 }

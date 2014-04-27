@@ -1,5 +1,7 @@
 package com.dosolves.gym.domain;
 
+import java.util.List;
+
 import com.dosolves.gym.domain.data.ItemHasSubItemsChecker;
 
 public class DeleteItemUseCaseControllerImpl implements DeleteItemUseCaseController {
@@ -17,18 +19,30 @@ public class DeleteItemUseCaseControllerImpl implements DeleteItemUseCaseControl
 	}
 
 	@Override
-	public void deleteItemRequested(final int id) {
-		if(itemHasSubItemsChecker.hasSubItems(id)){
+	public void deleteItemsRequested(final List<Integer> ids) {
+		if(anyItemHasChildren(ids)){
 			userAsker.shouldParentItemBeDeleted(new AbstractUserResponseListener(){
 				@Override
 				public void yes() {
-					itemDeleter.deleteItem(id);
+					deleteAllItems(ids);
 				}
 			});	
 		}
 		else{
-			itemDeleter.deleteItem(id);
+			deleteAllItems(ids);
 		}
+	}
+
+	protected void deleteAllItems(List<Integer> ids) {
+		for(int id:ids)
+			itemDeleter.deleteItem(id);
+	}
+
+	private boolean anyItemHasChildren(List<Integer> ids) {
+		for(int id:ids)
+			if(itemHasSubItemsChecker.hasSubItems(id))
+				return true;
+		return false;
 	}
 
 }

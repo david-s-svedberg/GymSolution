@@ -11,7 +11,7 @@ import org.mockito.MockitoAnnotations;
 import android.view.Menu;
 
 import com.dosolves.gym.ads.AdsController;
-import com.dosolves.gym.ads.AdsInitializer;
+import com.dosolves.gym.ads.AdViewStateHandler;
 import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.AdsShouldBeDisplayedDecider;
 import com.dosolves.gym.ads.MenuSetter;
@@ -30,14 +30,13 @@ public class AdsControllerTest {
 	@Mock
 	Menu menuMock;
 	@Mock
-	AdsInitializer adsInitializerMock;
+	AdViewStateHandler adsInitializerMock;
 	@Mock
 	AdsRemovalBuyer adsRemovalBuyerMock;
 	
 	AdsController sut;
 	SystemEventListener sutAsSystemEventListener;
 	AdsUserGestureListener sutAsUserGestureListener;
-	
 	
 	@Before
 	public void setUp(){
@@ -57,11 +56,39 @@ public class AdsControllerTest {
 	}
 	
 	@Test
-	public void initzilizes_apps_if_ads_should_be_displayed(){
+	public void initzilizes_ads_if_ads_should_be_displayed(){
 		when(deciderMock.adsShouldBeDisplayed()).thenReturn(true);
 		sutAsSystemEventListener.onUIAboutToBeCreated();
 		
 		verify(adsInitializerMock).init();
+	}
+
+	
+	@Test
+	public void pauses_ads_when_gui_is_hidden_if_ads_should_be_displayed(){
+		when(deciderMock.adsShouldBeDisplayed()).thenReturn(true);
+		
+		sutAsSystemEventListener.onUIHidden();
+		
+		verify(adsInitializerMock).pause();
+	}
+	
+	@Test
+	public void resumes_ads_when_gui_is_interactive_if_ads_should_be_displayed(){
+		when(deciderMock.adsShouldBeDisplayed()).thenReturn(true);
+		
+		sutAsSystemEventListener.onUIInteractive();
+		
+		verify(adsInitializerMock).resume();
+	}
+	
+	@Test
+	public void destroys_ads_when_gui_is_destroyed_if_ads_should_be_displayed(){
+		when(deciderMock.adsShouldBeDisplayed()).thenReturn(true);
+		
+		sutAsSystemEventListener.onUIDestroyed();
+		
+		verify(adsInitializerMock).destroy();
 	}
 	
 	@Test

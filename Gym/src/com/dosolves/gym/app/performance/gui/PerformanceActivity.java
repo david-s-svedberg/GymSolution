@@ -1,8 +1,5 @@
 package com.dosolves.gym.app.performance.gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +23,7 @@ import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
+import com.dosolves.gym.domain.SystemEventObservableImpl;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
 import com.dosolves.gym.domain.performance.Set;
@@ -55,16 +53,13 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private boolean shouldDisplayPurchaseAdsRemovalMenu;
 
 	private AdsUserGestureListener adsUserGestureListener;
-	private List<SystemEventListener> systemEventListeners;
-
-	public PerformanceActivity(){
-		systemEventListeners = new ArrayList<SystemEventListener>();
-	}
+	
+	private SystemEventObservableImpl systemEventListeners = new SystemEventObservableImpl();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		notifySystemEventListenersThatUIAboutToBeCreated();
+		systemEventListeners.notifyUIAboutToBeCreated();
 		setCurrentExercise();
 		setupViewFields();
 		disableEnterButton();
@@ -72,12 +67,12 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		setupClickListeners();
 		setupButtonEnabledListener();
 		setupActionBar();
-		notifySystemEventListenersThatUIHasBeenCreated();
+		systemEventListeners.notifyUICreated();
 	}
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		notifySystemEventListenersThatMenuShouldBeCreated();
+		systemEventListeners.notifyMenuShouldBeCreated();
 		
 		if(shouldDisplayPurchaseAdsRemovalMenu)
 			getMenuInflater().inflate(R.menu.only_remove_ads, menu);	
@@ -98,6 +93,19 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	public void onResume() {
 		super.onResume();
 		readyToGetDataCallback.onReadyToGetData();
+		systemEventListeners.notifyUIInteractive();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		systemEventListeners.notifyUIHidden();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		systemEventListeners.notifyUIDestroyed();
 	}
 
 	private void setupAdapter() {
@@ -303,23 +311,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	}
 
 	public void addSystemEventListener(SystemEventListener systemEventListener) {
-		systemEventListeners.add(systemEventListener);
+		systemEventListeners.registerSystemEventListener(systemEventListener);
 	}
-	
-	private void notifySystemEventListenersThatUIHasBeenCreated() {
-		for(SystemEventListener systemEventListener: systemEventListeners)
-			systemEventListener.onUICreated();
 		
-	}
-
-	private void notifySystemEventListenersThatUIAboutToBeCreated() {
-		for(SystemEventListener systemEventListener: systemEventListeners)
-			systemEventListener.onUIAboutToBeCreated();
-	}
-	
-	private void notifySystemEventListenersThatMenuShouldBeCreated() {
-		for(SystemEventListener systemEventListener: systemEventListeners)
-			systemEventListener.onMenuShouldBeCreated();	
-	}
-
 }

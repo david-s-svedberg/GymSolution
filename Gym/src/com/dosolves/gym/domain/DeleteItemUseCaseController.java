@@ -1,7 +1,9 @@
 package com.dosolves.gym.domain;
 
+import java.util.List;
+
 public interface DeleteItemUseCaseController {
 
-	void deleteItemRequested(int id);
+	void deleteItemsRequested(List<Integer> ids);
 
 }

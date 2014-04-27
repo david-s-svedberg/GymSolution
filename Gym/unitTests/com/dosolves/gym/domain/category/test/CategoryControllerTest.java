@@ -1,4 +1,5 @@
 package com.dosolves.gym.domain.category.test;
+
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -17,7 +18,6 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
@@ -39,8 +39,6 @@ public class CategoryControllerTest {
 	CategoryRetriever retrieverMock;
 	@Mock
 	CreateItemDialogShower createItemDialogShowerMock;
-	@Mock
-	ItemOptionMenuDialogShower itemOptionMenuDialogShowerMock; 
 	@Mock
 	CategoryUpdater categoryUpdaterMock;
 	@Mock
@@ -68,7 +66,6 @@ public class CategoryControllerTest {
 									 retrieverMock, 
 									 createItemDialogShowerMock, 
 									 categoryUpdaterMock, 
-									 itemOptionMenuDialogShowerMock,
 									 categoryOpenerMock,
 									 renameDialogShowerMock,
 									 categoryDeleteUseCaseMock);
@@ -90,18 +87,17 @@ public class CategoryControllerTest {
 		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
 		when(adapterMock.getItem(POSITION)).thenReturn(category);
 		
-		sut.onItemShouldBeDeleted(POSITION);
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		ids.add(CATEGORY_ID);
+		sut.deleteItems(ids);
 		
-		verify(categoryDeleteUseCaseMock).deleteItemRequested(CATEGORY_ID);
+		verify(categoryDeleteUseCaseMock).deleteItemsRequested(ids);
 	}
 	
 	@Test
 	public void calls_categoryUpdater_when_category_should_be_renamed(){
-		Category category = new Category(CATEGORY_ID, CATEGORY_NAME);
-		when(adapterMock.getItem(POSITION)).thenReturn(category);
-		
-		sut.onItemShouldBeRenamed(POSITION, NEW_CATEGORY_NAME);
-		verify(categoryUpdaterMock).rename(category, NEW_CATEGORY_NAME);
+		sut.onItemShouldBeRenamed(CATEGORY_ID, NEW_CATEGORY_NAME);
+		verify(categoryUpdaterMock).rename(CATEGORY_ID, NEW_CATEGORY_NAME);
 	}
 	
 	@Test
@@ -130,15 +126,7 @@ public class CategoryControllerTest {
 		
 		verify(categoryOpenerMock).openCategory(categoryMock);
 	}
-
-	@Test
-	public void queries_adapter_for_item_name_on_rename_requested(){
-		when(adapterMock.getItem(POSITION)).thenReturn(categoryMock);
-		
-		sut.onRenameDialogRequested(POSITION);
-		
-		verify(renameDialogShowerMock).show(POSITION, sut, CATEGORY_NAME);
-	}
+	
 	private void verifyCategoriesHaveBeenUpdated() {
 		verify(adapterMock).clear();
 		verify(adapterMock).addAll(categoriesMock);

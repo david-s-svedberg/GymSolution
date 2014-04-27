@@ -5,50 +5,60 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ListView;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.app.SystemEventListener;
-import com.dosolves.gym.domain.ItemMenuRequestedCallback;
 import com.dosolves.gym.domain.ReadyToGetDataCallback;
+import com.dosolves.gym.domain.SystemEventObservableImpl;
 
-public abstract class UserUpdateableItemsActivity extends ListActivity implements OnItemLongClickListener, MenuSetter{
+public abstract class UserUpdateableItemsActivity extends ListActivity implements MenuSetter, PositionToIdTranslator{
 
 	private boolean shouldDisplayPurchaseAdsRemovalMenu;
 	
 	private AddItemRequestedCallBack addItemRequestedCallBack;
-	private ItemMenuRequestedCallback itemMenuRequestedCallback;
 	private OpenItemRequestedCallback openItemRequestedCallback;
 	private ReadyToGetDataCallback readyToGetDataCallback;
-	private SystemEventListener systemEventListener;
 	private AdsUserGestureListener adsUserGestureListener;
+	private MultiChoiceModeListener multiChoiceModeListener;
+	
+	private SystemEventObservableImpl systemEventListeners = new SystemEventObservableImpl();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		systemEventListener.onUIAboutToBeCreated();
-		this.getListView().setLongClickable(true);
-		this.getListView().setOnItemLongClickListener(this);
+		systemEventListeners.notifyUIAboutToBeCreated();
+		ListView listView = this.getListView();
+		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+		listView.setMultiChoiceModeListener(multiChoiceModeListener);
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
 		readyToGetDataCallback.onReadyToGetData();
+		systemEventListeners.notifyUIInteractive();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		systemEventListeners.notifyUIHidden();
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		systemEventListeners.notifyUIDestroyed();
 	}
 	
 	public void setAddItemRequestedCallBack(AddItemRequestedCallBack addItemRequestedCallBack) {
 		this.addItemRequestedCallBack = addItemRequestedCallBack;		
 	}
 	
-	public void setItemMenuRequestedCallback(ItemMenuRequestedCallback itemMenuRequestedCallback) {
-		this.itemMenuRequestedCallback = itemMenuRequestedCallback;
-	}
-
 	public void setOpenItemRequestedCallback(OpenItemRequestedCallback openItemRequestedCallback) {
 		this.openItemRequestedCallback = openItemRequestedCallback;
 	}
@@ -57,17 +67,21 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 		this.readyToGetDataCallback = readyToGetDataCallback;
 	}
 	
-	public void setSystemEventListener(SystemEventListener systemEventListener) {
-		this.systemEventListener = systemEventListener;
+	public void addSystemEventListener(SystemEventListener systemEventListener) {
+		systemEventListeners.registerSystemEventListener(systemEventListener);
 	}
 	
 	public void setAdsUserGestureListener(AdsUserGestureListener adsUserGestureListener) {
 		this.adsUserGestureListener = adsUserGestureListener;
 	}
 	
+	public void setMultiChoiceModeListener(MultiChoiceModeListener multiChoiceModeListener) {
+		this.multiChoiceModeListener = multiChoiceModeListener;
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		systemEventListener.onMenuShouldBeCreated();
+		systemEventListeners.notifyMenuShouldBeCreated();
 		getMenuInflater().inflate(decideMenuIdToShow(), menu);
 		return true;
 	}
@@ -97,12 +111,6 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	}
 	
 	@Override
-	public boolean onItemLongClick(AdapterView<?> parent, View v, int postition, long id) {
-		itemMenuRequestedCallback.onItemMenuRequested(postition);
-		return true;
-	}
-	
-	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		openItemRequestedCallback.onOpenItemRequested(position);
 	}
@@ -116,7 +124,5 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	public void setAdsFreeMenu() {
 		shouldDisplayPurchaseAdsRemovalMenu = false;
 	}
-	
-	protected abstract int getIdOfItemAtPosition(int postition);
 	
 }

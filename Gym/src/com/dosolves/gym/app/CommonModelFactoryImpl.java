@@ -6,15 +6,16 @@ import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
+import com.dosolves.gym.app.gui.ContextualMenuHandler;
+import com.dosolves.gym.app.gui.ContextualMenuHandlerImpl;
 import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
-import com.dosolves.gym.app.gui.ItemOptionMenuAlertDialogShower;
 import com.dosolves.gym.app.gui.RenameItemAlertDialogShower;
+import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.performance.database.SetDbStructureGiver;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentDateGiver;
 import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.ItemDeleter;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.data.CascadingCategoryDeleter;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
@@ -139,11 +140,6 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 	}
 
 	@Override
-	public ItemOptionMenuDialogShower createItemOptionMenuDialogShower(Context context) {
-		return new ItemOptionMenuAlertDialogShower(context);
-	}
-
-	@Override
 	public ItemDeleter getExerciseDeleter() {
 		if(exerciseDeleter == null)
 			exerciseDeleter = createExerciseDeleter();
@@ -205,6 +201,11 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 		CategoryUpdater categoryUpdater = getCategoryUpdater();
 		
 		return new CascadingCategoryDeleter(exerciseIdRetriever, exerciseDeleter, categoryUpdater);
+	}
+
+	@Override
+	public ContextualMenuHandler createContextualMenuHandler(UserUpdateableItemsActivity activity) {
+		return new ContextualMenuHandlerImpl(activity);
 	}
 	
 }

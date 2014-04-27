@@ -15,7 +15,6 @@ import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.DeleteItemUseCaseControllerImpl;
 import com.dosolves.gym.domain.ItemDeleter;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
@@ -45,13 +44,12 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 		CategoryUpdater updater = commonModelFactory.getCategoryUpdater();
 		
 		CreateItemDialogShower createCategorydialog = commonModelFactory.createCreateItemDialogShower(context, context.getString(R.string.create_category));
-		ItemOptionMenuDialogShower categoryOptionMenuDialog = commonModelFactory.createItemOptionMenuDialogShower(context);
 		RenameDialogShower renameDialogShower = commonModelFactory.createRenameDialogShower(context, context.getString(R.string.rename_category));
 		
 		ContextCategoryOpener categoryOpener = new ContextCategoryOpener(context);
 		DeleteItemUseCaseController deleteItemUseCase = createDeleteUseCase(context, updater);
 		
-		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOptionMenuDialog, categoryOpener,renameDialogShower, deleteItemUseCase);
+		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOpener,renameDialogShower, deleteItemUseCase);
 	}
 	
 	private DeleteItemUseCaseController createDeleteUseCase(Context context, CategoryUpdater categoryUpdater) {

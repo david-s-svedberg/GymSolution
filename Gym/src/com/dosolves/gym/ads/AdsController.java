@@ -7,18 +7,18 @@ public class AdsController implements SystemEventListener, AdsUserGestureListene
 	private AdsShouldBeDisplayedDecider decider;
 	private ViewSetter viewSetter;
 	private MenuSetter menuSetter;
-	private AdsInitializer adsInitializer;
+	private AdViewStateHandler adsStateController;
 	private AdsRemovalBuyer adsRemovalBuyer;
 
 	public AdsController(AdsShouldBeDisplayedDecider decider, 
 							 ViewSetter viewSetter, 
 							 MenuSetter menuItemAdder, 
-							 AdsInitializer adsInitializer, 
+							 AdViewStateHandler adsInitializer, 
 							 AdsRemovalBuyer adsRemovalBuyer) {
 		this.decider = decider;
 		this.viewSetter = viewSetter;
 		this.menuSetter = menuItemAdder;
-		this.adsInitializer = adsInitializer;
+		this.adsStateController = adsInitializer;
 		this.adsRemovalBuyer = adsRemovalBuyer;
 	}
 
@@ -26,7 +26,7 @@ public class AdsController implements SystemEventListener, AdsUserGestureListene
 	public void onUIAboutToBeCreated() {
 		if(decider.adsShouldBeDisplayed()){
 			viewSetter.setAdsView();
-			adsInitializer.init();
+			adsStateController.init();
 		}
 		else{
 			viewSetter.setAdsFreeView();
@@ -34,8 +34,18 @@ public class AdsController implements SystemEventListener, AdsUserGestureListene
 	}
 	
 	@Override
-	public void onUICreated() {
-		//Ignore
+	public void onUICreated() {}
+	
+	@Override
+	public void onUIHidden() {
+		if(decider.adsShouldBeDisplayed())
+			adsStateController.pause();
+	}
+	
+	@Override
+	public void onUIInteractive() {
+		if(decider.adsShouldBeDisplayed())
+			adsStateController.resume();
 	}
 
 	@Override
@@ -51,6 +61,11 @@ public class AdsController implements SystemEventListener, AdsUserGestureListene
 	@Override
 	public void onPurchaseAdsRemovalRequested() {
 		adsRemovalBuyer.buyAdsRemoval();
+	}
+
+	@Override
+	public void onUIDestroyed() {
+		adsStateController.destroy();
 	}
 
 }

@@ -17,7 +17,7 @@ public class CategoriesActivity extends UserUpdateableItemsActivity{
 	}
 
 	@Override
-	protected int getIdOfItemAtPosition(int position) {
+	public Integer getId(int position) {
 		return adapter.getItem(position).getId();
 	}
 	

@@ -20,4 +20,9 @@ public class CursorCategoryRetriever implements CategoryRetriever {
 		return categoryFactory.CreateCategories(dao.get(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL));
 	}
 
+	@Override
+	public Category getCategory(int id) {
+		return categoryFactory.CreateCategory(dao.get(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL,CategoryStructureGiver.ID_PROPERTY_NAME,id));
+	}
+
 }

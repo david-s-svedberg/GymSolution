@@ -24,6 +24,7 @@ public class CursorExerciseRetrieverTest {
 	private static final String CATEGORY_ID_COLUMN_NAME = "CategoryId";
 	private static final String EXERCISES = "Exercises";
 	private static final int CATEGORY_ID = 123;
+	private static final int EXERCISE_ID = 458;
 	
 	@Mock
 	DataAccess daoMock;
@@ -52,6 +53,16 @@ public class CursorExerciseRetrieverTest {
 		when(daoMock.get(anyString(),anyString(), anyInt())).thenReturn(cursorMock);
 		sut.getExercisesInCategory(CATEGORY_ID);
 		verify(exerciseFactoryMock).CreateExercises(cursorMock);			
+	}
+	
+	@Test
+	public void querries_dao_when_asked_for_exercise(){
+		when(daoMock.get(anyString(),anyString(), anyInt())).thenReturn(cursorMock);
+		
+		sut.getExercise(EXERCISE_ID);		
+		
+		verify(daoMock).get(EXERCISES, "Id", EXERCISE_ID);
+		verify(exerciseFactoryMock).CreateExercise(cursorMock);
 	}
 	
 }

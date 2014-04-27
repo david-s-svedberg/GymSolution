@@ -20,17 +20,31 @@ public class CursorExerciseFactory {
 		
 		cursor.moveToFirst();
 		while(!cursor.isAfterLast()){
-			int id = cursor.getInt(exerciseDbStructureGiver.getColumnIndex(ExerciseStructureGiver.ID_PROPERTY_NAME));
-			int categoryId = cursor.getInt(exerciseDbStructureGiver.getColumnIndex(ExerciseStructureGiver.CATEGORY_ID_PROPERTY_NAME));
-			String name = cursor.getString(exerciseDbStructureGiver.getColumnIndex(ExerciseStructureGiver.NAME_PROPERTY_NAME));
-			
-			exercises.add(new Exercise(id,categoryId, name));
-			
+			exercises.add(createExerciseFromCursorAtCurrentPosition(cursor));
 			cursor.moveToNext();
 		}
 		cursor.close();		
 
 		return exercises;
+	}
+
+	private Exercise createExerciseFromCursorAtCurrentPosition(GymCursor cursor) {
+		int id = cursor.getInt(exerciseDbStructureGiver.getColumnIndex(ExerciseStructureGiver.ID_PROPERTY_NAME));
+		int categoryId = cursor.getInt(exerciseDbStructureGiver.getColumnIndex(ExerciseStructureGiver.CATEGORY_ID_PROPERTY_NAME));
+		String name = cursor.getString(exerciseDbStructureGiver.getColumnIndex(ExerciseStructureGiver.NAME_PROPERTY_NAME));
+		
+		Exercise exercise = new Exercise(id,categoryId, name);
+		return exercise;
+	}
+
+	public Exercise CreateExercise(GymCursor cursor) {
+		Exercise ret = null;
+		
+		cursor.moveToFirst();
+		if(!cursor.isAfterLast())
+			ret = createExerciseFromCursorAtCurrentPosition(cursor);
+		
+		return ret;
 	}
 
 }

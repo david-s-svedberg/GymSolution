@@ -3,7 +3,6 @@ package com.dosolves.gym.domain.category.data;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.data.DataAccess;
 
 public class CategoryUpdaterImpl implements CategoryUpdater {
@@ -27,10 +26,10 @@ public class CategoryUpdaterImpl implements CategoryUpdater {
 	}
 
 	@Override
-	public void rename(Category categoryToBeRenamed, String newCategoryName) {
+	public void rename(int id, String newCategoryName) {
 		Map<String, Object> keysAndvalues = new HashMap<String, Object>();
 		keysAndvalues.put(CategoryStructureGiver.NAME_PROPERTY_NAME, newCategoryName);
-		dataAccess.update(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL, CategoryStructureGiver.ID_PROPERTY_NAME, categoryToBeRenamed.getId(), keysAndvalues);
+		dataAccess.update(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL, CategoryStructureGiver.ID_PROPERTY_NAME, id, keysAndvalues);
 	}
 
 }

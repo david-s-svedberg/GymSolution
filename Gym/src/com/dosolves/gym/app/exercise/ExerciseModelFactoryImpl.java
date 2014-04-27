@@ -16,7 +16,6 @@ import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.DeleteItemUseCaseControllerImpl;
 import com.dosolves.gym.domain.ItemDeleter;
-import com.dosolves.gym.domain.ItemOptionMenuDialogShower;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
@@ -47,13 +46,12 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 		ExerciseRetriever retriever = commonModelFactory.getExerciseRetriever();
 		ExerciseUpdater updater = commonModelFactory.getExerciseUpdater();
 		CreateItemDialogShower createExercisedialogShower = commonModelFactory.createCreateItemDialogShower(context, context.getString(R.string.create_exercise));
-		ItemOptionMenuDialogShower categoryOptionMenuDialog = commonModelFactory.createItemOptionMenuDialogShower(context);
 		RenameDialogShower renameDialogShower = commonModelFactory.createRenameDialogShower(context, context.getString(R.string.rename_exercise));
 		
 		DeleteItemUseCaseController deleteItemUseCase = createDeleteUseCase(context);
 		ExerciseOpener exerciseOpener = new ContextExerciseOpener(context);
 		
-		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, categoryOptionMenuDialog, exerciseOpener, holder,renameDialogShower, deleteItemUseCase);
+		return new ExerciseController(adapter, retriever, createExercisedialogShower, updater, exerciseOpener, holder,renameDialogShower, deleteItemUseCase);
 	}
 
 	private DeleteItemUseCaseController createDeleteUseCase(Context context) {

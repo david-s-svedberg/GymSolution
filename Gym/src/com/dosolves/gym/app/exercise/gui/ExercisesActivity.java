@@ -24,7 +24,7 @@ public class ExercisesActivity extends UserUpdateableItemsActivity implements Cu
 	}
 	
 	@Override
-	protected int getIdOfItemAtPosition(int position) {
+	public Integer getId(int position) {
 		return adapter.getItem(position).getId();
 	}
 	

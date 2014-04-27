@@ -7,5 +7,6 @@ import com.dosolves.gym.domain.exercise.Exercise;
 public interface ExerciseRetriever {
 
 	List<Exercise> getExercisesInCategory(int categoryId);
+	Exercise getExercise(int id);
 
 }

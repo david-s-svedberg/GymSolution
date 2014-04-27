@@ -21,6 +21,8 @@ import com.dosolves.gym.domain.data.DataAccess;
 @RunWith(RobolectricTestRunner.class)
 public class CursorCategoryRetrieverTest extends AndroidTestCase {
 
+	private static final int CATEGORY_ID = 3456;
+
 	private static final String CATEGORIES = "Categories";
 	
 	@Mock
@@ -51,6 +53,16 @@ public class CursorCategoryRetrieverTest extends AndroidTestCase {
 		when(daoMock.get(anyString())).thenReturn(cursorMock);
 		sut.getCategories();
 		verify(categoryFactoryMock).CreateCategories(cursorMock);			
+	}
+	
+	@Test
+	public void querries_dao_when_Asked_for_category(){
+		when(daoMock.get(anyString(), anyString(), anyInt())).thenReturn(cursorMock);
+		
+		sut.getCategory(CATEGORY_ID);
+		
+		verify(daoMock).get(CATEGORIES, "Id", CATEGORY_ID);
+		verify(categoryFactoryMock).CreateCategory(cursorMock);			
 	}
 	
 }
