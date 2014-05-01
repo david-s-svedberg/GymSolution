@@ -37,7 +37,7 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 
 	@Override
 	public ArrayAdapter<Exercise> createAdapter(Context context) {
-		return new ArrayAdapter<Exercise>(context, android.R.layout.simple_list_item_1);
+		return new ArrayAdapter<Exercise>(context, android.R.layout.simple_list_item_activated_1);
 	}
 
 	@Override

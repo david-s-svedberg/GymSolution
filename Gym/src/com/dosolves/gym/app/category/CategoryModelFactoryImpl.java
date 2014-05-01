@@ -35,7 +35,7 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 
 	@Override
 	public ArrayAdapter<Category> createAdapter(Context context) {
-		return new ArrayAdapter<Category>(context, android.R.layout.simple_list_item_1);
+		return new ArrayAdapter<Category>(context, android.R.layout.simple_list_item_activated_1);
 	}
 
 	@Override

@@ -15,6 +15,9 @@ import com.dosolves.gym.domain.UserRequestObservableImpl;
 
 public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
 
+	private static final int DISABLED_ALPHA = 130;
+	private static final int FULL_ALPHA = 255;
+	
 	private Menu menu;
 	private List<Integer> selectedItems;
 	private PositionToIdTranslator positionTranslator;
@@ -29,7 +32,7 @@ public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
 	public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
         case R.id.delete_menu_item:
-            userRequestListeners.notifyDeleteItems(selectedItems);
+            userRequestListeners.notifyDeleteItems(getCopyOfSelectedItems());
             actionMode.finish();
             return true;
         case R.id.rename_menu_item:
@@ -39,6 +42,15 @@ public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
         default:
             return false;
     }
+	}
+
+	private List<Integer> getCopyOfSelectedItems() {
+		List<Integer> copy = new ArrayList<Integer>(selectedItems.size());
+		
+		for(Integer selectedId:selectedItems)
+			copy.add(selectedId);
+		
+		return copy;
 	}
 
 	@Override
@@ -63,6 +75,15 @@ public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
 	public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
 		updateSelectedItems(position, checked);
 		updateMenuItemEnabledStates();
+		updateTitle(actionMode);
+	}
+
+	private void updateTitle(ActionMode actionMode) {
+		actionMode.setTitle(numberOfSelectedItems());
+	}
+
+	private String numberOfSelectedItems() {
+		return Integer.toString(selectedItems.size());
 	}
 
 	private void updateSelectedItems(int position, boolean checked) {
@@ -76,11 +97,11 @@ public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
 		MenuItem renameMenuItem = menu.findItem(R.id.rename_menu_item);
 		if(selectedItems.size()>1){
 			renameMenuItem.setEnabled(false);
-			renameMenuItem.setVisible(false);
+			renameMenuItem.getIcon().setAlpha(DISABLED_ALPHA);
 		}
 		else{
 			renameMenuItem.setEnabled(true);
-			renameMenuItem.setVisible(true);
+			renameMenuItem.getIcon().setAlpha(FULL_ALPHA);
 		}
 	}
 

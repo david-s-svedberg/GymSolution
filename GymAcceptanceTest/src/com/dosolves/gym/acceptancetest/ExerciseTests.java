@@ -111,7 +111,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 
 	private void deleteCreatedExercise(String exerciseName) {
 		solo.clickLongOnText(exerciseName);
-		solo.clickOnText("Delete");
+		solo.clickOnView(getActivity().findViewById(R.id.delete_menu_item));
 	}
 	
 }

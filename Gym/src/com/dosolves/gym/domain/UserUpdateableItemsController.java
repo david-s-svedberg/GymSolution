@@ -53,8 +53,15 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	
 	@Override
 	public void deleteItems(List<Integer> ids) {
-		deleteItemUseCase.deleteItemsRequested(ids);
-		handleUpdateItems();	
+		deleteItemUseCase.deleteItemsRequested(ids, new ItemsDeletedListener() {
+			
+			@Override
+			public void onItemsHasBeenDeleted() {
+				handleUpdateItems();		
+			}
+			
+		});
+		
 	}
 	
 	@Override

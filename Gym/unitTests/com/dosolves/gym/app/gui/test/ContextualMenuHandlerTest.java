@@ -1,18 +1,19 @@
 package com.dosolves.gym.app.gui.test;
 
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
 import org.junit.Before;
+
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import android.graphics.drawable.Drawable;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -47,6 +48,8 @@ public class ContextualMenuHandlerTest {
 	MenuItem deleteItemMock;
 	@Mock
 	UserRequestListener userRequestListenerMock;
+	@Mock
+	Drawable iconMock;
 	
 	@Before
 	public void setUp() throws Exception{
@@ -60,39 +63,44 @@ public class ContextualMenuHandlerTest {
 	
 	@Test
 	public void disables_rename_menu_item_if_more_then_one_item_is_selected(){
-		when(menuMock.getItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
+		when(menuMock.findItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
 		when(positionTranslatorMock.getId(1)).thenReturn(1);
 		when(positionTranslatorMock.getId(2)).thenReturn(2);
 		when(actionModeMock.getMenuInflater()).thenReturn(menuInflaterMock);
+		when(renameItemMock.getIcon()).thenReturn(iconMock);
 		
 		sutAsMultiChoiceModeListener.onCreateActionMode(actionModeMock, menuMock);
 		
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 1, 1, true);
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 2, 2, true);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 1, 1, true);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 2, 2, true);
 		
 		verify(renameItemMock).setEnabled(false);
+		verify(iconMock).setAlpha(130);
 	}
 	
 	@Test
 	public void enables_rename_menu_item_when_one_item_is_selected(){
-		when(menuMock.getItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
+		when(menuMock.findItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
 		when(positionTranslatorMock.getId(1)).thenReturn(1);
 		when(positionTranslatorMock.getId(2)).thenReturn(2);
 		when(actionModeMock.getMenuInflater()).thenReturn(menuInflaterMock);
+		when(renameItemMock.getIcon()).thenReturn(iconMock);
 		
 		sutAsMultiChoiceModeListener.onCreateActionMode(actionModeMock, menuMock);
 		
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 1, 1, true);
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 2, 2, true);
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 2, 2, false);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 1, 1, true);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 2, 2, true);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 2, 2, false);
 		
 		verify(renameItemMock,times(2)).setEnabled(true);
 		verify(renameItemMock).setEnabled(false);
+		verify(iconMock, atLeast(1)).setAlpha(255);
 	}
 	
 	@Test
-	public void calls_user_request_listener_with_selected_ids_for_delete(){
-		when(menuMock.getItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
+	public void calls_user_request_listener_with_copy_of_selected_ids_for_delete(){
+		when(menuMock.findItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
+		when(renameItemMock.getIcon()).thenReturn(iconMock);
 		
 		when(positionTranslatorMock.getId(1)).thenReturn(ITEM_ID1);
 		when(positionTranslatorMock.getId(2)).thenReturn(ITEM_ID2);
@@ -100,27 +108,33 @@ public class ContextualMenuHandlerTest {
 		
 		when(deleteItemMock.getItemId()).thenReturn(R.id.delete_menu_item);
 		
+		
 		sutAsMultiChoiceModeListener.onCreateActionMode(actionModeMock, menuMock);
 		
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 1, 1, true);
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 2, 2, true);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 1, 1, true);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 2, 2, true);
 		
 		sutAsMultiChoiceModeListener.onActionItemClicked(actionModeMock, deleteItemMock);
 		
 		verify(userRequestListenerMock).deleteItems(argThat(new ArgumentMatcher<List<Integer>>() {
-
+			
+			@SuppressWarnings("unchecked")
 			@Override
 			public boolean matches(Object argument) {
-				@SuppressWarnings("unchecked")
-				List<Integer> ids = (List<Integer>) argument;
-				return ids.size() == 2 && ids.contains(ITEM_ID1) && ids.contains(ITEM_ID2);
+				passedIndeleteIds = (List<Integer>) argument;
+				return passedIndeleteIds.size() == 2 && passedIndeleteIds.contains(ITEM_ID1) && passedIndeleteIds.contains(ITEM_ID2);
 			}
 		}));
+		sutAsMultiChoiceModeListener.onDestroyActionMode(actionModeMock);
+		assertEquals("SelectedItems was passed as reference, must be a copy to avoid it beeing cleared before the actual deletion",2, passedIndeleteIds.size());
 	}
+	
+	private List<Integer> passedIndeleteIds;
 	
 	@Test
 	public void calls_user_request_listener_with_selected_id_for_rename(){
-		when(menuMock.getItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
+		when(menuMock.findItem(R.id.rename_menu_item)).thenReturn(renameItemMock);
+		when(renameItemMock.getIcon()).thenReturn(iconMock);
 		
 		when(positionTranslatorMock.getId(1)).thenReturn(ITEM_ID1);
 		
@@ -130,7 +144,7 @@ public class ContextualMenuHandlerTest {
 		
 		sutAsMultiChoiceModeListener.onCreateActionMode(actionModeMock, menuMock);
 		
-		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(null, 1, 1, true);
+		sutAsMultiChoiceModeListener.onItemCheckedStateChanged(actionModeMock, 1, 1, true);
 		
 		sutAsMultiChoiceModeListener.onActionItemClicked(actionModeMock, renameItemMock);
 		

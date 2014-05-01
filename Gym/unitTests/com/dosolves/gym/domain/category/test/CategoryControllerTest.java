@@ -1,5 +1,7 @@
 package com.dosolves.gym.domain.category.test;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -18,6 +20,7 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
+import com.dosolves.gym.domain.ItemsDeletedListener;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
@@ -91,7 +94,7 @@ public class CategoryControllerTest {
 		ids.add(CATEGORY_ID);
 		sut.deleteItems(ids);
 		
-		verify(categoryDeleteUseCaseMock).deleteItemsRequested(ids);
+		verify(categoryDeleteUseCaseMock).deleteItemsRequested(eq(ids), any(ItemsDeletedListener.class));
 	}
 	
 	@Test

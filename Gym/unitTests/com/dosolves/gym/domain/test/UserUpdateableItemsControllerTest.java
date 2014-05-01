@@ -1,6 +1,10 @@
 package com.dosolves.gym.domain.test;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
@@ -9,9 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
+import com.dosolves.gym.domain.ItemsDeletedListener;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 
@@ -83,7 +90,7 @@ public class UserUpdateableItemsControllerTest {
 		ArrayList<Integer> ids = new ArrayList<Integer>();
 		sut.deleteItems(ids);
 		
-		verify(itemDeleteUseCaseMock).deleteItemsRequested(ids);
+		verify(itemDeleteUseCaseMock).deleteItemsRequested(eq(ids), any(ItemsDeletedListener.class));
 	}
 	
 	@Test
@@ -102,7 +109,18 @@ public class UserUpdateableItemsControllerTest {
 	
 	@Test
 	public void updates_items_after_deletion(){
-		sut.deleteItems(null);
+		doAnswer(new Answer<Void>(){
+
+			@Override
+			public Void answer(InvocationOnMock invocation) throws Throwable {
+				ItemsDeletedListener listener = (ItemsDeletedListener)invocation.getArguments()[1];
+				listener.onItemsHasBeenDeleted();
+				return null;
+			}}).when(itemDeleteUseCaseMock).deleteItemsRequested(anyListOf(Integer.class), any(ItemsDeletedListener.class));
+		
+		ArrayList<Integer> ids = new ArrayList<Integer>();
+		ids.add(ITEM_ID);
+		sut.deleteItems(ids);
 		
 		assertTrue(sut.handleUpdateItemsCalled());
 	}

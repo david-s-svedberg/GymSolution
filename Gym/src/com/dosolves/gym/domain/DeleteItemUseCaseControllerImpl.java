@@ -9,7 +9,7 @@ public class DeleteItemUseCaseControllerImpl implements DeleteItemUseCaseControl
 	private ItemHasSubItemsChecker itemHasSubItemsChecker;
 	private UserAsker userAsker;
 	private ItemDeleter itemDeleter;
-
+	
 	public DeleteItemUseCaseControllerImpl(ItemHasSubItemsChecker itemHasSubItemsChecker, 
 										   UserAsker userAsker, 
 										   ItemDeleter itemDeleter) {
@@ -19,17 +19,19 @@ public class DeleteItemUseCaseControllerImpl implements DeleteItemUseCaseControl
 	}
 
 	@Override
-	public void deleteItemsRequested(final List<Integer> ids) {
+	public void deleteItemsRequested(final List<Integer> ids, final ItemsDeletedListener itemsDeletedListener) {
 		if(anyItemHasChildren(ids)){
 			userAsker.shouldParentItemBeDeleted(new AbstractUserResponseListener(){
 				@Override
 				public void yes() {
 					deleteAllItems(ids);
+					itemsDeletedListener.onItemsHasBeenDeleted();
 				}
 			});	
 		}
 		else{
 			deleteAllItems(ids);
+			itemsDeletedListener.onItemsHasBeenDeleted();
 		}
 	}
 

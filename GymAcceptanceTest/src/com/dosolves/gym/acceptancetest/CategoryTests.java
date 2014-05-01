@@ -29,7 +29,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
     protected void setUp() throws Exception {
         super.setUp();
         SQLiteOpenHelperSingeltonHolder.useTestDb();
-        solo = new Solo(getInstrumentation(), getActivity());        
+        solo = new Solo(getInstrumentation(), getActivity());
     }
 	
 	@Override
@@ -60,7 +60,6 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 		createCategory(CATEGORY_NAME);
 		deleteCreatedCategory(CATEGORY_NAME);
 		
-		
 		assertFalse("Possible to add more then one category with the same name", solo.searchText(CATEGORY_NAME));
 		
 	}
@@ -76,7 +75,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 			solo.goBack();
 		}
 		finally{
-			deleteCreatedCategory(CATEGORY_NAME);
+			cleanUpCreatedCategory(CATEGORY_NAME);
 		}
 	}
 	
@@ -112,7 +111,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 			assertTrue("Category was deleted even though it shouldn't have been", solo.searchText(CATEGORY_NAME));
 		}
 		finally{
-			deleteCreatedCategory(CATEGORY_NAME);
+			cleanUpCreatedCategory(CATEGORY_NAME);
 		}
 	}
 	
@@ -140,17 +139,18 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	
 	private void deleteCreatedCategory(String categoryName) {
 		solo.clickLongOnText(categoryName);
-		solo.clickOnText("Delete");
+		solo.clickOnView(getActivity().findViewById(R.id.delete_menu_item));
 	}
 	
 	private void cleanUpCreatedCategory(String categoryName) {
 		try{
 			solo.clickLongOnText(categoryName);
-			solo.clickOnText("Delete");	
+			solo.clickOnView(getActivity().findViewById(R.id.delete_menu_item));
+			solo.clickOnButton(getActivity().getString(R.string.yes));
 		}
 		catch(AssertionFailedError ex){
 			//Ignore just for cleanUp
-		}		
+		}
 	}
 	
 	private void programaticallyCreateSingleExerciseOnOnlyCategory() {
