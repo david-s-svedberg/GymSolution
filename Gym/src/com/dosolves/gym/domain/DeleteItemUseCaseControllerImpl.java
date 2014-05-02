@@ -35,7 +35,7 @@ public class DeleteItemUseCaseControllerImpl implements DeleteItemUseCaseControl
 		}
 	}
 
-	protected void deleteAllItems(List<Integer> ids) {
+	private void deleteAllItems(List<Integer> ids) {
 		for(int id:ids)
 			itemDeleter.deleteItem(id);
 	}

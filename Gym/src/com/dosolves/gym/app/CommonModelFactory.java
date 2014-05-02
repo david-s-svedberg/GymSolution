@@ -33,7 +33,8 @@ public interface CommonModelFactory {
 	
 	ItemDeleter getExerciseDeleter();
 	ItemDeleter getCategoryDeleter();
-
+	ItemDeleter getSetDeleter();
+	
 	ContextualMenuHandler createContextualMenuHandler(UserUpdateableItemsActivity activity);
 	
 }

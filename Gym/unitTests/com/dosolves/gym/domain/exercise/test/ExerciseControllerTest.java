@@ -15,6 +15,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.widget.ArrayAdapter;
 
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentCategoryHolder;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
@@ -37,6 +38,13 @@ public class ExerciseControllerTest {
 	
 	private static final String NEW_EXERCISE_NAME = "newExerciseName";
 	
+	List<Exercise> exercisesMock;
+	Category categoryMock;
+	Exercise exerciseMock;
+	
+	ExerciseController sut;
+	SystemEventListener sutAsSystemEventListener;
+	
 	@Mock
 	ArrayAdapter<Exercise> adapterMock;
 	@Mock
@@ -53,13 +61,6 @@ public class ExerciseControllerTest {
 	RenameDialogShower renameDialogShowerMock;
 	@Mock
 	DeleteItemUseCaseController deleteItemUseCaseMock;
-	
-	List<Exercise> exercisesMock;
-	Category categoryMock;
-	Exercise exerciseMock;
-	
-	ExerciseController sut;
-	
 		
 	@Before
 	public void setUp() throws Exception{
@@ -70,7 +71,7 @@ public class ExerciseControllerTest {
 		categoryMock = new Category(CATEGORY_ID, CATEGORY_NAME);
 		exerciseMock = new Exercise(EXERCISE_ID, CATEGORY_ID, EXERCISE_NAME);
 		
-		sut = new ExerciseController(adapterMock, 
+		ExerciseController sutImpl = new ExerciseController(adapterMock, 
 									 retrieverMock, 
 									 createItemDialogShowerMock, 
 									 exerciseUpdaterMock, 
@@ -78,15 +79,17 @@ public class ExerciseControllerTest {
 									 currentCategoryHolderMock,
 									 renameDialogShowerMock,
 									 deleteItemUseCaseMock);
+		sut = sutImpl;
+		sutAsSystemEventListener = sutImpl;
 	}
 	
 	@Test
-    public void onReadyToGetData_updates_exercises(){            
+    public void onUiInteractive_updates_exercises(){            
             
             when(currentCategoryHolderMock.getCurrentCategory()).thenReturn(categoryMock);
 			when(retrieverMock.getExercisesInCategory(CATEGORY_ID)).thenReturn(exercisesMock);
             
-            sut.onReadyToGetData();
+			sutAsSystemEventListener.onUIInteractive();
             
             verifyExercisesHaveBeenUpdated();
     }

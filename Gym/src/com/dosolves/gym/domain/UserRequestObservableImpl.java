@@ -23,9 +23,9 @@ public class UserRequestObservableImpl implements UserRequestObservable {
 	}
 
 	@Override
-	public void notifyRenameItem(Integer id) {
+	public void notifyEditItem(Integer id) {
 		for(UserRequestListener listener : userRequestListeners)
-			listener.renameItem(id);
+			listener.editItem(id);
 	}
 	
 }

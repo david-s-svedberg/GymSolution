@@ -16,6 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.ItemsDeletedListener;
@@ -29,6 +30,9 @@ public class UserUpdateableItemsControllerTest {
 	private static final int POSITION = 3456;
 	private static final String NEW_ITEM_NAME = "NEW_ITEM_NAME";
 	
+	UserUpdateableItemsControllerMock sut;
+	SystemEventListener sutAsSystemEventListener;
+	
 	@Mock
 	CreateItemDialogShower createItemDialogShowerMock;
 	@Mock
@@ -36,20 +40,21 @@ public class UserUpdateableItemsControllerTest {
 	@Mock
 	DeleteItemUseCaseController itemDeleteUseCaseMock;
 	
-	UserUpdateableItemsControllerMock sut;
-	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new UserUpdateableItemsControllerMock(createItemDialogShowerMock, 
+		UserUpdateableItemsControllerMock sutImpl = new UserUpdateableItemsControllerMock(createItemDialogShowerMock, 
 													renameDialogShowerMock,
 													itemDeleteUseCaseMock);
+		sut = sutImpl;
+		sutAsSystemEventListener = sutImpl;
 	}
 	
 	@Test
 	public void onReadyToGetData_calls_handleUpdateItems(){
-		sut.onReadyToGetData();
+		sutAsSystemEventListener.onUIInteractive();
+		
 		assertTrue(sut.handleUpdateItemsCalled());
 	}
 	
@@ -64,7 +69,7 @@ public class UserUpdateableItemsControllerTest {
 	public void shows_rename_dialog_when_user_input_requests_it(){
 		sut.setupMockItemName(ITEM_NAME);
 		
-		sut.renameItem(ITEM_ID);
+		sut.editItem(ITEM_ID);
 		
 		verify(renameDialogShowerMock).show(ITEM_ID, sut, ITEM_NAME);
 		

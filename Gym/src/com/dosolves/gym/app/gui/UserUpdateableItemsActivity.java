@@ -12,7 +12,6 @@ import com.dosolves.gym.R;
 import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.app.SystemEventListener;
-import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.SystemEventObservableImpl;
 
 public abstract class UserUpdateableItemsActivity extends ListActivity implements MenuSetter, PositionToIdTranslator{
@@ -21,7 +20,6 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	
 	private AddItemRequestedCallBack addItemRequestedCallBack;
 	private OpenItemRequestedCallback openItemRequestedCallback;
-	private ReadyToGetDataCallback readyToGetDataCallback;
 	private AdsUserGestureListener adsUserGestureListener;
 	private MultiChoiceModeListener multiChoiceModeListener;
 	
@@ -39,7 +37,6 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	@Override
 	public void onResume() {
 		super.onResume();
-		readyToGetDataCallback.onReadyToGetData();
 		systemEventListeners.notifyUIInteractive();
 	}
 	
@@ -61,10 +58,6 @@ public abstract class UserUpdateableItemsActivity extends ListActivity implement
 	
 	public void setOpenItemRequestedCallback(OpenItemRequestedCallback openItemRequestedCallback) {
 		this.openItemRequestedCallback = openItemRequestedCallback;
-	}
-	
-	public void setReadyToGetDataCallback(ReadyToGetDataCallback readyToGetDataCallback) {
-		this.readyToGetDataCallback = readyToGetDataCallback;
 	}
 	
 	public void addSystemEventListener(SystemEventListener systemEventListener) {

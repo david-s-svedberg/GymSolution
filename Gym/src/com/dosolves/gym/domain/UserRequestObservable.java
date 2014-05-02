@@ -8,6 +8,6 @@ public interface UserRequestObservable {
 
 	public void notifyDeleteItems(List<Integer> ids);
 
-	public void notifyRenameItem(Integer id);
+	public void notifyEditItem(Integer id);
 
 }

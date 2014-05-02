@@ -14,14 +14,16 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
+import com.dosolves.gym.domain.ItemDeleter;
+import com.dosolves.gym.domain.UserRequestListener;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.EditSetDialogShower;
 import com.dosolves.gym.domain.performance.Performance;
 import com.dosolves.gym.domain.performance.PerformanceController;
 import com.dosolves.gym.domain.performance.Set;
-import com.dosolves.gym.domain.performance.SetMenuDialogShower;
 import com.dosolves.gym.domain.performance.data.PerformanceBuilder;
 import com.dosolves.gym.domain.performance.data.SetRetriever;
 import com.dosolves.gym.domain.performance.data.SetUpdater;
@@ -30,11 +32,22 @@ import com.dosolves.gym.domain.performance.data.SetUpdater;
 public class PerformanceControllerTest {
 
 	private static final int SET_ID = 12;
+	private static final int SET_ID2 = 12467;
 	private static final double NEW_WEIGHT = 50.55;
 	private static final int NEW_REPS = 12;
 	private static final double WEIGHT = 50.5;
 	private static final int REPS = 12;
 	private static final int EXERCISE_ID = 12;
+	
+	PerformanceController sut;
+	UserRequestListener sutAsUserRequestListener;
+	SystemEventListener sutAsSystemEventListener;
+	
+	Exercise exerciseMock;
+	List<Performance> performancesMock;	
+	List<Set> setsMock;
+	Set setMock;
+	
 	@Mock
 	SetRetriever retrieverMock;
 	@Mock
@@ -48,38 +61,34 @@ public class PerformanceControllerTest {
 	@Mock
 	EditSetDialogShower editSetDialogShowerMock;
 	@Mock
-	SetMenuDialogShower setMenuDialogShowerMock;
-	
-	
-	Exercise exerciseMock;
-	List<Performance> performancesMock;	
-	List<Set> setsMock;
-	Set setMock;
-	
-	PerformanceController sut;
-	
+	ItemDeleter setDeleterMock;
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		sut = new PerformanceController(adapterMock, 
+		PerformanceController sutImpl = new PerformanceController(adapterMock, 
 										exerciseHolderMock, 
 										retrieverMock, 
 										performanceBuilderMock,
 										updaterMock,
 										editSetDialogShowerMock,
-										setMenuDialogShowerMock);
+										setDeleterMock);
+		sut = sutImpl;
+		sutAsUserRequestListener = sutImpl;
+		sutAsSystemEventListener = sutImpl;
+		
 		exerciseMock = new Exercise(EXERCISE_ID, 34, "exerciseName");
 		setsMock = createSets();
 		performancesMock = createPerformances();
+		
 	}
 	
 	@Test
-    public void onReadyToGetData_updates_performances(){           
+    public void onUIInteractive_updates_performances(){           
 		stubPerformanceUpdating();
         
-        sut.onReadyToGetData();
+		sutAsSystemEventListener.onUIInteractive();
         
         verifyPerformancesHaveBeenUpdated();
     }
@@ -103,16 +112,11 @@ public class PerformanceControllerTest {
     }
 	
 	@Test
-    public void shows_set_options_menu_when_requested(){
-		sut.onSetMenuRequested(setMock);
-        
-        verify(setMenuDialogShowerMock).show(setMock, sut, sut);
-    }
-	
-	@Test
     public void shows_edit_set_dialog_when_requested(){
-		sut.onEditSetDialogRequested(setMock);
-        
+		when(retrieverMock.getSet(SET_ID)).thenReturn(setMock);
+		
+		sutAsUserRequestListener.editItem(SET_ID);
+		
         verify(editSetDialogShowerMock).show(setMock, sut);
     }
 	
@@ -135,19 +139,27 @@ public class PerformanceControllerTest {
     }
 	
 	@Test
-    public void calls_updater_when_set_should_be_deleted(){
+    public void calls_item_deleter_when_sets_should_be_deleted(){
 		when(exerciseHolderMock.getCurrentExercise()).thenReturn(exerciseMock);
 		
-		sut.onSetShouldBeDeleted(setMock);
+		sut.deleteItems(getSetIds());
         
-        verify(updaterMock).delete(SET_ID);
+        verify(setDeleterMock).deleteItem(SET_ID);
+        verify(setDeleterMock).deleteItem(SET_ID2);
     }
+
+	private List<Integer> getSetIds() {
+		List<Integer> ids = new ArrayList<Integer>();
+		ids.add(SET_ID);
+		ids.add(SET_ID2);
+		return ids;
+	}
 	
 	@Test
     public void updates_sets_after_delete(){
 		stubPerformanceUpdating();
 		
-		sut.onSetShouldBeDeleted(setMock);
+		sut.deleteItems(getSetIds());
         
         verifyPerformancesHaveBeenUpdated();
     }

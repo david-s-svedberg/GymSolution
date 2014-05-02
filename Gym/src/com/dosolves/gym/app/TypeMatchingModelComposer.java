@@ -2,6 +2,7 @@ package com.dosolves.gym.app;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.widget.AbsListView.MultiChoiceModeListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 
@@ -15,6 +16,7 @@ import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.gui.ContextualMenuHandler;
 import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
+import com.dosolves.gym.app.gui.performance.ContextualMenuHandlerForSets;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
@@ -135,27 +137,31 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		contextualMenuHandler.addUserRequestListener(controller);
 		
 		activity.addSystemEventListener(adsController);
+		activity.addSystemEventListener(controller);
 		activity.setAdsUserGestureListener(adsController);		
 		activity.setAddItemRequestedCallBack(controller);
-		activity.setMultiChoiceModeListener(contextualMenuHandler);
+		activity.setMultiChoiceModeListener((MultiChoiceModeListener)contextualMenuHandler);
 		activity.setOpenItemRequestedCallback(controller);
-		activity.setReadyToGetDataCallback(controller);		
 	}
 	
 	private void composePerformanceModel(PerformanceActivity activity) {
-		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);	
+		PerformanceAdapter adapter = performanceModelFactory.createAdapter(activity);
+		ContextualMenuHandlerForSets contextHandler = performanceModelFactory.createContextHandler(activity);
 		PerformanceController controller = performanceModelFactory.createController(activity, adapter, activity, activity);
 		AdsController adsController = adsModelFactory.createController(activity);
 		SetLastResultUseCaseControllerImpl setLastResultUCC = performanceModelFactory.createSetLastResultUseCaseController(activity);
 		
-		adapter.setSetMenuRequestedCallback(controller);
+		contextHandler.addUserRequestListener(controller);
+		adapter.setSetContextualMenuHandler(contextHandler);
+		
 		activity.addSystemEventListener(adsController);
 		activity.addSystemEventListener(setLastResultUCC);
+		activity.addSystemEventListener(controller);
 		activity.setAdsUserGestureListener(adsController);
 		activity.setAdapter(adapter);
 		activity.setNewSetShouldBeCreatedCallback(controller);
 		activity.setSetShouldBeEditedCallback(controller);
-		activity.setReadyToGetDataCallback(controller);
+		
 	}
 
 }

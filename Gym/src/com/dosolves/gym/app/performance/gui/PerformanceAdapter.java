@@ -14,15 +14,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.gui.performance.SetContextualMenuHandler;
 import com.dosolves.gym.domain.performance.Performance;
 import com.dosolves.gym.domain.performance.Set;
-import com.dosolves.gym.domain.performance.SetMenuRequestedCallback;
 
-public class PerformanceAdapter extends BaseAdapter implements SetClickedCallback{
+public class PerformanceAdapter extends BaseAdapter {
 	
 	private Context context;
 	private List<Performance> performances = new ArrayList<Performance>();
-	private SetMenuRequestedCallback callback;
+	private SetContextualMenuHandler contextHandler;
 
 	public PerformanceAdapter(Context context){
 		this.context = context;		
@@ -64,19 +64,11 @@ public class PerformanceAdapter extends BaseAdapter implements SetClickedCallbac
 	}
 
 	private View createSetButton(Set set) {
-		SetButton newButton = new SetButton(context, set);
-		newButton.setSetClickedCallback(this);
-		return newButton;
+		return new SetButton(context, set, contextHandler);
 	}
 
 	public void setPerformances(List<Performance> performances) {
 		this.performances = performances;
-	}
-	
-
-	@Override
-	public void onSetClicked(Set set) {
-		this.callback.onSetMenuRequested(set);
 	}
 
 	public void clear() {
@@ -87,8 +79,8 @@ public class PerformanceAdapter extends BaseAdapter implements SetClickedCallbac
 		return context;
 	}
 
-	public void setSetMenuRequestedCallback(SetMenuRequestedCallback callback) {
-		this.callback = callback;		
+	public void setSetContextualMenuHandler(SetContextualMenuHandler contextHandler) {
+		this.contextHandler = contextHandler;
 	}
 
 }

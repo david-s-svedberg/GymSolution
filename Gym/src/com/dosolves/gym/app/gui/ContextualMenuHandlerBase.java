@@ -13,35 +13,33 @@ import com.dosolves.gym.domain.UserRequestListener;
 import com.dosolves.gym.domain.UserRequestObservable;
 import com.dosolves.gym.domain.UserRequestObservableImpl;
 
-public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
+public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler,ActionMode.Callback  {
 
 	private static final int DISABLED_ALPHA = 130;
 	private static final int FULL_ALPHA = 255;
 	
 	private Menu menu;
-	private List<Integer> selectedItems;
-	private PositionToIdTranslator positionTranslator;
+	protected List<Integer> selectedItems;
 	private UserRequestObservable userRequestListeners = new UserRequestObservableImpl();
 
-	public ContextualMenuHandlerImpl(PositionToIdTranslator positionTranslator) {
-		this.positionTranslator = positionTranslator;
+	public ContextualMenuHandlerBase() {
 		selectedItems = new ArrayList<Integer>();
 	}
 
 	@Override
 	public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
-        case R.id.delete_menu_item:
-            userRequestListeners.notifyDeleteItems(getCopyOfSelectedItems());
-            actionMode.finish();
-            return true;
-        case R.id.rename_menu_item:
-            userRequestListeners.notifyRenameItem(selectedItems.get(0));
-            actionMode.finish();
-            return true;
-        default:
-            return false;
-    }
+	    case R.id.delete_menu_item:
+	        userRequestListeners.notifyDeleteItems(getCopyOfSelectedItems());
+	        actionMode.finish();
+	        return true;
+	    case R.id.edit_menu_item:
+	        userRequestListeners.notifyEditItem(selectedItems.get(0));
+	        actionMode.finish();
+	        return true;
+	    default:
+	        return false;
+	}
 	}
 
 	private List<Integer> getCopyOfSelectedItems() {
@@ -56,9 +54,9 @@ public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
 	@Override
 	public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
 		MenuInflater inflater = actionMode.getMenuInflater();
-        inflater.inflate(R.menu.item_context, menu);
-        this.menu = menu;
-        return true;
+	    inflater.inflate(R.menu.item_context, menu);
+	    this.menu = menu;
+	    return true;
 	}
 
 	@Override
@@ -71,14 +69,7 @@ public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
 		return false;
 	}
 
-	@Override
-	public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
-		updateSelectedItems(position, checked);
-		updateMenuItemEnabledStates();
-		updateTitle(actionMode);
-	}
-
-	private void updateTitle(ActionMode actionMode) {
+	protected void updateTitle(ActionMode actionMode) {
 		actionMode.setTitle(numberOfSelectedItems());
 	}
 
@@ -86,27 +77,34 @@ public class ContextualMenuHandlerImpl implements ContextualMenuHandler {
 		return Integer.toString(selectedItems.size());
 	}
 
-	private void updateSelectedItems(int position, boolean checked) {
+	protected void updateSelectedItems(Integer id, boolean checked) {
 		if(checked)
-			selectedItems.add(positionTranslator.getId(position));
+			selectedItems.add(id);
 		else
-			selectedItems.remove(positionTranslator.getId(position));
+			selectedItems.remove(id);
 	}
 
-	private void updateMenuItemEnabledStates() {
-		MenuItem renameMenuItem = menu.findItem(R.id.rename_menu_item);
+	protected void updateMenuItemEnabledStates() {
+		MenuItem editMenuItem = menu.findItem(R.id.edit_menu_item);
 		if(selectedItems.size()>1){
-			renameMenuItem.setEnabled(false);
-			renameMenuItem.getIcon().setAlpha(DISABLED_ALPHA);
+			editMenuItem.setEnabled(false);
+			editMenuItem.getIcon().setAlpha(DISABLED_ALPHA);
 		}
 		else{
-			renameMenuItem.setEnabled(true);
-			renameMenuItem.getIcon().setAlpha(FULL_ALPHA);
+			editMenuItem.setEnabled(true);
+			editMenuItem.getIcon().setAlpha(FULL_ALPHA);
 		}
 	}
 
 	public void addUserRequestListener(UserRequestListener userRequestListener) {
 		userRequestListeners.registerUserRequestListener(userRequestListener);	
 	}
+
+	protected void handleItemSelectionChanged(ActionMode actionMode, int id,
+			boolean checked) {
+				updateSelectedItems(id, checked);
+				updateMenuItemEnabledStates();
+				updateTitle(actionMode);
+			}
 
 }

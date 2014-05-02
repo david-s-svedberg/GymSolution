@@ -11,8 +11,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricTestRunner;
 
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
-import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
@@ -22,16 +22,17 @@ public class PerformanceActivityTest {
 
 	private static final double NEW_WEIGHT = 50.66;
 	private static final int NEW_REPS = 12;
+
+	PerformanceActivity sut;
+
+	Set setMock;
+	
 	@Mock
 	NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallbackMock;
 	@Mock
-	ReadyToGetDataCallback readyToGetDataCallbackMock;
-	@Mock
 	SetShouldBeEditedCallback setShouldBeEditedCallbackMock;
-	
-	Set setMock;
-	
-	PerformanceActivity sut;
+	@Mock
+	SystemEventListener systemEventListenerMock;
 	
 	
 	
@@ -43,14 +44,15 @@ public class PerformanceActivityTest {
 		
 		sut = new PerformanceActivity();
 		sut.setNewSetShouldBeCreatedCallback(newSetShouldBeCreatedCallbackMock);
-		sut.setReadyToGetDataCallback(readyToGetDataCallbackMock);
 		sut.setSetShouldBeEditedCallback(setShouldBeEditedCallbackMock);
+		
+		sut.addSystemEventListener(systemEventListenerMock);
 	}
 	
 	@Test
-	public void onResume_calls_onReadyToGetData(){
+	public void onResume_calls_onUiInteractive(){
 		sut.onResume();
-		verify(readyToGetDataCallbackMock).onReadyToGetData();
+		verify(systemEventListenerMock).onUIInteractive();
 	}
 	
 	@Test

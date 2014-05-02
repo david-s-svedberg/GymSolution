@@ -14,28 +14,29 @@ import android.view.MenuItem;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.ads.AdsShouldBeDisplayedDecider;
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.gui.AddItemRequestedCallBack;
 import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
-import com.dosolves.gym.domain.ReadyToGetDataCallback;
 
 @RunWith(RobolectricTestRunner.class)
 public class UserUpdateableItemsActivityTest {
 	
 	private static final int POSITION = 456;
+
+	UserUpdateableItemsActivity sut;
+	
 	@Mock
 	AddItemRequestedCallBack addItemRequestedCallBackMock;
 	@Mock
 	OpenItemRequestedCallback openItemRequestedCallbackMock;
 	@Mock
-	ReadyToGetDataCallback readyToGetDataCallbackMock;
-	@Mock
 	MenuItem menuItemMock;
 	@Mock
 	AdsShouldBeDisplayedDecider adsShouldBeDisplayedCheckerMock;
-	
-	UserUpdateableItemsActivity sut;
+	@Mock
+	SystemEventListener systemEventListenerMock;
 		
 
 	@Before
@@ -45,7 +46,7 @@ public class UserUpdateableItemsActivityTest {
 		sut = new CategoriesActivity();
 		sut.setAddItemRequestedCallBack(addItemRequestedCallBackMock);
 		sut.setOpenItemRequestedCallback(openItemRequestedCallbackMock);
-		sut.setReadyToGetDataCallback(readyToGetDataCallbackMock);
+		sut.addSystemEventListener(systemEventListenerMock);
 	}
 	
 	@Test
@@ -62,9 +63,10 @@ public class UserUpdateableItemsActivityTest {
 	}
 	
 	@Test
-	public void calls_readyToGetData_when_onResume_is_called(){
+	public void calls_onUiInteractive_when_onResume_is_called(){
 		sut.onResume();
-		verify(readyToGetDataCallbackMock).onReadyToGetData();
+		
+		verify(systemEventListenerMock).onUIInteractive();
 	}
 	
 }

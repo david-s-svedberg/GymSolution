@@ -1,6 +1,7 @@
 package com.dosolves.gym.app.test;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +24,9 @@ import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
-import com.dosolves.gym.app.gui.ContextualMenuHandlerImpl;
+import com.dosolves.gym.app.gui.ContextualMenuHandlerForListItems;
 import com.dosolves.gym.app.gui.UserAskerImpl;
+import com.dosolves.gym.app.gui.performance.ContextualMenuHandlerForSets;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
@@ -43,6 +45,8 @@ import com.dosolves.gym.inappbilling.IabHelper;
 @RunWith(RobolectricTestRunner.class)
 public class ModelComposerTest extends AndroidTestCase{
 
+	ModelComposer sut;
+	
 	@Mock
 	CategoriesActivity categoriesActivityMock;
 	@Mock
@@ -84,11 +88,11 @@ public class ModelComposerTest extends AndroidTestCase{
 	@Mock
 	UserResponseListener userResponseListenerMock;
 	@Mock
-	ContextualMenuHandlerImpl contextMenuHandlerMock;
+	ContextualMenuHandlerForListItems contextMenuHandlerMock;
 	@Mock
 	CommonModelFactory commonModelFactory;
-	
-	ModelComposer sut;
+	@Mock
+	ContextualMenuHandlerForSets setContextMenuHandlerMock;
 	
 	@Before
 	public void setUp() throws Exception{
@@ -156,12 +160,12 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_ReadyToGetDataCallback_on_CategoriesActivity(){
+	public void adds_controller_as_system_event_listener_on_CategoriesActivity(){
 		stubCategoryAdapterAndControllerCreation();
 		
 		sut.compose(categoriesActivityMock);
 		
-		verify(categoriesActivityMock).setReadyToGetDataCallback(categoryControllerMock);
+		verify(categoriesActivityMock).addSystemEventListener(categoryControllerMock);
 	}
 	
 	@Test
@@ -248,12 +252,12 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_ReadyToGetDataCallback_on_ExercisesActivity(){
+	public void adds_controller_as_system_event_listener_on_ExercisesActivity(){
 		stubExerciseAdapterAndControllerCreation();
 		
 		sut.compose(exercisesActivityMock);
 		
-		verify(exercisesActivityMock).setReadyToGetDataCallback(exerciseControllerMock);
+		verify(exercisesActivityMock).addSystemEventListener(exerciseControllerMock);
 	}
 	
 	@Test
@@ -297,6 +301,7 @@ public class ModelComposerTest extends AndroidTestCase{
 		when(performanceModelFactoryMock.createController(performanceActivityMock, performanceAdapterMock, performanceActivityMock, performanceActivityMock)).thenReturn(performanceControllerMock);
 		when(performanceModelFactoryMock.createSetLastResultUseCaseController(performanceActivityMock)).thenReturn(setLastResultControllerMock);
 		when(adsModelFactoryMock.createController(performanceActivityMock)).thenReturn(adsControllerMock);
+		when(performanceModelFactoryMock.createContextHandler(performanceActivityMock)).thenReturn(setContextMenuHandlerMock);
 	}
 	
 	@Test
@@ -309,12 +314,12 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_ReadyToGetDataCallback(){		
+	public void sets_controller_as_system_event_listener(){		
 		stubPerformanceAdapterAndControllerCreation();
 		
 		sut.compose(performanceActivityMock);
 		
-		verify(performanceActivityMock).setReadyToGetDataCallback(performanceControllerMock);				
+		verify(performanceActivityMock).addSystemEventListener(performanceControllerMock);				
 	}
 	
 	@Test
@@ -333,15 +338,6 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceActivityMock).setSetShouldBeEditedCallback(performanceControllerMock);				
-	}
-	
-	@Test
-	public void sets_controller_as_SetCklickedCallback_on_adapter(){
-		stubPerformanceAdapterAndControllerCreation();
-		
-		sut.compose(performanceActivityMock);
-		
-		verify(performanceAdapterMock).setSetMenuRequestedCallback(performanceControllerMock);				
 	}
 	
 	@Test
@@ -369,6 +365,24 @@ public class ModelComposerTest extends AndroidTestCase{
 		sut.compose(performanceActivityMock);
 		
 		verify(performanceActivityMock).addSystemEventListener(setLastResultControllerMock);
+	}
+	
+	@Test
+	public void sets_context_menu_handler_on_adapter_for_further_use_when_creating_set_buttons(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(performanceAdapterMock).setSetContextualMenuHandler(setContextMenuHandlerMock);
+	}
+	
+	@Test
+	public void adds_controller_as_user_request_listener_on_context_menu_handler_for_performance(){
+		stubPerformanceAdapterAndControllerCreation();
+		
+		sut.compose(performanceActivityMock);
+		
+		verify(setContextMenuHandlerMock).addUserRequestListener(performanceControllerMock);
 	}
 	
 	@Test

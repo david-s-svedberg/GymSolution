@@ -2,10 +2,11 @@ package com.dosolves.gym.domain;
 
 import java.util.List;
 
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.gui.AddItemRequestedCallBack;
 import com.dosolves.gym.app.gui.OpenItemRequestedCallback;
 
-public abstract class UserUpdateableItemsController implements ReadyToGetDataCallback,
+public abstract class UserUpdateableItemsController implements SystemEventListener,
 															   AddItemRequestedCallBack, 
 															   ItemShouldBeCreatedCallback, 
 															   ItemShouldBeRenamedCallback,
@@ -47,11 +48,6 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	}
 	
 	@Override
-	public void onReadyToGetData(){
-		handleUpdateItems();
-	}
-	
-	@Override
 	public void deleteItems(List<Integer> ids) {
 		deleteItemUseCase.deleteItemsRequested(ids, new ItemsDeletedListener() {
 			
@@ -65,9 +61,25 @@ public abstract class UserUpdateableItemsController implements ReadyToGetDataCal
 	}
 	
 	@Override
-	public void renameItem(Integer id) {
+	public void editItem(Integer id) {
 		renameDialogShower.show(id, this, getItemCurrentName(id));
 	}
+	
+	@Override
+	public void onUIInteractive() {
+		handleUpdateItems();
+	}
+	
+	@Override
+	public void onUIAboutToBeCreated() {}
+	@Override
+	public void onUICreated() {}
+	@Override
+	public void onMenuShouldBeCreated() {}
+	@Override
+	public void onUIHidden() {}
+	@Override
+	public void onUIDestroyed() {}
 	
 	protected abstract void handleUpdateItems();
 	protected abstract void handleItemShouldBeOpened(int positionOfItemToBeOpened);

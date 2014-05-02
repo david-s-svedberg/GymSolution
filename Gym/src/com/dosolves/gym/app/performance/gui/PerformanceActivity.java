@@ -20,9 +20,9 @@ import com.dosolves.gym.R;
 import com.dosolves.gym.ads.AdsUserGestureListener;
 import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.app.SystemEventListener;
+import com.dosolves.gym.app.gui.ActionModeStarter;
 import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
-import com.dosolves.gym.domain.ReadyToGetDataCallback;
 import com.dosolves.gym.domain.SystemEventObservableImpl;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
@@ -31,7 +31,12 @@ import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
 import com.dosolves.gym.domain.performance.StartValueSetter;
 import com.dosolves.gym.utils.StringUtils;
 
-public class PerformanceActivity extends Activity implements CurrentExerciseHolder, FragmentManagerProvider, SetShouldBeEditedCallback, MenuSetter, StartValueSetter{
+public class PerformanceActivity extends Activity implements CurrentExerciseHolder, 
+															 FragmentManagerProvider, 
+															 SetShouldBeEditedCallback, 
+															 MenuSetter, 
+															 StartValueSetter, 
+															 ActionModeStarter {
 
 	public static final String EXERCISE_BUNDLE_KEY = "EXERCISE_BUNDLE_KEY";
 
@@ -47,8 +52,6 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private SetShouldBeEditedCallback setShouldBeEditedCallback;
 
 	private PerformanceAdapter adapter;
-
-	private ReadyToGetDataCallback readyToGetDataCallback;
 
 	private boolean shouldDisplayPurchaseAdsRemovalMenu;
 
@@ -92,7 +95,6 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	@Override
 	public void onResume() {
 		super.onResume();
-		readyToGetDataCallback.onReadyToGetData();
 		systemEventListeners.notifyUIInteractive();
 	}
 	
@@ -272,10 +274,6 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		this.adapter = adapter;		
 	}
 	
-	public void setReadyToGetDataCallback(ReadyToGetDataCallback readyToGetDataCallback) {
-		this.readyToGetDataCallback = readyToGetDataCallback;
-	}
-
 	public void setSetShouldBeEditedCallback(SetShouldBeEditedCallback setShouldBeEditedCallback) {
 		this.setShouldBeEditedCallback = setShouldBeEditedCallback;		
 	}

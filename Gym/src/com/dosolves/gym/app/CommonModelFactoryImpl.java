@@ -7,7 +7,7 @@ import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
 import com.dosolves.gym.app.gui.ContextualMenuHandler;
-import com.dosolves.gym.app.gui.ContextualMenuHandlerImpl;
+import com.dosolves.gym.app.gui.ContextualMenuHandlerForListItems;
 import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
 import com.dosolves.gym.app.gui.RenameItemAlertDialogShower;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
@@ -44,21 +44,19 @@ import com.dosolves.gym.domain.performance.data.SetUpdaterImpl;
 public class CommonModelFactoryImpl implements CommonModelFactory {
 
 	private DataAccess dataAccess;
+
+	private CategoryRetriever categoryRetriever;
+	private CategoryUpdater categoryUpdater;
+	
+	private ExerciseRetriever exerciseRetriever;
+	private ExerciseUpdater exerciseUpdater;
 	
 	private SetRetriever retriever;
 	private SetUpdater setUpdater;
-	
-	private ExerciseRetriever exerciseRetriever;
-
-	private ExerciseUpdater exerciseUpdater;
-
-	private ItemDeleter exerciseDeleter;
-
-	private CategoryRetriever categoryRetriever;
-
-	private CategoryUpdater categoryUpdater;
 
 	private ItemDeleter categoryDeleter;
+	private ItemDeleter exerciseDeleter;
+	private ItemDeleter setDeleter;
 
 
 	@Override
@@ -148,8 +146,7 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 	}
 
 	private ItemDeleter createExerciseDeleter() {
-		SetUpdater setUpdater = getSetUpdater();
-		ItemDeleter setDeleter = new SetDeleter(setUpdater);
+		ItemDeleter setDeleter = getSetDeleter();
 		SetRetriever setRetriever = getSetRetriever();
 		SetIdRetriever setIdRetriever = new HighLevelSetIdRetriever(setRetriever);
 		ExerciseUpdater exerciseUpdater = getExerciseUpdater();
@@ -202,10 +199,23 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 		
 		return new CascadingCategoryDeleter(exerciseIdRetriever, exerciseDeleter, categoryUpdater);
 	}
+	
+	@Override
+	public ItemDeleter getSetDeleter() {
+		if(setDeleter == null)
+			setDeleter = createSetDeleter();
+		
+		return setDeleter;
+	}
+
+	private ItemDeleter createSetDeleter() {
+		SetUpdater setUpdater = getSetUpdater();
+		return new SetDeleter(setUpdater);
+	}
 
 	@Override
 	public ContextualMenuHandler createContextualMenuHandler(UserUpdateableItemsActivity activity) {
-		return new ContextualMenuHandlerImpl(activity);
+		return new ContextualMenuHandlerForListItems(activity);
 	}
 	
 }

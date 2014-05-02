@@ -18,6 +18,7 @@ import org.robolectric.RobolectricTestRunner;
 
 import android.widget.ArrayAdapter;
 
+import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.ItemsDeletedListener;
@@ -36,6 +37,12 @@ public class CategoryControllerTest {
 	private static final int POSITION = 5345;
 	private static final String NEW_CATEGORY_NAME = "NewCategoryName";
 	
+	private List<Category> categoriesMock;
+	private Category categoryMock;
+	
+	CategoryController sut;
+	SystemEventListener sutAsSystemEventListener;
+	
 	@Mock
 	ArrayAdapter<Category> adapterMock;
 	@Mock
@@ -50,12 +57,6 @@ public class CategoryControllerTest {
 	RenameDialogShower renameDialogShowerMock;
 	@Mock
 	DeleteItemUseCaseController categoryDeleteUseCaseMock;
-	
-	private List<Category> categoriesMock;
-	
-	CategoryController sut;
-	private Category categoryMock;
-	
 		
 	@Before
 	public void setUp() throws Exception{
@@ -65,22 +66,24 @@ public class CategoryControllerTest {
 		
 		categoryMock = new Category(CATEGORY_ID,CATEGORY_NAME);
 		
-		sut = new CategoryController(adapterMock, 
+		CategoryController sutImpl = new CategoryController(adapterMock, 
 									 retrieverMock, 
 									 createItemDialogShowerMock, 
 									 categoryUpdaterMock, 
 									 categoryOpenerMock,
 									 renameDialogShowerMock,
 									 categoryDeleteUseCaseMock);
+		sut = sutImpl;
+		sutAsSystemEventListener = sutImpl;
 	}
 	
 	@Test
-    public void onReadyToGetData_updates_categories(){
+    public void onUiInteractive_updates_categories(){
             categoriesMock = new ArrayList<Category>();
             
             when(retrieverMock.getCategories()).thenReturn(categoriesMock);
             
-            sut.onReadyToGetData();
+            sutAsSystemEventListener.onUIInteractive();
             
             verifyCategoriesHaveBeenUpdated();
     }

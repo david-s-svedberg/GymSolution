@@ -139,12 +139,14 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	
 	private void deleteCreatedCategory(String categoryName) {
 		solo.clickLongOnText(categoryName);
+		solo.waitForView(R.id.delete_menu_item);
 		solo.clickOnView(getActivity().findViewById(R.id.delete_menu_item));
 	}
 	
 	private void cleanUpCreatedCategory(String categoryName) {
 		try{
 			solo.clickLongOnText(categoryName);
+			solo.waitForView(R.id.delete_menu_item);
 			solo.clickOnView(getActivity().findViewById(R.id.delete_menu_item));
 			solo.clickOnButton(getActivity().getString(R.string.yes));
 		}

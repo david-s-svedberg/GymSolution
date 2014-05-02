@@ -8,7 +8,7 @@ import com.dosolves.gym.domain.performance.Set;
 public interface SetRetriever {
 
 	List<Set> getSetsInExercise(int exerciseId);
-
 	Set getLastSetForExercise(Exercise exercise);
+	Set getSet(int setId);
 
 }
