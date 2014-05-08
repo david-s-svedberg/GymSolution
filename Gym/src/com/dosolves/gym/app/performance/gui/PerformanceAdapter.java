@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.performance.SetContextualMenuHandler;
 import com.dosolves.gym.domain.performance.Performance;
 import com.dosolves.gym.domain.performance.Set;
 

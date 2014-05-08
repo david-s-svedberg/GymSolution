@@ -11,7 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.gui.performance.SetContextualMenuHandler;
+import com.dosolves.gym.app.gui.ActionModeEndingListener;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.utils.StringUtils;
 
@@ -47,6 +47,13 @@ public class SetButton extends ToggleButton {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				SetButton.this.contextHandler.setSetCheckedState(SetButton.this.set, isChecked);
+			}
+		});
+		contextHandler.addActionModeEndingListener(new ActionModeEndingListener() {
+			
+			@Override
+			public void onActionModeEnding() {
+				SetButton.this.setChecked(false);
 			}
 		});
 		

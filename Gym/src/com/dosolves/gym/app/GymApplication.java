@@ -16,7 +16,7 @@ import android.content.Context;
 
 public class GymApplication extends Application implements ContextSetter, ContextProvider{
 	
-	private static final boolean TEST_MODE = true;
+	private static final boolean TEST_MODE = false;
 	
 	private ContextSetter contextSetter;
 	private ActivityLifecycleCallbacks activityCreatedListener;

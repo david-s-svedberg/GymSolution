@@ -26,7 +26,7 @@ import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.gui.ContextualMenuHandlerForListItems;
 import com.dosolves.gym.app.gui.UserAskerImpl;
-import com.dosolves.gym.app.gui.performance.ContextualMenuHandlerForSets;
+import com.dosolves.gym.app.performance.gui.ContextualMenuHandlerForSets;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;

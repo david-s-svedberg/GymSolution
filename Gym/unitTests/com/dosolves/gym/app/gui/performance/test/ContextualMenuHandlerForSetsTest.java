@@ -17,10 +17,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.dosolves.gym.R;
+import com.dosolves.gym.app.gui.ActionModeEndingListener;
 import com.dosolves.gym.app.gui.ActionModeStarter;
 import com.dosolves.gym.app.gui.ContextualMenuHandler;
-import com.dosolves.gym.app.gui.performance.ContextualMenuHandlerForSets;
-import com.dosolves.gym.app.gui.performance.SetContextualMenuHandler;
+import com.dosolves.gym.app.performance.gui.ContextualMenuHandlerForSets;
+import com.dosolves.gym.app.performance.gui.SetContextualMenuHandler;
 import com.dosolves.gym.domain.UserRequestListener;
 import com.dosolves.gym.domain.performance.Set;
 
@@ -50,6 +51,10 @@ public class ContextualMenuHandlerForSetsTest {
 	MenuInflater menuInflaterMock;
 	@Mock
 	Drawable iconMock;
+	@Mock
+	ActionModeEndingListener actionModeEndingListenerMock1;
+	@Mock
+	ActionModeEndingListener actionModeEndingListenerMock2;
 	
 	@Before
 	public void setUp() throws Exception{
@@ -93,6 +98,17 @@ public class ContextualMenuHandlerForSetsTest {
 		sutAsSetContextualMenuHandler.setSetCheckedState(setMock, false);
 		
 		verify(actionModeMock).finish();
+	}
+	
+	@Test
+	public void notifies_listeners_on_finish(){
+		sutAsSetContextualMenuHandler.addActionModeEndingListener(actionModeEndingListenerMock1);
+		sutAsSetContextualMenuHandler.addActionModeEndingListener(actionModeEndingListenerMock2);
+		
+		sutAsActionModeCallback.onDestroyActionMode(actionModeMock);
+		
+		verify(actionModeEndingListenerMock1).onActionModeEnding();
+		verify(actionModeEndingListenerMock2).onActionModeEnding();
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.dosolves.gym.acceptancetest;
 
 import android.content.Intent;
+import android.test.TouchUtils;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import com.dosolves.gym.R;
@@ -111,8 +112,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 
 	private void deleteCreatedExercise(String exerciseName) {
 		solo.clickLongOnText(exerciseName);
-		solo.waitForView(R.id.delete_menu_item);
-		solo.clickOnView(getActivity().findViewById(R.id.delete_menu_item));
+		TouchUtils.clickView(this, getActivity().findViewById(R.id.delete_menu_item));		
 	}
 	
 }

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.dosolves.gym.app.CommonModelFactory;
 import com.dosolves.gym.app.gui.FragmentManagerProvider;
-import com.dosolves.gym.app.gui.performance.ContextualMenuHandlerForSets;
+import com.dosolves.gym.app.performance.gui.ContextualMenuHandlerForSets;
 import com.dosolves.gym.app.performance.gui.EditSetFragmentDialogShower;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;

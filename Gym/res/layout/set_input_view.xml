@@ -54,7 +54,8 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" >
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp" >
             
             <Button
                 android:id="@+id/plus_button"
@@ -62,28 +63,23 @@
                 android:layout_height="30dp"
                 android:layout_alignParentTop="true"
                 android:layout_centerInParent="true"
-                android:text="+"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
-
+                android:background="@drawable/up_button" />
+            
             <Button
                 android:id="@+id/minus_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
-                android:text="-"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:ignore="HardcodedText" />
+                android:background="@drawable/down_button" />
+                
         </RelativeLayout>
 
         <EditText
             android:id="@+id/repsInput"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.7"
             android:gravity="center"
             android:inputType="number"
             android:nextFocusDown="@+id/weightInput"
@@ -97,7 +93,7 @@
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1.2" />
 
         <EditText
             android:id="@id/weightInput"

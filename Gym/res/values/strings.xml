@@ -7,10 +7,8 @@
     <string name="add_category">Add category</string>
     <string name="add_item">Add item</string>
     <string name="categories">Categories</string>
-    <string name="title_activity_exercise">ExerciseActivity</string>
     <string name="create_category">Create Category</string>
     <string name="create_exercise">Create Exercise</string>
-    <string name="title_activity_exercise_input">ExerciseInputActivity</string>
     <string name="reps">Reps</string>
     <string name="weight">Weight</string>
     <string name="enter">Enter</string>
