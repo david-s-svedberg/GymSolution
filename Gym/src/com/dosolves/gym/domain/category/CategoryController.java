@@ -34,7 +34,7 @@ public class CategoryController extends UserUpdateableItemsController {
 	protected void handleUpdateItems() {
 		adapter.clear();
 		adapter.addAll(retriever.getCategories());
-		adapter.notifyDataSetChanged();		
+		adapter.notifyDataSetChanged();
 	}
 
 	@Override

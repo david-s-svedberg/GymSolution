@@ -17,21 +17,6 @@
             android:layout_weight="0.3" />
 
         <TextView
-            android:id="@+id/repsLabel"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="@string/reps"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/holo_green_dark" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.2" />
-
-        <TextView
             android:id="@+id/weightLabel"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,7 +25,23 @@
             android:text="@string/weight"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/holo_red_dark" />
+        
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2" />
+
+        <TextView
+            android:id="@+id/repsLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/reps"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/holo_green_dark" />
+        
         <Space
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -51,11 +52,47 @@
         android:layout_width="match_parent"
         android:layout_height="60dp" >
 
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8" />
+        
+        <EditText
+            android:id="@id/weightInput"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:nextFocusDown="@id/repsInput"
+            android:textColor="@android:color/holo_red_dark">
+            	
+            <requestFocus
+                android:layout_width="0dp"
+                android:layout_height="0dp" />
+            
+        </EditText>
+        
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <EditText
+            android:id="@+id/repsInput"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.7"
+            android:gravity="center"
+            android:inputType="number"
+            android:nextFocusDown="@+id/weightInput"
+            android:textColor="@android:color/holo_green_dark" >
+        </EditText>
+
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:layout_marginLeft="10dp" >
+            android:layout_weight="1">
             
             <Button
                 android:id="@+id/plus_button"
@@ -72,43 +109,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_centerInParent="true"
                 android:background="@drawable/down_button" />
-                
         </RelativeLayout>
-
-        <EditText
-            android:id="@+id/repsInput"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.7"
-            android:gravity="center"
-            android:inputType="number"
-            android:nextFocusDown="@+id/weightInput"
-            android:textColor="@android:color/holo_green_dark" >
-
-            <requestFocus
-                android:layout_width="0dp"
-                android:layout_height="0dp" />
-        </EditText>
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1.2" />
-
-        <EditText
-            android:id="@id/weightInput"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:inputType="numberDecimal"
-            android:nextFocusDown="@id/repsInput"
-            android:textColor="@android:color/holo_red_dark" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        
     </LinearLayout>
 
     <Space

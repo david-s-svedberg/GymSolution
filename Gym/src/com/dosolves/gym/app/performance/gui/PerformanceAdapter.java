@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.format.DateFormat;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +17,33 @@ import android.widget.TextView;
 import com.dosolves.gym.R;
 import com.dosolves.gym.domain.performance.Performance;
 import com.dosolves.gym.domain.performance.Set;
+import com.dosolves.gym.utils.GraphicsUtils;
 
 public class PerformanceAdapter extends BaseAdapter {
 	
+	private static final int BUTTON_SIDE_DP = 50;
+	private static final int BUTTON_HORIZONTAL_MARGIN_DP = 3;
+	private static final int BUTTON_VERTICAL_MARGIN_DP = 2;
+	
+	private static final int buttonSidePx;
+	private static final int buttonHorizontalMarginPx;
+	private static final int buttonVerticalMarginPx;
+	
+	private static final LayoutParams buttonsLayoutParams;
+	
+	static{
+		buttonSidePx = (int) GraphicsUtils.convertDpToPx(BUTTON_SIDE_DP);
+		buttonHorizontalMarginPx = (int)GraphicsUtils.convertDpToPx(BUTTON_HORIZONTAL_MARGIN_DP);
+		buttonVerticalMarginPx = (int)GraphicsUtils.convertDpToPx(BUTTON_VERTICAL_MARGIN_DP);
+		
+		buttonsLayoutParams = new LayoutParams(buttonSidePx, buttonSidePx);
+		buttonsLayoutParams.setMargins(buttonHorizontalMarginPx,buttonVerticalMarginPx,buttonHorizontalMarginPx,buttonVerticalMarginPx);
+	}
+	
 	private Context context;
 	private List<Performance> performances = new ArrayList<Performance>();
-	private SetContextualMenuHandler contextHandler;
+	private SetContextualMenuHandler contextHandler;	
+	
 
 	public PerformanceAdapter(Context context){
 		this.context = context;		
@@ -54,12 +74,8 @@ public class PerformanceAdapter extends BaseAdapter {
 		Date date = currentPerformance.getDate();
 		performanceDate.setText(getDateString(date));
 		
-		int side = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50 , context.getResources().getDisplayMetrics());
-		LayoutParams params = new LayoutParams(side, side);
-		params.setMargins(3,2,3,2);
-		
 		for(Set current: currentPerformance.getSets()){
-			setsContainer.addView(createSetButton(current), params);
+			setsContainer.addView(createSetButton(current), buttonsLayoutParams);
 		}		
 		
 		return rowView;

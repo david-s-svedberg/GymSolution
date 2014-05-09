@@ -10,6 +10,7 @@ import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
+import com.dosolves.gym.utils.GraphicsUtils;
 
 import android.app.Application;
 import android.content.Context;
@@ -59,6 +60,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	@Override
 	public void setContext(Context context) {
 		SQLiteOpenHelperSingeltonHolder.setContext(context);
+		GraphicsUtils.setContext(context);
 	}
 
 	@Override

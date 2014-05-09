@@ -13,24 +13,40 @@ import android.widget.ToggleButton;
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.gui.ActionModeEndingListener;
 import com.dosolves.gym.domain.performance.Set;
+import com.dosolves.gym.utils.GraphicsUtils;
 import com.dosolves.gym.utils.StringUtils;
 
 public class SetButton extends ToggleButton {
 
-	private static final int DARK_GREEN = Color.rgb(00, 200, 00);
+	private static final int DARK_GREEN = Color.rgb(00, 180, 00);
 	private static final int DARK_RED = Color.rgb(200, 00, 00);
 	
-	private static final int MARGIN = 5;
+	private static final int CENTER_OFFSET_DP = 8;
+	private static final float SHADOW_DY_DP = -1f;
+	private static final float SHADOW_DX_DP = -1.3f;
+
+	private static final int centerOffsetPx;
+	private static final float shadowDyPx;
+	private static final float shadowDxPx;
+	
+	private static final Paint textPaint = new Paint();
+	
 	
 	private Rect clipBounds = new Rect();
 	private Rect textBounds = new Rect();
 	
-	private Paint textPaint = new Paint();
-	private Paint textPaint2 = new Paint();
-	
 	private Set set;
 	private SetContextualMenuHandler contextHandler;
 
+	static{
+		centerOffsetPx = (int) GraphicsUtils.convertDpToPx(CENTER_OFFSET_DP);
+		
+		shadowDxPx = GraphicsUtils.convertDpToPx(SHADOW_DX_DP);
+		shadowDyPx = GraphicsUtils.convertDpToPx(SHADOW_DY_DP);
+		
+		textPaint.setTextSize(GraphicsUtils.getDimension(R.dimen.button_text_size));
+		textPaint.setShadowLayer(1f, shadowDxPx, shadowDyPx, Color.BLACK);
+	}
 	
 	// Seemingly unused constructor is used by the designer-tool when rendering
 	@SuppressWarnings("deprecation")
@@ -44,12 +60,6 @@ public class SetButton extends ToggleButton {
 		this.set = set;
 		
 		this.setBackgroundResource(R.drawable.set_button);
-		
-		textPaint.setTextSize(getResources().getDimension(R.dimen.button_text_size));
-		textPaint2.setTextSize(getResources().getDimension(R.dimen.button_text_size));
-		textPaint.setShadowLayer(0.6f, 1f, 0.4f, Color.LTGRAY);
-		textPaint2.setShadowLayer(0.6f, -1f, -0.4f, Color.BLACK);
-		
 		
 		setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
@@ -83,29 +93,26 @@ public class SetButton extends ToggleButton {
 		String reps = Integer.toString(set.getReps());
 		String weight = StringUtils.doubleToStringRemoveTrailingZeros(set.getWeight());
 		
-		float repsX = findCenterXForString(reps, clipBounds);
-		float repsY = findCenterYForReps(reps, clipBounds) - 6;
-
 		float weightX = findCenterXForString(weight, clipBounds);
-		float weightY = findCenterYForWeight(weight, clipBounds) + MARGIN + 6;
+		float weightY = findCenterYForUpperText(clipBounds);
+		float repsX = findCenterXForString(reps, clipBounds);
+		float repsY = findCenterYForLowerText(reps, clipBounds);
 		
-		textPaint.setColor(DARK_GREEN);
-		textPaint2.setColor(DARK_GREEN);
-		canvas.drawText(reps, repsX, repsY, textPaint);
-		canvas.drawText(reps, repsX, repsY, textPaint2);
 		textPaint.setColor(DARK_RED);
 		canvas.drawText(weight, weightX, weightY, textPaint);
-		textPaint2.setColor(DARK_RED);
-		canvas.drawText(weight, weightX, weightY, textPaint2);
+		
+		textPaint.setColor(DARK_GREEN);
+		canvas.drawText(reps, repsX, repsY, textPaint);
+		
 	}
 	
-	private float findCenterYForReps(String reps, Rect rect) {		
-		return (rect.height()/2) - MARGIN;
+	private float findCenterYForUpperText(Rect rect) {		
+		return (rect.height()/2) - centerOffsetPx;
 	}
 	
-	private float findCenterYForWeight(String weight, Rect rect) {
-		textPaint.getTextBounds(weight, 0, weight.length(), textBounds);
-		return (rect.height()/2) + (textBounds.height());
+	private float findCenterYForLowerText(String text, Rect rect) {
+		textPaint.getTextBounds(text, 0, text.length(), textBounds);
+		return (rect.height()/2) + (textBounds.height()) + centerOffsetPx;
 	}
 
 	private float findCenterXForString(String text, Rect rect) {
