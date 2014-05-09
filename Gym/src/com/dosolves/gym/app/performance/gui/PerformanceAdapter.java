@@ -6,11 +6,13 @@ import java.util.List;
 
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.dosolves.gym.R;
@@ -51,8 +53,13 @@ public class PerformanceAdapter extends BaseAdapter {
 		TextView performanceDate = (TextView)rowView.findViewById(R.id.performanceDate);
 		Date date = currentPerformance.getDate();
 		performanceDate.setText(getDateString(date));
+		
+		int side = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50 , context.getResources().getDisplayMetrics());
+		LayoutParams params = new LayoutParams(side, side);
+		params.setMargins(3,2,3,2);
+		
 		for(Set current: currentPerformance.getSets()){
-			setsContainer.addView(createSetButton(current));
+			setsContainer.addView(createSetButton(current), params);
 		}		
 		
 		return rowView;

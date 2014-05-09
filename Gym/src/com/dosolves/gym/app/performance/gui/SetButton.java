@@ -17,16 +17,18 @@ import com.dosolves.gym.utils.StringUtils;
 
 public class SetButton extends ToggleButton {
 
-	private static final int DARK_GREEN = Color.rgb(33, 150, 00);
+	private static final int DARK_GREEN = Color.rgb(00, 200, 00);
+	private static final int DARK_RED = Color.rgb(200, 00, 00);
+	
 	private static final int MARGIN = 5;
 	
 	private Rect clipBounds = new Rect();
 	private Rect textBounds = new Rect();
 	
 	private Paint textPaint = new Paint();
+	private Paint textPaint2 = new Paint();
 	
 	private Set set;
-//	private SetClickedCallback callback;
 	private SetContextualMenuHandler contextHandler;
 
 	
@@ -41,7 +43,14 @@ public class SetButton extends ToggleButton {
 		this.contextHandler = contextHandler;
 		this.set = set;
 		
+		this.setBackgroundResource(R.drawable.set_button);
+		
 		textPaint.setTextSize(getResources().getDimension(R.dimen.button_text_size));
+		textPaint2.setTextSize(getResources().getDimension(R.dimen.button_text_size));
+		textPaint.setShadowLayer(0.6f, 1f, 0.4f, Color.LTGRAY);
+		textPaint2.setShadowLayer(0.6f, -1f, -0.4f, Color.BLACK);
+		
+		
 		setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			
 			@Override
@@ -75,14 +84,19 @@ public class SetButton extends ToggleButton {
 		String weight = StringUtils.doubleToStringRemoveTrailingZeros(set.getWeight());
 		
 		float repsX = findCenterXForString(reps, clipBounds);
-		float repsY = findCenterYForReps(reps, clipBounds);
-		
+		float repsY = findCenterYForReps(reps, clipBounds) - 6;
+
 		float weightX = findCenterXForString(weight, clipBounds);
-		float weightY = findCenterYForWeight(weight, clipBounds);
+		float weightY = findCenterYForWeight(weight, clipBounds) + MARGIN + 6;
+		
 		textPaint.setColor(DARK_GREEN);
+		textPaint2.setColor(DARK_GREEN);
 		canvas.drawText(reps, repsX, repsY, textPaint);
-		textPaint.setColor(Color.RED);
+		canvas.drawText(reps, repsX, repsY, textPaint2);
+		textPaint.setColor(DARK_RED);
 		canvas.drawText(weight, weightX, weightY, textPaint);
+		textPaint2.setColor(DARK_RED);
+		canvas.drawText(weight, weightX, weightY, textPaint2);
 	}
 	
 	private float findCenterYForReps(String reps, Rect rect) {		
