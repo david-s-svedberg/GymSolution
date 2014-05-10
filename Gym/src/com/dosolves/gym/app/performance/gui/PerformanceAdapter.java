@@ -82,7 +82,7 @@ public class PerformanceAdapter extends BaseAdapter {
 	}
 
 	private CharSequence getDateString(Date date) {
-		return DateFormat.format("d/M - yy", date);
+		return DateFormat.format("d MMM", date);
 	}
 
 	private View createSetButton(Set set) {

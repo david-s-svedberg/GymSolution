@@ -24,4 +24,4 @@ src/com/dosolves/gym/app/ads/PublicKeyConstructor.java
 
 # Ignore Easteregg implementation
 src/com/dosolves/gym/easteregg/
-unitTests/com/dosolves/gym/easteregg/
+

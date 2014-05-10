@@ -24,7 +24,7 @@
             android:gravity="center"
             android:text="@string/weight"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/holo_red_dark" />
+            android:textColor="@color/grey" />
         
 
         <Space
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:text="@string/reps"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/holo_green_dark" />
+            android:textColor="@color/light_grey" />
         
         <Space
             android:layout_width="0dp"
@@ -65,7 +65,7 @@
             android:gravity="center"
             android:inputType="numberDecimal"
             android:nextFocusDown="@id/repsInput"
-            android:textColor="@android:color/holo_red_dark">
+            android:textColor="@color/grey">
             	
             <requestFocus
                 android:layout_width="0dp"
@@ -86,7 +86,7 @@
             android:gravity="center"
             android:inputType="number"
             android:nextFocusDown="@+id/weightInput"
-            android:textColor="@android:color/holo_green_dark" >
+            android:textColor="@color/light_grey" >
         </EditText>
 
         <RelativeLayout
@@ -133,6 +133,7 @@
             android:layout_height="match_parent"
             android:layout_weight="3"
             android:gravity="center"
+            android:background="@drawable/enter_button"
             android:text="@string/enter" />
 
         <Space

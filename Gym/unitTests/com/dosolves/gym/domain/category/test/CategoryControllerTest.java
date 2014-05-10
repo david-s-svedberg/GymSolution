@@ -28,6 +28,7 @@ import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryOpener;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
+import com.dosolves.gym.easteregg.EasterEggUseCase;
 
 @RunWith(RobolectricTestRunner.class)
 public class CategoryControllerTest {
@@ -57,6 +58,8 @@ public class CategoryControllerTest {
 	RenameDialogShower renameDialogShowerMock;
 	@Mock
 	DeleteItemUseCaseController categoryDeleteUseCaseMock;
+	@Mock
+	EasterEggUseCase easterEggUseCaseMock;
 		
 	@Before
 	public void setUp() throws Exception{
@@ -72,7 +75,8 @@ public class CategoryControllerTest {
 									 categoryUpdaterMock, 
 									 categoryOpenerMock,
 									 renameDialogShowerMock,
-									 categoryDeleteUseCaseMock);
+									 categoryDeleteUseCaseMock,
+									 easterEggUseCaseMock);
 		sut = sutImpl;
 		sutAsSystemEventListener = sutImpl;
 	}
@@ -131,6 +135,22 @@ public class CategoryControllerTest {
 		sut.onOpenItemRequested(POSITION);
 		
 		verify(categoryOpenerMock).openCategory(categoryMock);
+	}
+	
+	@Test
+	public void calls_easter_egg_checker_when_new_item_should_be_created(){
+		sut.onItemShouldBeCreated(NEW_CATEGORY_NAME);
+		
+		verify(easterEggUseCaseMock).triggersOn(NEW_CATEGORY_NAME);
+	}
+	
+	@Test
+	public void doesnt_call_updater_if_easter_egg_triggers(){
+		when(easterEggUseCaseMock.triggersOn(NEW_CATEGORY_NAME)).thenReturn(true);
+		
+		sut.onItemShouldBeCreated(NEW_CATEGORY_NAME);
+		
+		verifyZeroInteractions(categoryUpdaterMock);
 	}
 	
 	private void verifyCategoriesHaveBeenUpdated() {

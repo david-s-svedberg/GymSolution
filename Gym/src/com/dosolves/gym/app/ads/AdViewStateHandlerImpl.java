@@ -33,17 +33,20 @@ public class AdViewStateHandlerImpl implements AdViewStateHandler {
 
 	@Override
 	public void pause() {
-		ad.pause();
+		if(ad != null)
+			ad.pause();
 	}
 
 	@Override
 	public void resume() {
-		ad.resume();
+		if(ad != null)
+			ad.resume();
 	}
 
 	@Override
 	public void destroy() {
-		ad.destroy();
+		if(ad != null)
+			ad.destroy();
 	}
 
 }

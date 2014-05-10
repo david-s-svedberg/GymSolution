@@ -6,6 +6,8 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.CommonModelFactory;
+import com.dosolves.gym.app.ContextPreferenceRetriever;
+import com.dosolves.gym.app.PreferenceRetriever;
 import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
 import com.dosolves.gym.app.category.gui.ContextCategoryOpener;
@@ -23,6 +25,8 @@ import com.dosolves.gym.domain.category.data.CategoryItemHasSubItemsChecker;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
 import com.dosolves.gym.domain.data.DataAccess;
+import com.dosolves.gym.easteregg.EasterEggUseCase;
+import com.dosolves.gym.easteregg.EasterEggUseCaseImpl;
 
 public class CategoryModelFactoryImpl implements CategoryModelFactory{
 
@@ -48,8 +52,10 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 		
 		ContextCategoryOpener categoryOpener = new ContextCategoryOpener(context);
 		DeleteItemUseCaseController deleteItemUseCase = createDeleteUseCase(context, updater);
+		PreferenceRetriever preferenceRetriver = new ContextPreferenceRetriever(context);
+		EasterEggUseCase easterEggUseCase = new EasterEggUseCaseImpl(preferenceRetriver);
 		
-		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOpener,renameDialogShower, deleteItemUseCase);
+		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOpener,renameDialogShower, deleteItemUseCase,easterEggUseCase);
 	}
 	
 	private DeleteItemUseCaseController createDeleteUseCase(Context context, CategoryUpdater categoryUpdater) {

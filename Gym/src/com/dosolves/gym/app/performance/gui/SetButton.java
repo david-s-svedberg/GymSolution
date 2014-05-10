@@ -18,9 +18,6 @@ import com.dosolves.gym.utils.StringUtils;
 
 public class SetButton extends ToggleButton {
 
-	private static final int DARK_GREEN = Color.rgb(00, 180, 00);
-	private static final int DARK_RED = Color.rgb(200, 00, 00);
-	
 	private static final int CENTER_OFFSET_DP = 8;
 	private static final float SHADOW_DY_DP = -1f;
 	private static final float SHADOW_DX_DP = -1.3f;
@@ -93,15 +90,15 @@ public class SetButton extends ToggleButton {
 		String reps = Integer.toString(set.getReps());
 		String weight = StringUtils.doubleToStringRemoveTrailingZeros(set.getWeight());
 		
-		float weightX = findCenterXForString(weight, clipBounds);
+		float weightX = findCenterXForString(weight, clipBounds) - shadowDxPx; //The shadow makes the darker text look un-aligned
 		float weightY = findCenterYForUpperText(clipBounds);
 		float repsX = findCenterXForString(reps, clipBounds);
 		float repsY = findCenterYForLowerText(reps, clipBounds);
 		
-		textPaint.setColor(DARK_RED);
+		textPaint.setColor(Color.DKGRAY);
 		canvas.drawText(weight, weightX, weightY, textPaint);
 		
-		textPaint.setColor(DARK_GREEN);
+		textPaint.setColor(Color.LTGRAY);
 		canvas.drawText(reps, repsX, repsY, textPaint);
 		
 	}
@@ -116,7 +113,7 @@ public class SetButton extends ToggleButton {
 	}
 
 	private float findCenterXForString(String text, Rect rect) {
-		return (rect.width()/2)-(textPaint.measureText(text)/2);
+		return (rect.width()/2) - (textPaint.measureText(text)/2);
 	}
 	
 }

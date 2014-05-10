@@ -8,6 +8,7 @@ import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
+import com.dosolves.gym.easteregg.EasterEggUseCase;
 
 public class CategoryController extends UserUpdateableItemsController {
 
@@ -15,6 +16,7 @@ public class CategoryController extends UserUpdateableItemsController {
 	private CategoryRetriever retriever;
 	private CategoryUpdater updater;
 	private CategoryOpener categoryOpener;
+	private EasterEggUseCase easterEggUseCase;
 	
 	public CategoryController(ArrayAdapter<Category> adapter, 
 							  CategoryRetriever retriever, 
@@ -22,12 +24,14 @@ public class CategoryController extends UserUpdateableItemsController {
 							  CategoryUpdater categoryUpdater, 
 							  CategoryOpener categoryOpener,
 							  RenameDialogShower renameDialogShower, 
-							  DeleteItemUseCaseController categoryDeleteUseCase) {
+							  DeleteItemUseCaseController categoryDeleteUseCase, 
+							  EasterEggUseCase easterEggUseCase) {
 		super(createItemDialogShower, renameDialogShower, categoryDeleteUseCase);
 		this.adapter = adapter;
 		this.retriever = retriever;
 		this.updater = categoryUpdater;
-		this.categoryOpener = categoryOpener;			
+		this.categoryOpener = categoryOpener;
+		this.easterEggUseCase = easterEggUseCase;			
 	}
 
 	@Override
@@ -44,10 +48,11 @@ public class CategoryController extends UserUpdateableItemsController {
 
 	@Override
 	protected void handleItemShouldBeCreated(String newItemName) {
-		if(!categoryWithSameNameExists(newItemName)){
-			updater.create(newItemName);			
+		if(!easterEggUseCase.triggersOn(newItemName)){
+			if(!categoryWithSameNameExists(newItemName)){
+				updater.create(newItemName);			
+			}
 		}
-		
 	}
 	
 	private boolean categoryWithSameNameExists(String newCategoryName) {
