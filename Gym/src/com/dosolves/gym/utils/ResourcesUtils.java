@@ -20,7 +20,7 @@ public class ResourcesUtils {
 	}
 	
 	public static String getString(int stringId) {
-		return context.getResources().getString(stringId);		
+		return context.getString(stringId);		
 	}
 
 }

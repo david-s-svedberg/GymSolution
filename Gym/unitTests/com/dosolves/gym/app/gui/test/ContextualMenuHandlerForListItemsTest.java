@@ -1,6 +1,7 @@
 package com.dosolves.gym.app.gui.test;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.times;
@@ -11,10 +12,13 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -27,7 +31,9 @@ import com.dosolves.gym.app.gui.ContextualMenuHandler;
 import com.dosolves.gym.app.gui.ContextualMenuHandlerForListItems;
 import com.dosolves.gym.app.gui.PositionToIdTranslator;
 import com.dosolves.gym.domain.UserRequestListener;
+import com.dosolves.gym.utils.ResourcesUtils;
 
+@RunWith(RobolectricTestRunner.class)
 public class ContextualMenuHandlerForListItemsTest {
 	
 	private static final int ITEM_ID2 = 2;
@@ -52,15 +58,20 @@ public class ContextualMenuHandlerForListItemsTest {
 	UserRequestListener userRequestListenerMock;
 	@Mock
 	Drawable iconMock;
+	@Mock
+	Context contextMock;
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
+		ResourcesUtils.setContext(contextMock);
 		
 		ContextualMenuHandlerForListItems sutImpl = new ContextualMenuHandlerForListItems(positionTranslatorMock);
 		sut = sutImpl;
 		sut.addUserRequestListener(userRequestListenerMock);
 		sutAsMultiChoiceModeListener = sutImpl;
+		
+		when(contextMock.getString(anyInt())).thenReturn("");
 	}
 	
 	@Test

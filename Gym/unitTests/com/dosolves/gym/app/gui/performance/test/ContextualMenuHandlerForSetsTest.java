@@ -1,15 +1,17 @@
 package com.dosolves.gym.app.gui.performance.test;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.Date;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.robolectric.RobolectricTestRunner;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.ActionMode;
 import android.view.Menu;
@@ -24,7 +26,9 @@ import com.dosolves.gym.app.performance.gui.ContextualMenuHandlerForSets;
 import com.dosolves.gym.app.performance.gui.SetContextualMenuHandler;
 import com.dosolves.gym.domain.UserRequestListener;
 import com.dosolves.gym.domain.performance.Set;
+import com.dosolves.gym.utils.ResourcesUtils;
 
+@RunWith(RobolectricTestRunner.class)
 public class ContextualMenuHandlerForSetsTest {
 
 	private static final int SET_ID = 564;
@@ -55,11 +59,14 @@ public class ContextualMenuHandlerForSetsTest {
 	ActionModeEndingListener actionModeEndingListenerMock1;
 	@Mock
 	ActionModeEndingListener actionModeEndingListenerMock2;
+	@Mock
+	Context contextMock;
 	
 	@Before
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
-	
+		ResourcesUtils.setContext(contextMock);
+		
 		setMock = new Set(SET_ID, EXERCISE_ID, REPS, WEIGHT, new Date());
 		
 		ContextualMenuHandlerForSets sutImpl = new ContextualMenuHandlerForSets(actionModeStarterMock);
@@ -68,7 +75,7 @@ public class ContextualMenuHandlerForSetsTest {
 		sutAsActionModeCallback = sutImpl;
 		
 		sut.addUserRequestListener(userRequestListenerMock);
-	
+		when(contextMock.getString(anyInt())).thenReturn("");
 	}
 	
 	@Test

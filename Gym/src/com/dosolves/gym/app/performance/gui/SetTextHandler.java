@@ -1,5 +1,8 @@
 package com.dosolves.gym.app.performance.gui;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.text.Editable;
 import android.widget.Button;
 import android.widget.EditText;
@@ -9,11 +12,16 @@ public class SetTextHandler extends AbstractTextWatcher {
 	private Button proceedButton;
 	private EditText repsInput;
 	private EditText weightInput;
+	private boolean reentrantCheck = false;
+	private Pattern moreThenTwoDecimalsPattern;
+	private Pattern trimmedToTwoDecimalsPattern;
 
 	public SetTextHandler(Button proceedButton, EditText repsInput, EditText weightInput){
 		this.proceedButton = proceedButton;
 		this.repsInput = repsInput;
 		this.weightInput = weightInput;
+		moreThenTwoDecimalsPattern = Pattern.compile("^\\d*\\.\\d{3,}$");
+		trimmedToTwoDecimalsPattern = Pattern.compile("(\\d*\\.\\d{2})");
 	}
 	
 	@Override
@@ -23,30 +31,39 @@ public class SetTextHandler extends AbstractTextWatcher {
 	}
 
 	private void removeThirdOrMoreDecimalDigitOnWeight() {
-		if(weightHasMoreThenTwoDecimalDigits()){
-			weightInput.setText(getWeightTrimmedToTwoDecimalDigits());
-			weightInput.setSelection(getWeightString().length());
+		if(!reentrantCheck){
+			reentrantCheck = true;
+			if(weightHasMoreThenTwoDecimalDigits()){
+				int cursorBefore = weightInput.getSelectionEnd();
+				int cursorAfter = cursorBefore == getWeightString().length() ? cursorBefore -1 : cursorBefore;
+				weightInput.setText(getWeightTrimmedToTwoDecimalDigits());
+				weightInput.setSelection(cursorAfter);
+			}
+			reentrantCheck = false;
 		}
 	}
 
 	private String getWeightTrimmedToTwoDecimalDigits() {
-		double shiftedWeight = getWeight()*100;
-		int removeDecimals = (int)shiftedWeight;
-		double trimmedWeight = ((double)removeDecimals)/100;
-		return Double.toString(trimmedWeight);
+		String weightString = getWeightString();
+		Matcher matcher = trimmedToTwoDecimalsPattern.matcher(weightString);
+		matcher.find();
+		return matcher.group();
+//		
+//		int removeDecimals = (int)Math.round(getWeight()*100.0);
+//		double trimmedWeight = ((double)removeDecimals)/100;
+//		return Double.toString(trimmedWeight);
 	}
 
 	private boolean weightHasMoreThenTwoDecimalDigits() {
 		
 		String weight = getWeightString();
 		
-		return weightHasValue(weight) && moreThan2DecimalPlaces(getWeight());
+		return weightHasValue(weight) && moreThan2DecimalPlaces(weight);
 	}
 	
-	private boolean moreThan2DecimalPlaces(double value)
+	private boolean moreThan2DecimalPlaces(String weight)
 	{
-	    double shiftedValue = value * 100;
-	    return shiftedValue != Math.floor(shiftedValue);
+		return moreThenTwoDecimalsPattern.matcher(weight).matches();	    
 	}
 
 	private boolean weightHasValue(String weight) {
