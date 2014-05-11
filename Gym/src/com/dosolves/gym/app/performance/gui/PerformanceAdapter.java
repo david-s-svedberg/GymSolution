@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.dosolves.gym.R;
 import com.dosolves.gym.domain.performance.Performance;
 import com.dosolves.gym.domain.performance.Set;
-import com.dosolves.gym.utils.GraphicsUtils;
+import com.dosolves.gym.utils.ResourcesUtils;
 
 public class PerformanceAdapter extends BaseAdapter {
 	
@@ -32,9 +32,9 @@ public class PerformanceAdapter extends BaseAdapter {
 	private static final LayoutParams buttonsLayoutParams;
 	
 	static{
-		buttonSidePx = (int) GraphicsUtils.convertDpToPx(BUTTON_SIDE_DP);
-		buttonHorizontalMarginPx = (int)GraphicsUtils.convertDpToPx(BUTTON_HORIZONTAL_MARGIN_DP);
-		buttonVerticalMarginPx = (int)GraphicsUtils.convertDpToPx(BUTTON_VERTICAL_MARGIN_DP);
+		buttonSidePx = (int) ResourcesUtils.convertDpToPx(BUTTON_SIDE_DP);
+		buttonHorizontalMarginPx = (int)ResourcesUtils.convertDpToPx(BUTTON_HORIZONTAL_MARGIN_DP);
+		buttonVerticalMarginPx = (int)ResourcesUtils.convertDpToPx(BUTTON_VERTICAL_MARGIN_DP);
 		
 		buttonsLayoutParams = new LayoutParams(buttonSidePx, buttonSidePx);
 		buttonsLayoutParams.setMargins(buttonHorizontalMarginPx,buttonVerticalMarginPx,buttonHorizontalMarginPx,buttonVerticalMarginPx);

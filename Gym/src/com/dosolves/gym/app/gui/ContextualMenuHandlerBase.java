@@ -3,6 +3,7 @@ package com.dosolves.gym.app.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -12,7 +13,9 @@ import com.dosolves.gym.R;
 import com.dosolves.gym.domain.UserRequestListener;
 import com.dosolves.gym.domain.UserRequestObservable;
 import com.dosolves.gym.domain.UserRequestObservableImpl;
+import com.dosolves.gym.utils.ResourcesUtils;
 
+@SuppressLint("DefaultLocale")
 public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler,ActionMode.Callback  {
 
 	private static final int DISABLED_ALPHA = 130;
@@ -70,11 +73,11 @@ public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler
 	}
 
 	protected void updateTitle(ActionMode actionMode) {
-		actionMode.setTitle(numberOfSelectedItems());
+		actionMode.setTitle(createTitleString());
 	}
 
-	private String numberOfSelectedItems() {
-		return Integer.toString(selectedItems.size());
+	private String createTitleString() {
+		return String.format("%d %s",selectedItems.size(), ResourcesUtils.getString(R.string.selected));
 	}
 
 	protected void updateSelectedItems(Integer id, boolean checked) {

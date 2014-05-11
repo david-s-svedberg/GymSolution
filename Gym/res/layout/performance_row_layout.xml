@@ -1,40 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:orientation="horizontal" >
 
     <TextView
         android:id="@+id/performanceDate"
-        android:layout_width="0dp"
-        android:layout_weight="22"
+        android:layout_width="75dp"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:paddingLeft="0dp"
         android:paddingRight="3dp"
-        android:gravity="right|center_vertical" />
-    
+        android:text="10 maj"
+        tools:ignore="HardcodedText" />
+
     <View
-	    android:layout_width="4dp"
-	    android:layout_height="fill_parent"
-	    android:layout_marginTop="4dp"
-	    android:layout_marginBottom="4dp"
-	    android:paddingRight="3dp"
-	    android:background="@android:color/darker_gray"/>
+        android:layout_width="4dp"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@android:color/darker_gray"
+        android:paddingRight="3dp" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
         android:layout_width="0dp"
-        android:layout_weight="78"
         android:layout_height="match_parent"
-        android:layout_marginLeft="3dp" >
+        android:layout_marginLeft="3dp"
+        android:layout_weight="1"
+        android:scrollbars="none" >
 
         <LinearLayout
             android:id="@+id/setsContainer"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center" >
-
+            android:gravity="center"
+            android:orientation="horizontal" >
         </LinearLayout>
     </HorizontalScrollView>
 

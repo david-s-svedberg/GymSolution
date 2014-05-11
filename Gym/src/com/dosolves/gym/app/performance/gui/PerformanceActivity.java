@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -58,6 +56,8 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private AdsUserGestureListener adsUserGestureListener;
 	
 	private SystemEventObservableImpl systemEventListeners = new SystemEventObservableImpl();
+
+	private SetTextHandler setTextHandler;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -115,56 +115,9 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	}
 
 	private void setupButtonEnabledListener() {
-		TextWatcher textWatcher = new TextWatcher() {		    
-		    @Override
-		    public void afterTextChanged(Editable arg0) {
-		    	enterButton.setEnabled(repsHasValidValue() && weightHasValidValue());
-		    }
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before, int count) {}
-		};
-		repsInput.addTextChangedListener(textWatcher);
-		weightInput.addTextChangedListener(textWatcher);
-	}
-
-	protected boolean weightHasValidValue() {
-		return weightInput.getText().length() > 0 && isDouble(weightInput.getText().toString()) && doubleIsMoreThenZero(weightInput.getText().toString());
-	}
-
-	private boolean doubleIsMoreThenZero(String value) {
-		return Double.parseDouble(value) > 0.0;
-	}
-
-	private static boolean isDouble(String value) {
-		boolean ret = true;
-		try{
-			Double.parseDouble(value);
-		}
-		catch(NumberFormatException e){
-			ret = false;
-		}
-		return ret;
-	}
-
-	protected boolean repsHasValidValue() {
-		return repsInput.getText().length() > 0 && isInt(repsInput.getText().toString()) && intIsMoreThenZero(repsInput.getText().toString());
-	}
-
-	private boolean intIsMoreThenZero(String value) {
-		return Integer.parseInt(value) > 0;
-	}
-
-	private static boolean isInt(String value) {
-		boolean ret = true;
-		try{
-			Integer.parseInt(value);
-		}
-		catch(NumberFormatException e){
-			ret = false;
-		}
-		return ret;
+		setTextHandler = new SetTextHandler(enterButton, repsInput, weightInput);
+		repsInput.addTextChangedListener(setTextHandler);
+		weightInput.addTextChangedListener(setTextHandler);
 	}
 
 	private void setupClickListeners() {
@@ -174,7 +127,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			public void onClick(View v) {
 				hideSoftKeyboard();
 				
-				newSetShouldBeCreatedCallback.onNewSetShouldBeCreated(getReps(), getWeight());				
+				newSetShouldBeCreatedCallback.onNewSetShouldBeCreated(setTextHandler.getReps(), setTextHandler.getWeight());				
 			}
 
 			private void hideSoftKeyboard() {
@@ -188,7 +141,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			
 			@Override
 			public void onClick(View v) {
-				incrementRepsText();
+				setTextHandler.incrementRepsText();
 			}
 			
 		});
@@ -197,36 +150,13 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			
 			@Override
 			public void onClick(View v) {
-				decrementRepsText();
+				setTextHandler.decrementRepsText();
 			}
 			
 		});
 		
 	}
-		
-	protected void decrementRepsText() {
-		if(repsHasValidValue()) {
-			int reps = getReps();
-			if(reps > 1)
-				repsInput.setText(Integer.toString(reps-1));
-		}		
-	}
-
-	protected void incrementRepsText() {
-		if(repsHasValidValue())
-			repsInput.setText(Integer.toString(getReps()+1));
-		else
-			repsInput.setText(Integer.toString(1));
-	}
-
-	private double getWeight() {
-		return Double.parseDouble(weightInput.getText().toString());
-	}
-
-	private int getReps() {
-		return Integer.parseInt(repsInput.getText().toString());
-	}
-
+	
 	private void setupViewFields() {
 		performanceListView = (ListView)findViewById(R.id.previousWorkoutsListView);
 		enterButton = (Button)findViewById(R.id.enterSetButton);

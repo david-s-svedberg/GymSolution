@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -42,6 +40,7 @@ public class EditSetFragmentDialogShower implements EditSetDialogShower {
 		
 		private Set set;
 		private SetShouldBeEditedCallback editCallback;
+		private SetTextHandler setTextHandler;
 
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -71,11 +70,10 @@ public class EditSetFragmentDialogShower implements EditSetDialogShower {
 			saveButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View arg0) {
-					int reps = Integer.parseInt(repsInput.getText().toString());
-					double weight = Double.parseDouble(weightInput.getText().toString());
-					editCallback.onSetShouldBeUpdated(set, reps, weight);
+					editCallback.onSetShouldBeUpdated(set, setTextHandler.getReps(), setTextHandler.getWeight());
 					EditSetFragmentDialogShowerInner.this.dismiss();
 				}
+
 			});
 			
 			cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -85,62 +83,15 @@ public class EditSetFragmentDialogShower implements EditSetDialogShower {
 				}
 			});
 		
-			TextWatcher textWatcher = new TextWatcher() {		    
-			    @Override
-			    public void afterTextChanged(Editable arg0) {
-			    	saveButton.setEnabled(repsHasValidValue(repsInput) && weightHasValidValue(weightInput));
-			    }
-			    @Override
-			    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-			    @Override
-			    public void onTextChanged(CharSequence s, int start, int before, int count) {}
-			};
-			repsInput.addTextChangedListener(textWatcher);
-			weightInput.addTextChangedListener(textWatcher);
+			setTextHandler = new SetTextHandler(saveButton,repsInput,weightInput);
+			
+			repsInput.addTextChangedListener(setTextHandler);
+			weightInput.addTextChangedListener(setTextHandler);
 			
 			// and disable the button to start with
 			saveButton.setEnabled(false);
 			return builder.create();
 		}
-		
 
-		protected boolean weightHasValidValue(EditText weightInput) {
-			return weightInput.getText().length() > 0 && isDouble(weightInput.getText().toString()) && doubleIsMoreThenZero(weightInput.getText().toString());
-		}
-
-		private boolean doubleIsMoreThenZero(String value) {
-			return Double.parseDouble(value) > 0.0;
-		}
-
-		private boolean isDouble(String value) {
-			boolean ret = true;
-			try{
-				Double.parseDouble(value);
-			}
-			catch(NumberFormatException e){
-				ret = false;
-			}
-			return ret;
-		}
-
-		protected boolean repsHasValidValue(EditText repsInput) {
-			return repsInput.getText().length() > 0 && isInt(repsInput.getText().toString()) && intIsMoreThenZero(repsInput.getText().toString());
-		}
-
-		private boolean intIsMoreThenZero(String value) {
-			return Integer.parseInt(value) > 0;
-		}
-
-		private boolean isInt(String value) {
-			boolean ret = true;
-			try{
-				Integer.parseInt(value);
-			}
-			catch(NumberFormatException e){
-				ret = false;
-			}
-			return ret;
-		}
-		
 	}
 }

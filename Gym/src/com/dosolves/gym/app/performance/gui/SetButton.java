@@ -13,7 +13,7 @@ import android.widget.ToggleButton;
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.gui.ActionModeEndingListener;
 import com.dosolves.gym.domain.performance.Set;
-import com.dosolves.gym.utils.GraphicsUtils;
+import com.dosolves.gym.utils.ResourcesUtils;
 import com.dosolves.gym.utils.StringUtils;
 
 public class SetButton extends ToggleButton {
@@ -36,12 +36,12 @@ public class SetButton extends ToggleButton {
 	private SetContextualMenuHandler contextHandler;
 
 	static{
-		centerOffsetPx = (int) GraphicsUtils.convertDpToPx(CENTER_OFFSET_DP);
+		centerOffsetPx = (int) ResourcesUtils.convertDpToPx(CENTER_OFFSET_DP);
 		
-		shadowDxPx = GraphicsUtils.convertDpToPx(SHADOW_DX_DP);
-		shadowDyPx = GraphicsUtils.convertDpToPx(SHADOW_DY_DP);
+		shadowDxPx = ResourcesUtils.convertDpToPx(SHADOW_DX_DP);
+		shadowDyPx = ResourcesUtils.convertDpToPx(SHADOW_DY_DP);
 		
-		textPaint.setTextSize(GraphicsUtils.getDimension(R.dimen.button_text_size));
+		textPaint.setTextSize(ResourcesUtils.getDimension(R.dimen.button_text_size));
 		textPaint.setShadowLayer(1f, shadowDxPx, shadowDyPx, Color.BLACK);
 	}
 	
@@ -87,20 +87,32 @@ public class SetButton extends ToggleButton {
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		canvas.getClipBounds(clipBounds);
+		
+		drawReps(canvas);
+		
+		if(set.getWeight() > 0)
+			drawWeight(canvas);
+		
+	}
+
+	private void drawReps(Canvas canvas) {
 		String reps = Integer.toString(set.getReps());
+		
+		float repsX = findCenterXForString(reps, clipBounds);
+		float repsY = findCenterYForLowerText(reps, clipBounds);
+		
+		textPaint.setColor(Color.LTGRAY);
+		canvas.drawText(reps, repsX, repsY, textPaint);
+	}
+
+	private void drawWeight(Canvas canvas) {
 		String weight = StringUtils.doubleToStringRemoveTrailingZeros(set.getWeight());
 		
 		float weightX = findCenterXForString(weight, clipBounds) - shadowDxPx; //The shadow makes the darker text look un-aligned
 		float weightY = findCenterYForUpperText(clipBounds);
-		float repsX = findCenterXForString(reps, clipBounds);
-		float repsY = findCenterYForLowerText(reps, clipBounds);
 		
 		textPaint.setColor(Color.DKGRAY);
 		canvas.drawText(weight, weightX, weightY, textPaint);
-		
-		textPaint.setColor(Color.LTGRAY);
-		canvas.drawText(reps, repsX, repsY, textPaint);
-		
 	}
 	
 	private float findCenterYForUpperText(Rect rect) {		

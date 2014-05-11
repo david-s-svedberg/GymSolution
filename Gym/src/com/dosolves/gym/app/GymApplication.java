@@ -10,14 +10,14 @@ import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
-import com.dosolves.gym.utils.GraphicsUtils;
+import com.dosolves.gym.utils.ResourcesUtils;
 
 import android.app.Application;
 import android.content.Context;
 
 public class GymApplication extends Application implements ContextSetter, ContextProvider{
 	
-	private static final boolean TEST_MODE = false;
+	private static final boolean TEST_MODE = true;
 	
 	private ContextSetter contextSetter;
 	private ActivityLifecycleCallbacks activityCreatedListener;
@@ -60,7 +60,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	@Override
 	public void setContext(Context context) {
 		SQLiteOpenHelperSingeltonHolder.setContext(context);
-		GraphicsUtils.setContext(context);
+		ResourcesUtils.setContext(context);
 	}
 
 	@Override
