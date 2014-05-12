@@ -33,5 +33,13 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="selected">Selected</string>
+    <string name="default_exercises">Default Exercises</string>
+    <string name="add_default_exercises">Do you want to add default exercises?</string>
+    <string name="back">Back</string>
+    <string name="deadlift">Deadlift</string>
+    <string name="chest">Chest</string>
+    <string name="benchpress">Benchpress</string>
+    <string name="legs">Legs</string>
+    <string name="squat">Squat</string>
     
 </resources>

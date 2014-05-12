@@ -6,7 +6,8 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.CommonModelFactory;
-import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.exercise.gui.ContextExerciseOpener;
 import com.dosolves.gym.app.gui.UserAskerImpl;
@@ -17,6 +18,7 @@ import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.DeleteItemUseCaseControllerImpl;
 import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.RenameDialogShower;
+import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.data.DataAccess;
 import com.dosolves.gym.domain.exercise.Exercise;
 import com.dosolves.gym.domain.exercise.ExerciseController;
@@ -58,7 +60,7 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 		DataAccess dataAccess = commonModelFactory.getDataAccess();
 		ItemDeleter exerciseDeleter = commonModelFactory.getExerciseDeleter();
 		
-		UserAskerImpl userAsker = createUserAsker(context);
+		UserAsker userAsker = createUserAsker(context);
 		ExericseItemHasSubItemsChecker exericseItemHasSubItemsChecker = new ExericseItemHasSubItemsChecker(dataAccess);
 		DeleteItemUseCaseController deleteItemUseCase = new DeleteItemUseCaseControllerImpl(exericseItemHasSubItemsChecker, userAsker, exerciseDeleter);
 		
@@ -74,11 +76,11 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 	}
 
 	@Override
-	public UserAskerImpl createUserAsker(Context context) {
+	public UserAsker createUserAsker(Context context) {
 		YesNoDialog dialog = createDialog();
 		
 		RouterActivityStarter routerActivityStarter = commonModelFactory.getRouterActivityStarter(context);
-		userAsker = new UserAskerImpl(routerActivityStarter, dialog, RouteModule.EXERCISE);
+		userAsker = new UserAskerImpl(routerActivityStarter, dialog, RouteReason.FOR_DIALOG, RouteDialog.DELETE_EXERCISE);
 		return userAsker;
 	}
 	

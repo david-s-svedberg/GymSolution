@@ -25,7 +25,7 @@ import com.dosolves.gym.app.ads.AdsRemovalBuyerAdapter;
 import com.dosolves.gym.app.ads.RouterActivityCreatedListener;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.ads.UserSpecificPayloadGenerator;
-import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.inappbilling.IabHelper;
 import com.dosolves.gym.inappbilling.Purchase;
@@ -137,7 +137,7 @@ public class AdsRemovalBuyerAdapterTest {
 		setupSut();
 		
 		sut.buyAdsRemoval();
-		verify(routerActivityStarterMock).startRouterActivity(RouteReason.FOR_IN_APP_BILLING, RouteModule.NONE);
+		verify(routerActivityStarterMock).startRouterActivity(RouteReason.FOR_IN_APP_BILLING, RouteDialog.NONE);
 	}
 	
 	@Test

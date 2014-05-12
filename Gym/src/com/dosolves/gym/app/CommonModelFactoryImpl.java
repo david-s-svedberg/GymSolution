@@ -1,9 +1,13 @@
 package com.dosolves.gym.app;
 
 import android.content.Context;
+import android.os.Bundle;
 
+import com.dosolves.gym.R;
 import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
@@ -12,13 +16,16 @@ import com.dosolves.gym.app.gui.ContextualMenuHandler;
 import com.dosolves.gym.app.gui.ContextualMenuHandlerForListItems;
 import com.dosolves.gym.app.gui.CreateItemAlertDialogShower;
 import com.dosolves.gym.app.gui.RenameItemAlertDialogShower;
+import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
+import com.dosolves.gym.app.gui.YesNoDialog;
 import com.dosolves.gym.app.performance.database.SetDbStructureGiver;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentDateGiver;
 import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.RenameDialogShower;
+import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.category.data.CascadingCategoryDeleter;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
@@ -62,6 +69,8 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 
 	private PreferenceRetriever preferenceRetriever;
 	private RouterActivityStarter routerActivityStarter;
+
+	private UserAsker userAskerForAddDefaultExercises;
 
 
 	@Override
@@ -245,6 +254,33 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 
 	private RouterActivityStarter createRouterActivityStarter(Context context) {
 		return new ContextRouterActivityStarter(context);
+	}
+
+	@Override
+	public UserAsker getUserAskerForAddDefaultExercise() {
+		if (userAskerForAddDefaultExercises == null)
+			throw new IllegalStateException();
+		
+		return userAskerForAddDefaultExercises;
+	}
+	
+	public UserAsker createUserAskerForAddDefaultExercise(Context context) {
+		YesNoDialog dialog = createDialog();
+		
+		RouterActivityStarter routerActivityStarter = getRouterActivityStarter(context);
+		userAskerForAddDefaultExercises = new UserAskerImpl(routerActivityStarter, dialog, RouteReason.FOR_DIALOG, RouteDialog.ADD_DEFAULT_EXERCISES);
+		return userAskerForAddDefaultExercises;
+	}
+
+	private YesNoDialog createDialog() {
+		YesNoDialog dialog = new YesNoDialog();
+		
+		Bundle arguments = new Bundle();
+		arguments.putInt(YesNoDialog.TITLE_KEY, R.string.default_exercises);
+		arguments.putInt(YesNoDialog.MESSAGE_KEY, R.string.add_default_exercises);
+		dialog.setArguments(arguments);
+		
+		return dialog;
 	}
 	
 }

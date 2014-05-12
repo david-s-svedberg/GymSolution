@@ -14,10 +14,10 @@ public class ExerciseUpdaterImpl implements ExerciseUpdater {
 	}
 
 	@Override
-	public void create(String newExerciseName,int categoryId) {
+	public int create(String newExerciseName,int categoryId) {
 		Map<String, Object> keysAndvalues = createExerciseValues(newExerciseName, categoryId);
 		
-		dataAccess.create(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, keysAndvalues);
+		return dataAccess.create(ExerciseStructureGiver.EXERCISE_TYPE_NAME_PLURAL, keysAndvalues);
 	}
 
 	private Map<String, Object> createExerciseValues(String newExerciseName, int categoryId) {

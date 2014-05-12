@@ -1,6 +1,6 @@
 package com.dosolves.gym.app.ads;
 
-import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 
 import android.content.Context;
@@ -16,10 +16,10 @@ public class ContextRouterActivityStarter implements RouterActivityStarter {
 	}
 
 	@Override
-	public void startRouterActivity(RouteReason reason, RouteModule module) {
+	public void startRouterActivity(RouteReason reason, RouteDialog module) {
 		Intent intent = new Intent(context, RouterActivity.class);
 		intent.putExtra(RouterActivity.REASON_KEY, reason);
-		intent.putExtra(RouterActivity.MODULE_KEY, module);
+		intent.putExtra(RouterActivity.DIALOG_KEY, module);
 		
 		context.startActivity(intent);
 	}

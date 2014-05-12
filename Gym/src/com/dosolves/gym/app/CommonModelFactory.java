@@ -8,6 +8,7 @@ import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.RenameDialogShower;
+import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
 import com.dosolves.gym.domain.data.DataAccess;
@@ -40,5 +41,7 @@ public interface CommonModelFactory {
 
 	PreferenceRetriever getpreferenceRetriever(Context context);
 	RouterActivityStarter getRouterActivityStarter(Context context);
+
+	UserAsker getUserAskerForAddDefaultExercise();
 	
 }

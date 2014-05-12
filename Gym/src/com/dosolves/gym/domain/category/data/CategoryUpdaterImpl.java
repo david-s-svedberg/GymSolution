@@ -14,10 +14,10 @@ public class CategoryUpdaterImpl implements CategoryUpdater {
 	}
 
 	@Override
-	public void create(String newCategoryName) {
+	public int create(String newCategoryName) {
 		Map<String, Object> keysAndvalues = new HashMap<String, Object>();
 		keysAndvalues.put(CategoryStructureGiver.NAME_PROPERTY_NAME, newCategoryName);
-		dataAccess.create(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL, keysAndvalues);
+		return dataAccess.create(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL, keysAndvalues);
 	}
 
 	@Override

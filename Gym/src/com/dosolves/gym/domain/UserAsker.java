@@ -1,8 +1,10 @@
 package com.dosolves.gym.domain;
 
-public interface UserAsker {
+import com.dosolves.gym.app.ads.RouterActivityCreatedListener;
 
-	void shouldParentItemBeDeleted(UserResponseListener responseListener);
+public interface UserAsker extends RouterActivityCreatedListener{
+
+	void askUser(UserResponseListener responseListener);
 	UserResponseListener getCurrentResponseListener();
 	
 }

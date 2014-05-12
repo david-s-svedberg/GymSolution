@@ -15,7 +15,7 @@ public class SQLiteOpenHelperSingeltonHolder {
 	
 	private static Context context;
 	
-	private static boolean useTestDb = false;
+	private static String dbNameToUse = "GymDb";
 	
 	private static volatile SQLiteOpenHelper instance;	
 
@@ -24,7 +24,7 @@ public class SQLiteOpenHelperSingeltonHolder {
 	}
 	
 	public static void useTestDb(){
-		useTestDb = true;
+		dbNameToUse = "TestGymDb";
 	}
 	
 	public static SQLiteOpenHelper getDbHelper() {
@@ -47,7 +47,7 @@ public class SQLiteOpenHelperSingeltonHolder {
 		private DbStructureGiver[] dbStructureGivers;
 
 		public GymSQLiteOpenHelper(DbStructureGiver... dbStructureGivers) {
-			super(context, useTestDb ? "TestGymDb":"GymDb", null, 1);
+			super(context, dbNameToUse, null, 1);
 			this.dbStructureGivers = dbStructureGivers;
 		}
 
@@ -60,7 +60,7 @@ public class SQLiteOpenHelperSingeltonHolder {
 
 		@Override
 		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			// TODO Auto-generated method stub
+			
 		}
 		
 	}

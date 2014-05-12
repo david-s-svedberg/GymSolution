@@ -9,17 +9,17 @@ import android.widget.ListAdapter;
 import com.dosolves.gym.ads.AdsController;
 import com.dosolves.gym.app.ads.AdsModelFactory;
 import com.dosolves.gym.app.ads.RouterActivity;
-import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.category.gui.CategoriesActivity;
 import com.dosolves.gym.app.exercise.gui.ExercisesActivity;
 import com.dosolves.gym.app.gui.ContextualMenuHandler;
-import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.performance.gui.ContextualMenuHandlerForSets;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
 import com.dosolves.gym.domain.ModelComposer;
+import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.UserUpdateableItemsController;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
@@ -71,12 +71,14 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		Intent startIntent = activity.getIntent();
 		
 		switch(getRoutReason(startIntent)){
-			case FOR_DELETE_DIALOG:
-				composeDeleteDialogRouting(activity, startIntent);	
+			case FOR_DIALOG:
+				composeDialogRouting(activity, startIntent);	
 				break;
 			case FOR_IN_APP_BILLING:
 				composeInAppBillingRouting(activity);
-				break;		
+				break;
+			default:
+				throw new IllegalArgumentException();
 		}
 		
 	}
@@ -86,15 +88,18 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		activity.setActivityResultListener(adsModelFactory.getIabHelper(activity));
 	}
 
-	private void composeDeleteDialogRouting(RouterActivity activity, Intent startIntent) {
-		UserAskerImpl userAsker = null;
+	private void composeDialogRouting(RouterActivity activity, Intent startIntent) {
+		UserAsker userAsker = null;
 		
-		switch(getRouteModule(startIntent)){
-			case CATEGORY:
+		switch(getRouteDialog(startIntent)){
+			case DELETE_CATEGORY:
 				userAsker = categoryModelFactory.getUserAsker();
 				break;
-			case EXERCISE:
+			case DELETE_EXERCISE:
 				userAsker = exerciseModelFactory.getUserAsker();
+				break;
+			case ADD_DEFAULT_EXERCISES:
+				userAsker = commonModelFactory.getUserAskerForAddDefaultExercise();
 				break;
 			default:
 				throw new IllegalArgumentException();
@@ -104,8 +109,8 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		activity.setRouterActivityCreatedListener(userAsker);
 	}
 
-	private RouteModule getRouteModule(Intent startIntent) {
-		return (RouteModule)startIntent.getSerializableExtra(RouterActivity.MODULE_KEY);
+	private RouteDialog getRouteDialog(Intent startIntent) {
+		return (RouteDialog)startIntent.getSerializableExtra(RouterActivity.DIALOG_KEY);
 	}
 
 	private RouteReason getRoutReason(Intent startIntent) {

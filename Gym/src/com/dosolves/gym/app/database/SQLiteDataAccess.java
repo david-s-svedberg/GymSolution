@@ -61,12 +61,14 @@ public class SQLiteDataAccess implements DataAccess {
 	}
 
 	@Override
-	public void create(String type, Map<String, Object> keysAndvalues) {
+	public int create(String type, Map<String, Object> keysAndvalues) {
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		ContentValues contentValues = createContentValues(keysAndvalues);
 		
-		db.insert(type, null, contentValues);
+		long newId = db.insert(type, null, contentValues);
 		db.close();
+		
+		return (int)newId;
 	}
 
 	@Override

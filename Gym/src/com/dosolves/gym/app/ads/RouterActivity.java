@@ -8,19 +8,20 @@ import com.dosolves.gym.inappbilling.ActivityResultListener;
 
 public class RouterActivity extends Activity {
 
-	public enum RouteModule {
-		CATEGORY,
-		EXERCISE,
+	public enum RouteDialog {
+		DELETE_CATEGORY,
+		DELETE_EXERCISE,
+		ADD_DEFAULT_EXERCISES,
 		NONE
 	}
 
 	public enum RouteReason{
-		FOR_DELETE_DIALOG, 
-		FOR_IN_APP_BILLING
+		FOR_DIALOG, 
+		FOR_IN_APP_BILLING,
 	}
 
 	public static final String REASON_KEY = "REASON_KEY";
-	public static final String MODULE_KEY = "MODULE_KEY";
+	public static final String DIALOG_KEY = "DIALOG_KEY";
 	
 	private RouterActivityCreatedListener routerActivityCreatedListener;
 	private ActivityResultListener activityResultListener;

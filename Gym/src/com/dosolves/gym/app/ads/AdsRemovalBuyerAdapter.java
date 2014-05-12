@@ -5,7 +5,7 @@ import android.app.Activity;
 import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.AdsRemovalPurchasedListener;
 import com.dosolves.gym.ads.UserSpecificPayloadValidator;
-import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.inappbilling.IabHelper;
 import com.dosolves.gym.inappbilling.IabHelper.OnIabPurchaseFinishedListener;
@@ -79,7 +79,7 @@ public class AdsRemovalBuyerAdapter implements AdsRemovalBuyer, RouterActivityCr
 	}
 
 	protected void initiatePurchaseSequence() {
-		routerActivityStarter.startRouterActivity(RouteReason.FOR_IN_APP_BILLING, RouteModule.NONE);
+		routerActivityStarter.startRouterActivity(RouteReason.FOR_IN_APP_BILLING, RouteDialog.NONE);
 	}
 
 	@Override

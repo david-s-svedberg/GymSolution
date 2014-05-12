@@ -61,7 +61,7 @@ public class DeleteItemUseCaseControllerTest {
 		sut.deleteItemsRequested(ids, itemsDeletedListenerMock);
 		
 		
-		verify(userAskerMock).shouldParentItemBeDeleted(any(UserResponseListener.class));
+		verify(userAskerMock).askUser(any(UserResponseListener.class));
 	}
 	
 	@Test
@@ -85,7 +85,7 @@ public class DeleteItemUseCaseControllerTest {
 				return null;
 			}
 			
-		}).when(userAskerMock).shouldParentItemBeDeleted(any(UserResponseListener.class));
+		}).when(userAskerMock).askUser(any(UserResponseListener.class));
 		
 		sut.deleteItemsRequested(ids,itemsDeletedListenerMock);
 		
@@ -104,7 +104,7 @@ public class DeleteItemUseCaseControllerTest {
 				return null;
 			}
 			
-		}).when(userAskerMock).shouldParentItemBeDeleted(any(UserResponseListener.class));
+		}).when(userAskerMock).askUser(any(UserResponseListener.class));
 		
 		sut.deleteItemsRequested(ids,itemsDeletedListenerMock);
 		
@@ -123,7 +123,7 @@ public class DeleteItemUseCaseControllerTest {
 				return null;
 			}
 			
-		}).when(userAskerMock).shouldParentItemBeDeleted(any(UserResponseListener.class));
+		}).when(userAskerMock).askUser(any(UserResponseListener.class));
 		
 		sut.deleteItemsRequested(ids,itemsDeletedListenerMock);
 		
@@ -156,7 +156,7 @@ public class DeleteItemUseCaseControllerTest {
 		ids.add(ITEM_ID2);
 		sut.deleteItemsRequested(ids,itemsDeletedListenerMock);
 		
-		verify(userAskerMock, times(1)).shouldParentItemBeDeleted(any(UserResponseListener.class));
+		verify(userAskerMock, times(1)).askUser(any(UserResponseListener.class));
 	}
 	
 }

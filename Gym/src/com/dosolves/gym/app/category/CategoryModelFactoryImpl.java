@@ -7,7 +7,8 @@ import android.widget.ArrayAdapter;
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.CommonModelFactory;
 import com.dosolves.gym.app.PreferenceRetriever;
-import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.category.gui.ContextCategoryOpener;
 import com.dosolves.gym.app.gui.UserAskerImpl;
@@ -17,6 +18,7 @@ import com.dosolves.gym.domain.DeleteItemUseCaseController;
 import com.dosolves.gym.domain.DeleteItemUseCaseControllerImpl;
 import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.RenameDialogShower;
+import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.category.Category;
 import com.dosolves.gym.domain.category.CategoryController;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
@@ -59,7 +61,7 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 	
 	private DeleteItemUseCaseController createDeleteUseCase(Context context, CategoryUpdater categoryUpdater) {
 		ItemDeleter categoryDeleter = commonModelFactory.getCategoryDeleter();
-		UserAskerImpl userAsker = createUserAsker(context);
+		UserAsker userAsker = createUserAsker(context);
 		DataAccess dataAccess = commonModelFactory.getDataAccess();
 		CategoryItemHasSubItemsChecker categoryItemHasSubItemsChecker = new CategoryItemHasSubItemsChecker(dataAccess);
 		DeleteItemUseCaseController deleteItemUseCase = new DeleteItemUseCaseControllerImpl(categoryItemHasSubItemsChecker, userAsker, categoryDeleter);
@@ -77,11 +79,11 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 	}
 
 	@Override
-	public UserAskerImpl createUserAsker(Context context) {
+	public UserAsker createUserAsker(Context context) {
 		YesNoDialog dialog = createDialog();
 		
 		RouterActivityStarter routerActivityStarter = commonModelFactory.getRouterActivityStarter(context);
-		userAsker = new UserAskerImpl(routerActivityStarter, dialog, RouteModule.CATEGORY);
+		userAsker = new UserAskerImpl(routerActivityStarter, dialog, RouteReason.FOR_DIALOG, RouteDialog.DELETE_CATEGORY);
 		return userAsker;
 	}
 

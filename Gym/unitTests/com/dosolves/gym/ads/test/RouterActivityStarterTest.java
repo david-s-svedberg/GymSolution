@@ -17,7 +17,7 @@ import android.content.Intent;
 
 import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity;
-import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 
@@ -40,7 +40,7 @@ public class RouterActivityStarterTest {
 	@Test
 	public void calls_startActivity_when_startRouterActivity_is_called(){
 		
-		sut.startRouterActivity(RouteReason.FOR_IN_APP_BILLING, RouteModule.NONE);
+		sut.startRouterActivity(RouteReason.FOR_IN_APP_BILLING, RouteDialog.NONE);
 		
 		verify(contextMock).startActivity(argThat(new ArgumentMatcher<Intent>(){
 

@@ -21,7 +21,7 @@ public class DeleteItemUseCaseControllerImpl implements DeleteItemUseCaseControl
 	@Override
 	public void deleteItemsRequested(final List<Integer> ids, final ItemsDeletedListener itemsDeletedListener) {
 		if(anyItemHasChildren(ids)){
-			userAsker.shouldParentItemBeDeleted(new AbstractUserResponseListener(){
+			userAsker.askUser(new AbstractUserResponseListener(){
 				@Override
 				public void yes() {
 					deleteAllItems(ids);
