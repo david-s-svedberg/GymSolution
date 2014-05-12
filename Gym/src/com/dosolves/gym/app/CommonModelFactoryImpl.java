@@ -2,6 +2,8 @@ package com.dosolves.gym.app;
 
 import android.content.Context;
 
+import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
+import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
@@ -57,6 +59,9 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 	private ItemDeleter categoryDeleter;
 	private ItemDeleter exerciseDeleter;
 	private ItemDeleter setDeleter;
+
+	private PreferenceRetriever preferenceRetriever;
+	private RouterActivityStarter routerActivityStarter;
 
 
 	@Override
@@ -216,6 +221,30 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 	@Override
 	public ContextualMenuHandler createContextualMenuHandler(UserUpdateableItemsActivity activity) {
 		return new ContextualMenuHandlerForListItems(activity);
+	}
+
+	@Override
+	public PreferenceRetriever getpreferenceRetriever(Context context) {
+		if(preferenceRetriever == null)
+			preferenceRetriever = createPreferenceRetriever(context);
+		
+		return preferenceRetriever; 
+	}
+
+	private PreferenceRetriever createPreferenceRetriever(Context context) {
+		return new ContextPreferenceRetriever(context);
+	}
+
+	@Override
+	public RouterActivityStarter getRouterActivityStarter(Context context) {
+		if (routerActivityStarter == null)
+			routerActivityStarter = createRouterActivityStarter(context);
+		
+		return routerActivityStarter;
+	}
+
+	private RouterActivityStarter createRouterActivityStarter(Context context) {
+		return new ContextRouterActivityStarter(context);
 	}
 	
 }

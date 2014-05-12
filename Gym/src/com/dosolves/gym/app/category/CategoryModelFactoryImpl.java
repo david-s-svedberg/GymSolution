@@ -6,10 +6,9 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.CommonModelFactory;
-import com.dosolves.gym.app.ContextPreferenceRetriever;
 import com.dosolves.gym.app.PreferenceRetriever;
-import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.category.gui.ContextCategoryOpener;
 import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.YesNoDialog;
@@ -52,7 +51,7 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 		
 		ContextCategoryOpener categoryOpener = new ContextCategoryOpener(context);
 		DeleteItemUseCaseController deleteItemUseCase = createDeleteUseCase(context, updater);
-		PreferenceRetriever preferenceRetriver = new ContextPreferenceRetriever(context);
+		PreferenceRetriever preferenceRetriver = commonModelFactory.getpreferenceRetriever(context);
 		EasterEggUseCase easterEggUseCase = new EasterEggUseCaseImpl(preferenceRetriver);
 		
 		return new CategoryController(adapter, retriever, createCategorydialog, updater, categoryOpener,renameDialogShower, deleteItemUseCase,easterEggUseCase);
@@ -81,7 +80,8 @@ public class CategoryModelFactoryImpl implements CategoryModelFactory{
 	public UserAskerImpl createUserAsker(Context context) {
 		YesNoDialog dialog = createDialog();
 		
-		userAsker = new UserAskerImpl(new ContextRouterActivityStarter(context), dialog, RouteModule.CATEGORY);
+		RouterActivityStarter routerActivityStarter = commonModelFactory.getRouterActivityStarter(context);
+		userAsker = new UserAskerImpl(routerActivityStarter, dialog, RouteModule.CATEGORY);
 		return userAsker;
 	}
 

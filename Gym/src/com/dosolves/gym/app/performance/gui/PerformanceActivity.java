@@ -115,7 +115,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	}
 
 	private void setupButtonEnabledListener() {
-		setTextHandler = new SetTextHandler(enterButton, repsInput, weightInput);
+		setTextHandler = new SetTextHandlerImpl(enterButton, repsInput, weightInput);
 		repsInput.addTextChangedListener(setTextHandler);
 		weightInput.addTextChangedListener(setTextHandler);
 	}

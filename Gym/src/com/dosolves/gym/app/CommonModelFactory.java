@@ -2,6 +2,7 @@ package com.dosolves.gym.app;
 
 import android.content.Context;
 
+import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.gui.ContextualMenuHandler;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.domain.CreateItemDialogShower;
@@ -36,5 +37,8 @@ public interface CommonModelFactory {
 	ItemDeleter getSetDeleter();
 	
 	ContextualMenuHandler createContextualMenuHandler(UserUpdateableItemsActivity activity);
+
+	PreferenceRetriever getpreferenceRetriever(Context context);
+	RouterActivityStarter getRouterActivityStarter(Context context);
 	
 }

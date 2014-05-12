@@ -6,8 +6,8 @@ import android.widget.ArrayAdapter;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.CommonModelFactory;
-import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity.RouteModule;
+import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.exercise.gui.ContextExerciseOpener;
 import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.YesNoDialog;
@@ -77,7 +77,8 @@ public class ExerciseModelFactoryImpl implements ExerciseModelFactory {
 	public UserAskerImpl createUserAsker(Context context) {
 		YesNoDialog dialog = createDialog();
 		
-		userAsker = new UserAskerImpl(new ContextRouterActivityStarter(context), dialog, RouteModule.EXERCISE);
+		RouterActivityStarter routerActivityStarter = commonModelFactory.getRouterActivityStarter(context);
+		userAsker = new UserAskerImpl(routerActivityStarter, dialog, RouteModule.EXERCISE);
 		return userAsker;
 	}
 	

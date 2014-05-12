@@ -15,6 +15,7 @@ import com.dosolves.gym.ads.MenuSetter;
 import com.dosolves.gym.ads.UserSpecificPayloadValidator;
 import com.dosolves.gym.ads.UserThanker;
 import com.dosolves.gym.ads.ViewSetter;
+import com.dosolves.gym.app.CommonModelFactory;
 import com.dosolves.gym.app.ContextPreferenceRetriever;
 import com.dosolves.gym.app.PreferenceAdsShouldBeDisplayedDecider;
 import com.dosolves.gym.app.PreferenceRetriever;
@@ -26,13 +27,17 @@ import com.dosolves.gym.inappbilling.IabHelper;
 
 public class AdsModelFactoryImpl implements AdsModelFactory {
 	
+	private CommonModelFactory commonModelFactory;
+	
 	private IabHelper iabHelperInstance;
 	private AdsRemovalBuyerAdapter adsRemovalBuyerInstance;
 	
 	private boolean testMode;
+	
 
-	public AdsModelFactoryImpl(boolean testMode){
-		this.testMode = testMode;		
+	public AdsModelFactoryImpl(boolean testMode, CommonModelFactory commonModelFactory){
+		this.testMode = testMode;
+		this.commonModelFactory = commonModelFactory;		
 	}
 	
 	@Override
@@ -40,7 +45,7 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 		ViewSetter viewSetter = createViewSetter(activity);
 		AdViewStateHandler adsInitializer = new AdViewStateHandlerImpl(activity);
 		MenuSetter menuSetter = (MenuSetter)activity;
-		PreferenceRetriever preferenceRetriever = new ContextPreferenceRetriever(activity);
+		PreferenceRetriever preferenceRetriever = commonModelFactory.getpreferenceRetriever(activity);
 		AdsShouldBeDisplayedDecider adsShouldBeDisplayedDecider = new PreferenceAdsShouldBeDisplayedDecider(preferenceRetriever);
 		AdsRemovalBuyer removalBuyer = getAdsRemovalBuyer(activity);
 		
@@ -70,7 +75,7 @@ public class AdsModelFactoryImpl implements AdsModelFactory {
 
 	private AdsRemovalBuyerAdapter createNewAdsRemovalBuyer(Context context) {
 		IabHelper iabHelper = getIabHelper(context);
-		RouterActivityStarter routerActivityStarter = new ContextRouterActivityStarter(context);
+		RouterActivityStarter routerActivityStarter = commonModelFactory.getRouterActivityStarter(context);
 		UserSpecificPayloadGenerator payloadGenerator = new GoogleAcountPayloadGenerator(AccountManager.get(context));
 		PreferenceRetriever preferenceRetriver = new ContextPreferenceRetriever(context);
 		AdsRemovalBoughtStorer adsRemovalBoughtStorer = new PreferensesAdsRemovalBoughtStorer(preferenceRetriver);

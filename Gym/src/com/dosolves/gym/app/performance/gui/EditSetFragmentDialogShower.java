@@ -83,7 +83,7 @@ public class EditSetFragmentDialogShower implements EditSetDialogShower {
 				}
 			});
 		
-			setTextHandler = new SetTextHandler(saveButton,repsInput,weightInput);
+			setTextHandler = new SetTextHandlerImpl(saveButton,repsInput,weightInput);
 			
 			repsInput.addTextChangedListener(setTextHandler);
 			weightInput.addTextChangedListener(setTextHandler);
