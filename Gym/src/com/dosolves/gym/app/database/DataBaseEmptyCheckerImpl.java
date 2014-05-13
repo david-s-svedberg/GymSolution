@@ -13,7 +13,7 @@ public class DataBaseEmptyCheckerImpl implements DataBaseEmptyChecker {
 
 	@Override
 	public boolean isDbEmpty() {
-		return dataAccess.exists(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL);
+		return !dataAccess.exists(CategoryStructureGiver.CATEGORY_TYPE_NAME_PLURAL);
 	}
 
 }

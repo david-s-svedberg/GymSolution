@@ -6,6 +6,7 @@ import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.ExerciseModelFactoryImpl;
 import com.dosolves.gym.app.performance.PerformanceModelFactoryImpl;
+import com.dosolves.gym.domain.AddDefaultExercisesUseCase;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.category.CategoryModelFactory;
 import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
@@ -65,7 +66,8 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	
 	private void checkAddDefaultExerciseUseCase() {
 		if(appIsRunningForTheFirstTime()){
-			commonModelFactory.createAddDefaultExercisesUseCase(getApplicationContext()).runUseCase();
+			AddDefaultExercisesUseCase defaultExercisesUseCase = commonModelFactory.createAddDefaultExercisesUseCase(getApplicationContext());
+			defaultExercisesUseCase.runUseCase();
 		}
 	}
 

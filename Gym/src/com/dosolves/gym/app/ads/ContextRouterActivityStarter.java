@@ -20,6 +20,7 @@ public class ContextRouterActivityStarter implements RouterActivityStarter {
 		Intent intent = new Intent(context, RouterActivity.class);
 		intent.putExtra(RouterActivity.REASON_KEY, reason);
 		intent.putExtra(RouterActivity.DIALOG_KEY, module);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		
 		context.startActivity(intent);
 	}

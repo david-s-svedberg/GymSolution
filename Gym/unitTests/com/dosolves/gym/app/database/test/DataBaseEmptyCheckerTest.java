@@ -1,5 +1,6 @@
 package com.dosolves.gym.app.database.test;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 import org.junit.Before;
@@ -30,6 +31,13 @@ public class DataBaseEmptyCheckerTest {
 		sut.isDbEmpty();
 		
 		verify(dataAccessMock).exists("Categories");
+	}
+	
+	@Test
+	public void returns_true_if_no_categories_exists() {
+		when(dataAccessMock.exists("Categories")).thenReturn(false);
+		
+		assertTrue(sut.isDbEmpty());
 	}
 	
 }

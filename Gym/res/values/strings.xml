@@ -38,8 +38,24 @@
     <string name="back">Back</string>
     <string name="deadlift">Deadlift</string>
     <string name="chest">Chest</string>
-    <string name="benchpress">Benchpress</string>
+    <string name="bench_press">Bench Press</string>
     <string name="legs">Legs</string>
     <string name="squat">Squat</string>
-    
+    <string name="pull_up">Pull Up</string>
+    <string name="push_up">Push Up</string>
+    <string name="calf_raise">Calf Raise</string>
+    <string name="abs">Abs</string>
+    <string name="crunch">Crunch</string>
+    <string name="leg_raise">Leg Raise</string>
+    <string name="biceps">Biceps</string>
+    <string name="barbell_curl">Barbell Curl</string>
+    <string name="curl">Curl</string>
+    <string name="hammer_curl">Hammer Curl</string>
+    <string name="pushdown">Pushdown</string>
+    <string name="extension">Extension</string>
+    <string name="shoulders">Shoulders</string>
+    <string name="shoulder_press">Shoulder Press</string>
+    <string name="lateral_raise">Lateral Raise</string>
+    <string name="triceps">Triceps</string>
+
 </resources>
