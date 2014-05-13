@@ -97,17 +97,29 @@ public class SQLiteDataAccess implements DataAccess {
 
 	@Override
 	public boolean exists(String type, String typeIdPropertyName, int id) {
-		SQLiteDatabase db = openHelper.getReadableDatabase();
+		String rawSql = String.format("SELECT EXISTS(SELECT 1 FROM %s WHERE %s=? LIMIT 1)", type, typeIdPropertyName);
+		String[] args = new String[]{Integer.toString(id)};
 		
-		Cursor cursor = db.rawQuery(String.format("SELECT EXISTS(SELECT 1 FROM %s WHERE %s=? LIMIT 1)", type, typeIdPropertyName, id), new String[]{Integer.toString(id)});
+		return queryIfexists(rawSql, args);		
+	}
+	
+	@Override
+	public boolean exists(String type) {
+		String rawSql = String.format("SELECT EXISTS(SELECT 1 FROM %s LIMIT 1)", type);
+		
+		return queryIfexists(rawSql, new String[]{});
+	}
+
+	private boolean queryIfexists(String rawSql, String[] args) {
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery(rawSql, args);
 		cursor.moveToFirst();
 		
 		boolean exists = cursor.getInt(0) == 1;
 		
 		cursor.close();
 		db.close();
-		
-		return exists;		
+		return exists;
 	}
 
 }

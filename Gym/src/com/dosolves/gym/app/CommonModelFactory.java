@@ -5,6 +5,7 @@ import android.content.Context;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.gui.ContextualMenuHandler;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
+import com.dosolves.gym.domain.AddDefaultExercisesUseCase;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.RenameDialogShower;
@@ -43,5 +44,8 @@ public interface CommonModelFactory {
 	RouterActivityStarter getRouterActivityStarter(Context context);
 
 	UserAsker getUserAskerForAddDefaultExercise();
+
+	FirstTimeAppStartDecider createFirstTimeAppStartDecider(Context context);
+	AddDefaultExercisesUseCase createAddDefaultExercisesUseCase(Context context);
 	
 }

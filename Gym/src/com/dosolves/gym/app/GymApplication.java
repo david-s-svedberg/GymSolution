@@ -23,6 +23,8 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	private ActivityLifecycleCallbacks activityCreatedListener;
 	private ContextProvider contextProvider;
 
+	private CommonModelFactory commonModelFactory;
+
 	public GymApplication(){
 		this.contextProvider = this;
 		this.contextSetter = this;
@@ -31,7 +33,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 
 	private ModelComposer createModelComposer() {
 		
-		CommonModelFactory commonModelFactory = new CommonModelFactoryImpl();
+		commonModelFactory = new CommonModelFactoryImpl();
 		
 		AdsModelFactory adsModelFactory = new AdsModelFactoryImpl(TEST_MODE, commonModelFactory);
 		PerformanceModelFactory performanceModelFactory = new PerformanceModelFactoryImpl(commonModelFactory);
@@ -57,6 +59,18 @@ public class GymApplication extends Application implements ContextSetter, Contex
 		super.onCreate();
 		contextSetter.setContext(contextProvider.provideContext());
 		registerActivityLifecycleCallbacks(activityCreatedListener);
+		
+		checkAddDefaultExerciseUseCase();
+	}
+	
+	private void checkAddDefaultExerciseUseCase() {
+		if(appIsRunningForTheFirstTime()){
+			commonModelFactory.createAddDefaultExercisesUseCase(getApplicationContext()).runUseCase();
+		}
+	}
+
+	private boolean appIsRunningForTheFirstTime() {
+		return commonModelFactory.createFirstTimeAppStartDecider(getApplicationContext()).appIsRunningForTheFirstTime();
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import com.dosolves.gym.domain.category.data.CategoryCreator;
 import com.dosolves.gym.domain.exercise.ExerciseTemplate;
 import com.dosolves.gym.domain.exercise.data.ExerciseCreator;
 
-public class AddDefaultExercisesUseCaseImpl implements AddDefaultExercisesUseCase, FirstRunOfApplicationListener {
+public class AddDefaultExercisesUseCaseImpl implements AddDefaultExercisesUseCase {
 
 	private UserAsker userAsker;
 	private TemplateDataHolder templateData;
@@ -25,7 +25,7 @@ public class AddDefaultExercisesUseCaseImpl implements AddDefaultExercisesUseCas
 	}
 
 	@Override
-	public void onFirstRunOfApplication() {
+	public void runUseCase() {
 		userAsker.askUser(new AbstractUserResponseListener() {
 
 			@Override
@@ -33,7 +33,7 @@ public class AddDefaultExercisesUseCaseImpl implements AddDefaultExercisesUseCas
 				createDefaultExercises();
 			}
 			
-		});
+		});		
 	}
 	
 	private void createDefaultExercises() {

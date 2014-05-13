@@ -1,16 +1,16 @@
 package com.dosolves.gym.app.database.test;
+
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
+
 import java.util.HashMap;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static org.mockito.Mockito.*;
-
 import org.mockito.ArgumentMatcher;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import org.robolectric.RobolectricTestRunner;
 
 import android.content.ContentValues;
@@ -27,21 +27,19 @@ import com.dosolves.gym.domain.data.DataAccess;
 public class SQLiteDataAccessTest extends AndroidTestCase {
 	
 	private static final int FILTER_ID = 3465;
-
 	private static final String FILTER_ID_PROPERTY_NAME = "filterIdPropertyName";
-	
 	private static final String DATE_PROPERTY_NAME = "datePropertyName";
-
 	private static final int ID = 234;
-
 	private static final String ID_COLUMN_NAME = "IdColumnName";
-
 	private static final String VALUE = "value";
-
 	private static final String KEY = "key";
-
 	private static final String TYPE_NAME = "asd";
 
+	
+	String[] columns = new String[]{"columnA", "columnB"};
+	
+	DataAccess sut;
+	
 	@Mock
 	SQLiteOpenHelper openHelperMock;
 	@Mock
@@ -51,9 +49,6 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 	@Mock
 	Cursor cursorMock;
 
-	String[] columns = new String[]{"columnA", "columnB"};
-	
-	DataAccess sut;
 	
 	@Before
 	public void setUp(){
@@ -250,6 +245,17 @@ public class SQLiteDataAccessTest extends AndroidTestCase {
 			}
 			
 		}));
+	}
+	
+	@Test
+	public void exists_with_no_args_sends_correct_querry_to_db() {
+		when(openHelperMock.getReadableDatabase()).thenReturn(dbMock);		
+		when(dbMock.rawQuery(anyString(),any(String[].class))).thenReturn(cursorMock);
+		when(cursorMock.getInt(anyInt())).thenReturn(0);
+		
+		sut.exists(TYPE_NAME);
+		
+		verify(dbMock).rawQuery(eq(String.format("SELECT EXISTS(SELECT 1 FROM %s LIMIT 1)", TYPE_NAME)), any(String[].class));
 	}
 	
 	@Test

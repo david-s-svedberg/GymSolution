@@ -16,6 +16,7 @@ public interface DataAccess {
 	void update(String type, String typeIdPropertyName, int id, Map<String, Object> updateKeysAndValues);
 	
 	boolean exists(String type, String typeIdPropertyName, int id);
+	boolean exists(String type);
 	
 
 }

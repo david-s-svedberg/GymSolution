@@ -5,10 +5,12 @@ import android.os.Bundle;
 
 import com.dosolves.gym.R;
 import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
-import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
+import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.category.database.CategoryDbStructureGiver;
+import com.dosolves.gym.app.database.DataBaseEmptyChecker;
+import com.dosolves.gym.app.database.DataBaseEmptyCheckerImpl;
 import com.dosolves.gym.app.database.SQLiteDataAccess;
 import com.dosolves.gym.app.database.SQLiteOpenHelperSingeltonHolder;
 import com.dosolves.gym.app.exercise.database.ExerciseDbStructureGiver;
@@ -20,11 +22,14 @@ import com.dosolves.gym.app.gui.UserAskerImpl;
 import com.dosolves.gym.app.gui.UserUpdateableItemsActivity;
 import com.dosolves.gym.app.gui.YesNoDialog;
 import com.dosolves.gym.app.performance.database.SetDbStructureGiver;
+import com.dosolves.gym.domain.AddDefaultExercisesUseCase;
+import com.dosolves.gym.domain.AddDefaultExercisesUseCaseImpl;
 import com.dosolves.gym.domain.CreateItemDialogShower;
 import com.dosolves.gym.domain.CurrentDateGiver;
 import com.dosolves.gym.domain.DbStructureGiver;
 import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.RenameDialogShower;
+import com.dosolves.gym.domain.TemplateDataHolder;
 import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.category.data.CascadingCategoryDeleter;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
@@ -281,6 +286,22 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 		dialog.setArguments(arguments);
 		
 		return dialog;
+	}
+
+	@Override
+	public FirstTimeAppStartDecider createFirstTimeAppStartDecider(Context context) {
+		DataBaseEmptyChecker dataBaseEmptyChecker = new DataBaseEmptyCheckerImpl(getDataAccess());
+		PreferenceRetriever pereferenceRetriever = getpreferenceRetriever(context);
+		
+		return new FirstTimeAppStartDeciderImpl(pereferenceRetriever, dataBaseEmptyChecker);
+	}
+
+	@Override
+	public AddDefaultExercisesUseCase createAddDefaultExercisesUseCase(Context context) {
+		UserAsker askerForAddDefaultExercise = createUserAskerForAddDefaultExercise(context);
+		TemplateDataHolder templateData = new TemplateDataHolderImpl();  
+		
+		return new AddDefaultExercisesUseCaseImpl(askerForAddDefaultExercise, templateData, getCategoryUpdater(), getExerciseUpdater());
 	}
 	
 }

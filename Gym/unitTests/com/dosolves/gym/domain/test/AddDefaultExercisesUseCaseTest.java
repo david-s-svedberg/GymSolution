@@ -15,7 +15,6 @@ import org.mockito.stubbing.Answer;
 
 import com.dosolves.gym.domain.AddDefaultExercisesUseCase;
 import com.dosolves.gym.domain.AddDefaultExercisesUseCaseImpl;
-import com.dosolves.gym.domain.FirstRunOfApplicationListener;
 import com.dosolves.gym.domain.TemplateDataHolder;
 import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.UserResponseListener;
@@ -34,7 +33,6 @@ public class AddDefaultExercisesUseCaseTest {
 	private static final String CATEGORY_NAME1 = "CategoryName1";
 	
 	AddDefaultExercisesUseCase sut;
-	FirstRunOfApplicationListener sutAsFirstRunOfApplicationListener;
 	
 	@Mock
 	UserAsker userAskerMock;
@@ -49,14 +47,15 @@ public class AddDefaultExercisesUseCaseTest {
 	public void setUp() throws Exception{
 		MockitoAnnotations.initMocks(this);
 		
-		AddDefaultExercisesUseCaseImpl sutImpl = new AddDefaultExercisesUseCaseImpl(userAskerMock,templateDataMock,categoryCreatorMock,exerciseCreatorMock);
-		sut = sutImpl;
-		sutAsFirstRunOfApplicationListener = sutImpl;
+		sut = new AddDefaultExercisesUseCaseImpl(userAskerMock,
+												 templateDataMock,
+												 categoryCreatorMock,
+												 exerciseCreatorMock);		
 	}
 	
 	@Test
 	public void asks_user_on_first_start_up(){
-		sutAsFirstRunOfApplicationListener.onFirstRunOfApplication();
+		sut.runUseCase();
 		
 		verify(userAskerMock).askUser(any(UserResponseListener.class));
 	}
@@ -73,7 +72,7 @@ public class AddDefaultExercisesUseCaseTest {
 			}
 		}).when(userAskerMock).askUser(any(UserResponseListener.class));
 		
-		sutAsFirstRunOfApplicationListener.onFirstRunOfApplication();
+		sut.runUseCase();
 		
 		verify(templateDataMock).getTemplateData();
 	}
@@ -96,7 +95,7 @@ public class AddDefaultExercisesUseCaseTest {
 		
 		when(templateDataMock.getTemplateData()).thenReturn(templateCategories);
 		
-		sutAsFirstRunOfApplicationListener.onFirstRunOfApplication();
+		sut.runUseCase();
 		
 		verify(categoryCreatorMock).create(CATEGORY_NAME1);
 		verify(categoryCreatorMock).create(CATEGORY_NAME2);
@@ -126,7 +125,7 @@ public class AddDefaultExercisesUseCaseTest {
 		when(categoryCreatorMock.create(CATEGORY_NAME1)).thenReturn(CATEGORY_ID1);
 		when(categoryCreatorMock.create(CATEGORY_NAME2)).thenReturn(CATEGORY_ID2);
 		
-		sutAsFirstRunOfApplicationListener.onFirstRunOfApplication();
+		sut.runUseCase();
 		
 		verify(exerciseCreatorMock).create(EXERCISE_NAME1, CATEGORY_ID1);
 		verify(exerciseCreatorMock).create(EXERCISE_NAME2, CATEGORY_ID2);
