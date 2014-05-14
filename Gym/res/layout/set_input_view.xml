@@ -52,16 +52,33 @@
         android:layout_width="match_parent"
         android:layout_height="60dp" >
 
-        <Space
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.8" />
+            android:layout_weight="1">
+            
+            <Button
+                android:id="@+id/weight_plus_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/up_button" />
+            
+            <Button
+                android:id="@+id/weight_minus_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerInParent="true"
+                android:background="@drawable/down_button" />
+        </RelativeLayout>
         
         <EditText
             android:id="@id/weightInput"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="2"
+            android:layout_weight="1.7"
             android:gravity="center"
             android:inputType="numberDecimal"
             android:nextFocusDown="@id/repsInput"
@@ -95,7 +112,7 @@
             android:layout_weight="1">
             
             <Button
-                android:id="@+id/plus_button"
+                android:id="@+id/reps_plus_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentTop="true"
@@ -103,7 +120,7 @@
                 android:background="@drawable/up_button" />
             
             <Button
-                android:id="@+id/minus_button"
+                android:id="@+id/reps_minus_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_alignParentBottom="true"

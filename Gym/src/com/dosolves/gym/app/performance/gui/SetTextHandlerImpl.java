@@ -3,6 +3,8 @@ package com.dosolves.gym.app.performance.gui;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.dosolves.gym.utils.StringUtils;
+
 import android.text.Editable;
 import android.widget.Button;
 import android.widget.EditText;
@@ -54,9 +56,11 @@ public class SetTextHandlerImpl extends AbstractTextWatcher implements SetTextHa
 	public void decrementRepsText() {
 		if(repsHasValidValue()) {
 			int reps = getReps();
-			if(reps > 1)
+			if(reps > 1){
 				repsInput.setText(Integer.toString(reps-1));
-		}		
+				setSelectionToLastPlace(repsInput);
+			}
+		}
 	}
 
 	@Override
@@ -65,6 +69,32 @@ public class SetTextHandlerImpl extends AbstractTextWatcher implements SetTextHa
 			repsInput.setText(Integer.toString(getReps()+1));
 		else
 			repsInput.setText(Integer.toString(1));
+		setSelectionToLastPlace(repsInput);
+	}
+	
+	@Override
+	public void incrementWeightText() {
+		if(weightHasValidValue())
+			weightInput.setText(StringUtils.doubleToStringRemoveTrailingZeros(getWeight() + 1.0));
+		else
+			weightInput.setText(Integer.toString(1));
+		setSelectionToLastPlace(weightInput);
+	}
+
+	@Override
+	public void decrementWeightText() {
+		if(weightHasValidValue()) {
+			double weight = getWeight();
+			if(weight > 0){
+				weightInput.setText(StringUtils.doubleToStringRemoveTrailingZeros(weight-1.0));
+				setSelectionToLastPlace(weightInput);
+			}
+		}
+		
+	}
+	
+	private void setSelectionToLastPlace(EditText editText) {
+		editText.setSelection(editText.getText().toString().length());
 	}
 
 	private boolean reentrantCheck = false;
@@ -168,7 +198,5 @@ public class SetTextHandlerImpl extends AbstractTextWatcher implements SetTextHa
 		}
 		return ret;
 	}
-
-	
 	
 }

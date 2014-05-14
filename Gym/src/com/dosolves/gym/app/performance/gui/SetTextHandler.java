@@ -5,11 +5,12 @@ import android.text.TextWatcher;
 public interface SetTextHandler extends TextWatcher {
 
 	public double getWeight();
-
 	public int getReps();
 
 	public void decrementRepsText();
-
 	public void incrementRepsText();
+
+	public void incrementWeightText();
+	public void decrementWeightText();
 
 }

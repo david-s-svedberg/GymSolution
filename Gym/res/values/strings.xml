@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">Gym</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
     <string name="add_category">Add category</string>
     <string name="add_item">Add item</string>
     <string name="categories">Categories</string>
@@ -23,16 +21,16 @@
     <string name="cancel">Cancel</string>
     <string name="edit">Edit</string>
     <string name="remove_ads">Remove ads</string>
-    <string name="adUnitId_performance">ca-app-pub-9630990348012088/8649403859</string>
-    <string name="adUnitId_category_exercise">ca-app-pub-9630990348012088/7172670655</string>
-    <string name="title_activity_router">RouterActivity</string>
+    <string name="adUnitId_performance" translatable="false">ca-app-pub-9630990348012088/8649403859</string>
+    <string name="adUnitId_category_exercise" translatable="false">ca-app-pub-9630990348012088/7172670655</string>
     <string name="thank_you">Thank you!</string>
     <string name="category_has_exercises">Category has exercises</string>
     <string name="exercise_has_sets">Exercise has sets</string>
     <string name="delete_anyway">Delete anyway?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    <string name="selected">Selected</string>
+    <string name="selected_singular">Selected</string>
+    <string name="selected_plural">Selected</string>
     <string name="default_exercises">Default Exercises</string>
     <string name="add_default_exercises">Do you want to add default exercises?</string>
     <string name="back">Back</string>
@@ -57,5 +55,6 @@
     <string name="shoulder_press">Shoulder Press</string>
     <string name="lateral_raise">Lateral Raise</string>
     <string name="triceps">Triceps</string>
+    <string name="ok">OK</string>
 
 </resources>

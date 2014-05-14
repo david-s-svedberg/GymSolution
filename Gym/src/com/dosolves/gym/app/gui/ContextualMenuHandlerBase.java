@@ -77,7 +77,23 @@ public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler
 	}
 
 	private String createTitleString() {
-		return String.format("%d %s",selectedItems.size(), ResourcesUtils.getString(R.string.selected));
+		
+		int numberOfSelectedItems = selectedItems.size();
+		
+		String selectedString = getCorrectPluralizedSelectionString(numberOfSelectedItems);
+			
+		return String.format("%d %s",numberOfSelectedItems, selectedString);
+	}
+
+	private String getCorrectPluralizedSelectionString(int numberOfSelectedItems) {
+		String correctSelectedString = null;
+		
+		if(numberOfSelectedItems > 1)
+			correctSelectedString = ResourcesUtils.getString(R.string.selected_plural);
+		else
+			correctSelectedString = ResourcesUtils.getString(R.string.selected_singular);
+		
+		return correctSelectedString;
 	}
 
 	protected void updateSelectedItems(Integer id, boolean checked) {

@@ -41,8 +41,8 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private Exercise currentExercise;
 	private ListView performanceListView;
 	private Button enterButton;
-	private Button plusButton;
-	private Button minusButton;
+	private Button repsPlusButton;
+	private Button repsMinusButton;
 	private EditText repsInput;
 	private EditText weightInput;
 
@@ -58,6 +58,10 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private SystemEventObservableImpl systemEventListeners = new SystemEventObservableImpl();
 
 	private SetTextHandler setTextHandler;
+
+	private Button weightPlusButton;
+
+	private Button weightMinusButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +141,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			
 		});
 		
-		plusButton.setOnClickListener(new OnClickListener() {
+		repsPlusButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -146,11 +150,29 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			
 		});
 		
-		minusButton.setOnClickListener(new OnClickListener() {
+		repsMinusButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				setTextHandler.decrementRepsText();
+			}
+			
+		});
+		
+		weightPlusButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setTextHandler.incrementWeightText();
+			}
+			
+		});
+		
+		weightMinusButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				setTextHandler.decrementWeightText();
 			}
 			
 		});
@@ -162,8 +184,10 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		enterButton = (Button)findViewById(R.id.enterSetButton);
 		repsInput = (EditText)findViewById(R.id.repsInput);
 		weightInput = (EditText)findViewById(R.id.weightInput);
-		plusButton = (Button)findViewById(R.id.plus_button);
-		minusButton = (Button)findViewById(R.id.minus_button);
+		repsPlusButton = (Button)findViewById(R.id.reps_plus_button);
+		repsMinusButton = (Button)findViewById(R.id.reps_minus_button);
+		weightPlusButton = (Button)findViewById(R.id.weight_plus_button);
+		weightMinusButton = (Button)findViewById(R.id.weight_minus_button);
 	}
 	
 	private void setupActionBar() {

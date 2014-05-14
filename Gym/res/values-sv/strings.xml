@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Gym</string>
+    <string name="add_category">Lägg till kategori</string>
+    <string name="add_item">Lägg till</string>
+    <string name="categories">Kategorier</string>
+    <string name="create_category">Skapa kategori</string>
+    <string name="create_exercise">Skapa övning</string>
+    <string name="reps">Reps</string>
+    <string name="weight">Vikt</string>
+    <string name="enter">Enter</string>
+    <string name="delete">Ta bort</string>
+    <string name="rename">Döp om</string>
+    <string name="enter_new_name">Ange nytt namn</string>
+    <string name="enter_name">Ange namn</string>
+    <string name="rename_category">Döp om kategori</string>
+    <string name="rename_exercise">Döp om kategori</string>
+    <string name="edit_set">Ändra set</string>
+    <string name="Save">Spara</string>
+    <string name="cancel">Avbryt</string>
+    <string name="edit">Ändra</string>
+    <string name="remove_ads">Ta bort reklam</string>
+    <string name="thank_you">Tack så mycket!</string>
+    <string name="category_has_exercises">Kategorin har övningar</string>
+    <string name="exercise_has_sets">Övningen har sets</string>
+    <string name="delete_anyway">Ta bort ändå?</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nej</string>
+    <string name="selected_singular">Vald</string>
+    <string name="selected_plural">Valda</string>
+    <string name="default_exercises">Grundläggande övningar</string>
+    <string name="add_default_exercises">Vill du lägga till grundläggande övningar?</string>
+    <string name="back">Rygg</string>
+    <string name="deadlift">Marklyft</string>
+    <string name="chest">Bröst</string>
+    <string name="bench_press">Bänkpress</string>
+    <string name="legs">Ben</string>
+    <string name="squat">Knäböj</string>
+    <string name="pull_up">Pull Up</string>
+    <string name="push_up">Armhävning</string>
+    <string name="calf_raise">Vadpress</string>
+    <string name="abs">Mage</string>
+    <string name="crunch">Sit up</string>
+    <string name="leg_raise">Benlyft</string>
+    <string name="biceps">Biceps</string>
+    <string name="barbell_curl">Skivstångscurl</string>
+    <string name="curl">Hantelcurl</string>
+    <string name="hammer_curl">Hammercurl</string>
+    <string name="pushdown">Pushdown</string>
+    <string name="extension">Tricepspress</string>
+    <string name="shoulders">Axlar</string>
+    <string name="shoulder_press">Axelpress</string>
+    <string name="lateral_raise">Hantellyft åt sidan</string>
+    <string name="triceps">Triceps</string>
+    
+</resources>

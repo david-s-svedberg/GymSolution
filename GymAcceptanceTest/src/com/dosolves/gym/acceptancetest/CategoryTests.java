@@ -17,7 +17,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	private static final String CATEGORY_NAME = "categoryName";
 	private static final String EXERCISE_NAME = "exerciseName";
 	
-	private static final int TIME_TO_WAIT_FOR_DIALOG = 5000;
+	private static final int TIME_TO_WAIT_FOR_DIALOG = 2000;
 	
 	private Solo solo;
 	
@@ -87,9 +87,9 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 			
 			deleteCreatedCategory(CATEGORY_NAME);
 			assertTrue("warning dialog didn't open", solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
-			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.category_has_exercises)));
-			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.delete_anyway)));
-			solo.clickOnButton(getActivity().getString(R.string.yes));
+			assertTrue("Dialog text not found", solo.searchText(getResourceString(R.string.category_has_exercises)));
+			assertTrue("Dialog text not found", solo.searchText(getResourceString(R.string.delete_anyway)));
+			solo.clickOnButton(getResourceString(R.string.yes));
 			assertFalse("Category was not deleted", solo.searchText(CATEGORY_NAME));
 		}
 		finally{
@@ -105,9 +105,9 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 			
 			deleteCreatedCategory(CATEGORY_NAME);
 			assertTrue("warning dialog didn't open", solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
-			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.category_has_exercises)));
-			assertTrue("Dialog text not found", solo.searchText(getActivity().getString(R.string.delete_anyway)));
-			solo.clickOnButton(getActivity().getString(R.string.no));
+			assertTrue("Dialog text not found", solo.searchText(getResourceString(R.string.category_has_exercises)));
+			assertTrue("Dialog text not found", solo.searchText(getResourceString(R.string.delete_anyway)));
+			solo.clickOnButton(getResourceString(R.string.no));
 			assertTrue("Category was deleted even though it shouldn't have been", solo.searchText(CATEGORY_NAME));
 		}
 		finally{
@@ -133,7 +133,7 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 		solo.clickOnActionBarItem(R.id.add_item);
 		assertTrue("Create category dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
 		solo.enterText(0, categoryName);
-		solo.clickOnButton("Ok");
+		solo.clickOnButton(getResourceString(R.string.ok));
 		assertTrue("Create category dialog did not close", solo.waitForDialogToClose(TIME_TO_WAIT_FOR_DIALOG));
 	}
 	

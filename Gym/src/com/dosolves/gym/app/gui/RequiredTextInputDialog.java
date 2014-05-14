@@ -1,17 +1,18 @@
 package com.dosolves.gym.app.gui;
 
-import com.dosolves.gym.domain.TextInputCallback;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.dosolves.gym.R;
+import com.dosolves.gym.app.performance.gui.AbstractTextWatcher;
+import com.dosolves.gym.domain.TextInputCallback;
 
 public class RequiredTextInputDialog{
 	
@@ -39,14 +40,14 @@ public class RequiredTextInputDialog{
 		input.selectAll();
 		alert.setView(input);
 	
-		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 			  String value = input.getText().toString();
 			  callback.onTextInputDone(value);
 			}
 		});
 	
-		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		alert.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
 		  public void onClick(DialogInterface dialog, int whichButton) {
 		    // Canceled.
 		  }
@@ -54,7 +55,7 @@ public class RequiredTextInputDialog{
 		
 		final AlertDialog d = alert.create();
 		
-		input.addTextChangedListener(new TextWatcher() {
+		input.addTextChangedListener(new AbstractTextWatcher() {
 		    private void handleText() {
 		        // Grab the button
 		        final Button okButton = d.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -67,15 +68,7 @@ public class RequiredTextInputDialog{
 		    @Override
 		    public void afterTextChanged(Editable arg0) {
 		        handleText();
-		    }
-		    @Override
-		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-		        // Nothing to do
-		    }
-		    @Override
-		    public void onTextChanged(CharSequence s, int start, int before, int count) {
-		       // Nothing to do
-		    }
+		    }		    
 		});
 		input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 		    @Override

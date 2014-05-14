@@ -78,7 +78,7 @@ public class SetTextHandlerTest {
 	}
 	
 	@Test
-	public void increment_works_As_expected(){
+	public void increment_reps_works_As_expected(){
 		when(repsInputMock.getText()).thenReturn(repsEditableMock);
 		when(repsEditableMock.toString()).thenReturn("12");
 		
@@ -88,7 +88,7 @@ public class SetTextHandlerTest {
 	}
 	
 	@Test
-	public void decrement_works_As_expected(){
+	public void decrement_reps_works_As_expected(){
 		when(repsInputMock.getText()).thenReturn(repsEditableMock);
 		when(repsEditableMock.toString()).thenReturn("12");
 		
@@ -98,7 +98,7 @@ public class SetTextHandlerTest {
 	}
 	
 	@Test
-	public void decrement_from_one_stays_on_one(){
+	public void decrement_reps_from_one_stays_on_one(){
 		when(repsInputMock.getText()).thenReturn(repsEditableMock);
 		when(repsEditableMock.toString()).thenReturn("1");
 		
@@ -108,7 +108,7 @@ public class SetTextHandlerTest {
 	}
 	
 	@Test
-	public void increment_from_nothing_sets_one(){
+	public void increment_reps_from_nothing_sets_one(){
 		when(repsInputMock.getText()).thenReturn(repsEditableMock);
 		when(repsEditableMock.toString()).thenReturn("");
 		
@@ -116,4 +116,47 @@ public class SetTextHandlerTest {
 		
 		verify(repsInputMock).setText("1");
 	}
+	
+	
+	
+	@Test
+	public void increment_weight_works_As_expected(){
+		when(weightInputMock.getText()).thenReturn(weightEditableMock);
+		when(weightEditableMock.toString()).thenReturn("12");
+		
+		sut.incrementWeightText();
+		
+		verify(weightInputMock).setText("13");
+	}
+	
+	@Test
+	public void decrement_weight_works_As_expected(){
+		when(weightInputMock.getText()).thenReturn(weightEditableMock);
+		when(weightEditableMock.toString()).thenReturn("12");
+		
+		sut.decrementWeightText();
+		
+		verify(weightInputMock).setText("11");
+	}
+	
+	@Test
+	public void decrement_weight_from_zero_stays_on_zero(){
+		when(weightInputMock.getText()).thenReturn(weightEditableMock);
+		when(weightEditableMock.toString()).thenReturn("0");
+		
+		sut.decrementWeightText();
+		
+		verify(weightInputMock, never()).setText(anyString());
+	}
+	
+	@Test
+	public void increment_weight_from_nothing_sets_one(){
+		when(weightInputMock.getText()).thenReturn(weightEditableMock);
+		when(weightEditableMock.toString()).thenReturn("");
+		
+		sut.incrementWeightText();
+		
+		verify(weightInputMock).setText("1");
+	}
+	
 }

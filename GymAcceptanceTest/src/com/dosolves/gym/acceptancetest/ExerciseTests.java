@@ -106,7 +106,7 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 		solo.clickOnActionBarItem(R.id.add_item);
 		assertTrue("Create exercise dialog did not open",solo.waitForDialogToOpen(TIME_TO_WAIT_FOR_DIALOG));
 		solo.enterText(0, exerciseName);
-		solo.clickOnButton("Ok");
+		solo.clickOnButton(getResourceString(R.string.ok));
 		assertTrue("Create exercise dialog did not close", solo.waitForDialogToClose(TIME_TO_WAIT_FOR_DIALOG));
 	}
 

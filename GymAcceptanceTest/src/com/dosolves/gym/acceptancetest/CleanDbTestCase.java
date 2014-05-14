@@ -48,4 +48,8 @@ public abstract class CleanDbTestCase<T extends Activity> extends ActivityInstru
 	private void deleteDb() {
 		getInstrumentation().getTargetContext().deleteDatabase(SQLiteOpenHelperSingeltonHolder.getDbHelper().getDatabaseName());		
 	}
+
+	protected String getResourceString(int resourceId) {
+		return getActivity().getString(resourceId);
+	}
 }
