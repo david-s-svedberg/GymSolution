@@ -114,5 +114,9 @@ public class ExerciseTests extends CleanDbTestCase<ExercisesActivity>{
 		solo.clickLongOnText(exerciseName);
 		TouchUtils.clickView(this, getActivity().findViewById(R.id.delete_menu_item));		
 	}
+
+	protected String getResourceString(int resourceId) {
+		return getActivity().getString(resourceId);
+	}
 	
 }

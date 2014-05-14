@@ -1,5 +1,8 @@
 package com.dosolves.gym.app;
 
+import android.app.Application;
+import android.content.Context;
+
 import com.dosolves.gym.app.ads.AdsModelFactory;
 import com.dosolves.gym.app.ads.AdsModelFactoryImpl;
 import com.dosolves.gym.app.category.CategoryModelFactoryImpl;
@@ -13,12 +16,9 @@ import com.dosolves.gym.domain.exercise.ExerciseModelFactory;
 import com.dosolves.gym.domain.performance.PerformanceModelFactory;
 import com.dosolves.gym.utils.ResourcesUtils;
 
-import android.app.Application;
-import android.content.Context;
-
 public class GymApplication extends Application implements ContextSetter, ContextProvider{
 	
-	private static final boolean TEST_MODE = true;
+	private static final boolean TEST_MODE = false;
 	
 	private ContextSetter contextSetter;
 	private ActivityLifecycleCallbacks activityCreatedListener;
@@ -54,7 +54,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 		this.activityCreatedListener = activityCreatedListener;
 		this.contextProvider = contextProviderMock;
 	}
-
+	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -65,7 +65,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	}
 	
 	private void checkAddDefaultExerciseUseCase() {
-		if(appIsRunningForTheFirstTime()){
+		if(!TEST_MODE && appIsRunningForTheFirstTime()){
 			AddDefaultExercisesUseCase defaultExercisesUseCase = commonModelFactory.createAddDefaultExercisesUseCase(getApplicationContext());
 			defaultExercisesUseCase.runUseCase();
 		}

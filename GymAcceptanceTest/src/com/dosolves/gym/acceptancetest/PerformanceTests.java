@@ -72,5 +72,9 @@ public class PerformanceTests extends CleanDbTestCase<PerformanceActivity>{
 	protected int numberOfTestCases() {
 		return 1;
 	}
+
+	protected String getResourceString(int resourceId) {
+		return getActivity().getString(resourceId);
+	}
 	
 }

@@ -169,5 +169,9 @@ public class CategoryTests extends CleanDbTestCase<CategoriesActivity>{
 	protected int numberOfTestCases() {
 		return 7;
 	}
+
+	protected String getResourceString(int resourceId) {
+		return getActivity().getString(resourceId);
+	}
 	
 }
