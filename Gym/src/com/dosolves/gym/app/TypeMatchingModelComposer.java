@@ -164,9 +164,8 @@ public class TypeMatchingModelComposer implements ModelComposer {
 		activity.addSystemEventListener(controller);
 		activity.setAdsUserGestureListener(adsController);
 		activity.setAdapter(adapter);
-		activity.setNewSetShouldBeCreatedCallback(controller);
-		activity.setSetShouldBeEditedCallback(controller);
-		
+		activity.addUserGestureListener(controller);
+		activity.addUserGestureListener(contextHandler.getUserGestureListener());
 	}
 
 }

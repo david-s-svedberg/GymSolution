@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
+import com.dosolves.gym.app.performance.gui.UserGestureListener;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
 import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.UserRequestListener;
@@ -13,10 +14,10 @@ import com.dosolves.gym.domain.performance.data.SetRetriever;
 import com.dosolves.gym.domain.performance.data.SetUpdater;
 
 
-public class PerformanceController implements NewSetShouldBeCreatedCallback,
-											  SetShouldBeEditedCallback,
+public class PerformanceController implements SetShouldBeEditedCallback,
 											  UserRequestListener, 
-											  SystemEventListener{
+											  SystemEventListener, 
+											  UserGestureListener{
 	
 	private PerformanceAdapter adapter;
 	private SetRetriever retriever;

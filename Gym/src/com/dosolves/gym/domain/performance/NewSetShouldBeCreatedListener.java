@@ -1,5 +1,5 @@
 package com.dosolves.gym.domain.performance;
 
-public interface NewSetShouldBeCreatedCallback {
+public interface NewSetShouldBeCreatedListener {
 	void onNewSetShouldBeCreated(int reps, double weight);
 }

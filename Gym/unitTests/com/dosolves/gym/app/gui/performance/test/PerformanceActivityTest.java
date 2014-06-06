@@ -1,6 +1,6 @@
 package com.dosolves.gym.app.gui.performance.test;
 
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import java.util.Date;
 
@@ -13,9 +13,8 @@ import org.robolectric.RobolectricTestRunner;
 
 import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
-import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
+import com.dosolves.gym.app.performance.gui.UserGestureListener;
 import com.dosolves.gym.domain.performance.Set;
-import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
 
 @RunWith(RobolectricTestRunner.class)
 public class PerformanceActivityTest {
@@ -28,11 +27,9 @@ public class PerformanceActivityTest {
 	Set setMock;
 	
 	@Mock
-	NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallbackMock;
-	@Mock
-	SetShouldBeEditedCallback setShouldBeEditedCallbackMock;
-	@Mock
 	SystemEventListener systemEventListenerMock;
+	@Mock
+	UserGestureListener userGestureListenerMock;
 	
 	
 	
@@ -43,9 +40,7 @@ public class PerformanceActivityTest {
 		setMock = new Set(12,312,31,50, new Date());
 		
 		sut = new PerformanceActivity();
-		sut.setNewSetShouldBeCreatedCallback(newSetShouldBeCreatedCallbackMock);
-		sut.setSetShouldBeEditedCallback(setShouldBeEditedCallbackMock);
-		
+		sut.addUserGestureListener(userGestureListenerMock);
 		sut.addSystemEventListener(systemEventListenerMock);
 	}
 	
@@ -58,7 +53,7 @@ public class PerformanceActivityTest {
 	@Test
 	public void passes_call_to_onSetShouldBeEdited_along(){
 		sut.onSetShouldBeUpdated(setMock, NEW_REPS, NEW_WEIGHT);
-		verify(setShouldBeEditedCallbackMock).onSetShouldBeUpdated(setMock, NEW_REPS, NEW_WEIGHT);
+		verify(userGestureListenerMock).onSetShouldBeUpdated(setMock, NEW_REPS, NEW_WEIGHT);
 	}
 	
 }

@@ -64,4 +64,14 @@ public class ContextualMenuHandlerForSets extends ContextualMenuHandlerBase impl
 		return checked && selectedItems.size() == 0;
 	}
 
+	@Override
+	public UserGestureListener getUserGestureListener() {
+		return new AbstractUserGestureListener(){
+			@Override
+			public void onNewSetShouldBeCreated(int reps, double weight) {
+				ContextualMenuHandlerForSets.this.endActionMode();
+			}
+		};
+	}
+
 }

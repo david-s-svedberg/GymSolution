@@ -27,6 +27,7 @@ import com.dosolves.gym.app.gui.ContextualMenuHandlerForListItems;
 import com.dosolves.gym.app.performance.gui.ContextualMenuHandlerForSets;
 import com.dosolves.gym.app.performance.gui.PerformanceActivity;
 import com.dosolves.gym.app.performance.gui.PerformanceAdapter;
+import com.dosolves.gym.app.performance.gui.UserGestureListener;
 import com.dosolves.gym.domain.ModelComposer;
 import com.dosolves.gym.domain.UserAsker;
 import com.dosolves.gym.domain.UserResponseListener;
@@ -92,6 +93,8 @@ public class ModelComposerTest extends AndroidTestCase{
 	CommonModelFactory commonModelFactoryMock;
 	@Mock
 	ContextualMenuHandlerForSets setContextMenuHandlerMock;
+	@Mock
+	UserGestureListener userGestureListenerMock;
 	
 	@Before
 	public void setUp() throws Exception{
@@ -322,21 +325,21 @@ public class ModelComposerTest extends AndroidTestCase{
 	}
 	
 	@Test
-	public void sets_controller_as_NewSetShouldBeCreatedCallback(){
+	public void adds_controller_as_UserGestureListener_on_performance_activity(){
 		stubPerformanceAdapterAndControllerCreation();
 		
 		sut.compose(performanceActivityMock);
 		
-		verify(performanceActivityMock).setNewSetShouldBeCreatedCallback(performanceControllerMock);				
+		verify(performanceActivityMock).addUserGestureListener(performanceControllerMock);				
 	}
 	
 	@Test
-	public void sets_controller_as_SetShouldBeEditedCallback(){
+	public void adds_user_Gesture_listener_provided_by_setContextMenuHandler_on_performance_activity(){
 		stubPerformanceAdapterAndControllerCreation();
-		
+		when(setContextMenuHandlerMock.getUserGestureListener()).thenReturn(userGestureListenerMock);
 		sut.compose(performanceActivityMock);
 		
-		verify(performanceActivityMock).setSetShouldBeEditedCallback(performanceControllerMock);				
+		verify(performanceActivityMock).addUserGestureListener(userGestureListenerMock);				
 	}
 	
 	@Test

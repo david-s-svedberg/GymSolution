@@ -80,10 +80,7 @@ public class ContextualMenuHandlerForSetsTest {
 	
 	@Test
 	public void starts_action_mode_when_first_set_is_selected(){
-		when(menuMock.findItem(R.id.edit_menu_item)).thenReturn(renameItemMock);
-		when(actionModeMock.getMenuInflater()).thenReturn(menuInflaterMock);
-		when(renameItemMock.getIcon()).thenReturn(iconMock);
-		when(actionModeStarterMock.startActionMode(sutAsActionModeCallback)).thenReturn(actionModeMock);
+		stubActionModeCreation();
 		
 		sutAsActionModeCallback.onCreateActionMode(actionModeMock, menuMock);
 		
@@ -94,16 +91,24 @@ public class ContextualMenuHandlerForSetsTest {
 	
 	@Test
 	public void stops_action_mode_when_last_set_is_deselected(){
-		when(menuMock.findItem(R.id.edit_menu_item)).thenReturn(renameItemMock);
-		when(actionModeMock.getMenuInflater()).thenReturn(menuInflaterMock);
-		when(renameItemMock.getIcon()).thenReturn(iconMock);
-		when(actionModeStarterMock.startActionMode(sutAsActionModeCallback)).thenReturn(actionModeMock);
+		stubActionModeCreation();
 		
 		sutAsActionModeCallback.onCreateActionMode(actionModeMock, menuMock);
 		
 		sutAsSetContextualMenuHandler.setSetCheckedState(setMock, true);
 		sutAsSetContextualMenuHandler.setSetCheckedState(setMock, false);
 		
+		verify(actionModeMock).finish();
+	}
+	
+	@Test
+	public void stops_action_mode_when_new_set_is_being_created(){
+		stubActionModeCreation();
+		
+		sutAsActionModeCallback.onCreateActionMode(actionModeMock, menuMock);
+		sutAsSetContextualMenuHandler.setSetCheckedState(setMock, true);
+		
+		sutAsSetContextualMenuHandler.getUserGestureListener().onNewSetShouldBeCreated(12, 50.5);
 		verify(actionModeMock).finish();
 	}
 	
@@ -116,6 +121,13 @@ public class ContextualMenuHandlerForSetsTest {
 		
 		verify(actionModeEndingListenerMock1).onActionModeEnding();
 		verify(actionModeEndingListenerMock2).onActionModeEnding();
+	}
+	
+	private void stubActionModeCreation() {
+		when(menuMock.findItem(R.id.edit_menu_item)).thenReturn(renameItemMock);
+		when(actionModeMock.getMenuInflater()).thenReturn(menuInflaterMock);
+		when(renameItemMock.getIcon()).thenReturn(iconMock);
+		when(actionModeStarterMock.startActionMode(sutAsActionModeCallback)).thenReturn(actionModeMock);
 	}
 	
 }

@@ -21,9 +21,9 @@ import com.dosolves.gym.app.SystemEventListener;
 import com.dosolves.gym.app.gui.ActionModeStarter;
 import com.dosolves.gym.app.gui.FragmentManagerProvider;
 import com.dosolves.gym.domain.CurrentExerciseHolder;
+import com.dosolves.gym.domain.SystemEventObservable;
 import com.dosolves.gym.domain.SystemEventObservableImpl;
 import com.dosolves.gym.domain.exercise.Exercise;
-import com.dosolves.gym.domain.performance.NewSetShouldBeCreatedCallback;
 import com.dosolves.gym.domain.performance.Set;
 import com.dosolves.gym.domain.performance.SetShouldBeEditedCallback;
 import com.dosolves.gym.domain.performance.StartValueSetter;
@@ -50,11 +50,11 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 	private EditText repsInput;
 	private EditText weightInput;
 
-	private NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallback;
-	private SetShouldBeEditedCallback setShouldBeEditedCallback;
-	private PerformanceAdapter adapter;
+	private UserGestureObservable userGestureListeners = new UserGestureObservableImpl(); 
+	private SystemEventObservable systemEventListeners = new SystemEventObservableImpl();
 	private AdsUserGestureListener adsUserGestureListener;
-	private SystemEventObservableImpl systemEventListeners = new SystemEventObservableImpl();
+	
+	private PerformanceAdapter adapter;		
 	private SetTextHandler setTextHandler;
 	
 	@Override
@@ -125,7 +125,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 			public void onClick(View v) {
 				hideSoftKeyboard();
 				
-				newSetShouldBeCreatedCallback.onNewSetShouldBeCreated(setTextHandler.getReps(), setTextHandler.getWeight());				
+				userGestureListeners.notifyNewSetShouldBeCreated(setTextHandler.getReps(), setTextHandler.getWeight());				
 			}
 
 			private void hideSoftKeyboard() {
@@ -214,16 +214,12 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 		NavUtils.navigateUpTo(this, intent);
 	}
 
-	public void setNewSetShouldBeCreatedCallback(NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallback) {
-		this.newSetShouldBeCreatedCallback = newSetShouldBeCreatedCallback;		
+	public void addUserGestureListener(UserGestureListener listener) {
+		this.userGestureListeners.registerUserGestureListener(listener);		
 	}
 	
 	public void setAdapter(PerformanceAdapter adapter) {
 		this.adapter = adapter;		
-	}
-	
-	public void setSetShouldBeEditedCallback(SetShouldBeEditedCallback setShouldBeEditedCallback) {
-		this.setShouldBeEditedCallback = setShouldBeEditedCallback;		
 	}
 	
 	public void setAdsUserGestureListener(AdsUserGestureListener adsUserGestureListener) {
@@ -237,7 +233,7 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	@Override
 	public void onSetShouldBeUpdated(Set set, int newReps, double newWeight) {
-		setShouldBeEditedCallback.onSetShouldBeUpdated(set, newReps, newWeight);
+		userGestureListeners.notifySetShouldBeUpdated(set, newReps, newWeight);
 	}
 	
 	@Override

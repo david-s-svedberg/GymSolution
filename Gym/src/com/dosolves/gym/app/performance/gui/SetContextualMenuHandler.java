@@ -7,5 +7,7 @@ public interface SetContextualMenuHandler {
 
 	void setSetCheckedState(Set set, boolean checked);
 	void addActionModeEndingListener(ActionModeEndingListener actionModeEndingListener);
+	
+	UserGestureListener getUserGestureListener();
 
 }
