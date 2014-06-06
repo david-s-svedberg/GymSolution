@@ -18,7 +18,7 @@ import com.dosolves.gym.utils.ResourcesUtils;
 
 public class GymApplication extends Application implements ContextSetter, ContextProvider{
 	
-	private static final boolean TEST_MODE = false;
+	private static final boolean TEST_MODE = true;
 	
 	private ContextSetter contextSetter;
 	private ActivityLifecycleCallbacks activityCreatedListener;
@@ -65,7 +65,7 @@ public class GymApplication extends Application implements ContextSetter, Contex
 	}
 	
 	private void checkAddDefaultExerciseUseCase() {
-		if(!TEST_MODE && appIsRunningForTheFirstTime()){
+		if(appIsRunningForTheFirstTime()){
 			AddDefaultExercisesUseCase defaultExercisesUseCase = commonModelFactory.createAddDefaultExercisesUseCase(getApplicationContext());
 			defaultExercisesUseCase.runUseCase();
 		}

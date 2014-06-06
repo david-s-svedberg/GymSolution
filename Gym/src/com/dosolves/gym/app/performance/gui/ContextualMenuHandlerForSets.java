@@ -33,11 +33,16 @@ public class ContextualMenuHandlerForSets extends ContextualMenuHandlerBase impl
 	}
 	
 	@Override
+	public void addActionModeEndingListener(ActionModeEndingListener listener) {
+		actionModeEndingListeners.add(listener);
+	}
+	
+	@Override
 	public void onDestroyActionMode(ActionMode actionMode) {
 		super.onDestroyActionMode(actionMode);
 		notifyActionModeEnding();
 	}
-
+	
 	private void notifyActionModeEnding() {
 		for(ActionModeEndingListener listener: actionModeEndingListeners)
 			listener.onActionModeEnding();
@@ -57,11 +62,6 @@ public class ContextualMenuHandlerForSets extends ContextualMenuHandlerBase impl
 
 	private boolean firstSetToBeSelected(boolean checked) {
 		return checked && selectedItems.size() == 0;
-	}
-
-	@Override
-	public void addActionModeEndingListener(ActionModeEndingListener listener) {
-		actionModeEndingListeners.add(listener);
 	}
 
 }

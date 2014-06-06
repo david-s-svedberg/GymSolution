@@ -15,7 +15,7 @@ import org.robolectric.RobolectricTestRunner;
 import android.content.Context;
 import android.content.Intent;
 
-import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
+import com.dosolves.gym.app.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity;
 import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivityStarter;

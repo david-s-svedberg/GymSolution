@@ -25,6 +25,7 @@ public class CreateItemAlertDialogShower implements CreateItemDialogShower {
 			public void onTextInputDone(String value) {
 				callback.onItemShouldBeCreated(value);
 			}
+			
 		});
 		dialog.show(null);		
 	}

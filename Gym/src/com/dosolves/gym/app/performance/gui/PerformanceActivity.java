@@ -38,30 +38,24 @@ public class PerformanceActivity extends Activity implements CurrentExerciseHold
 
 	public static final String EXERCISE_BUNDLE_KEY = "EXERCISE_BUNDLE_KEY";
 
+	private boolean shouldDisplayPurchaseAdsRemovalMenu;
+	
 	private Exercise currentExercise;
 	private ListView performanceListView;
 	private Button enterButton;
 	private Button repsPlusButton;
 	private Button repsMinusButton;
+	private Button weightPlusButton;
+	private Button weightMinusButton;
 	private EditText repsInput;
 	private EditText weightInput;
 
 	private NewSetShouldBeCreatedCallback newSetShouldBeCreatedCallback;
 	private SetShouldBeEditedCallback setShouldBeEditedCallback;
-
 	private PerformanceAdapter adapter;
-
-	private boolean shouldDisplayPurchaseAdsRemovalMenu;
-
 	private AdsUserGestureListener adsUserGestureListener;
-	
 	private SystemEventObservableImpl systemEventListeners = new SystemEventObservableImpl();
-
 	private SetTextHandler setTextHandler;
-
-	private Button weightPlusButton;
-
-	private Button weightMinusButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -32,26 +32,21 @@ public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler
 	@Override
 	public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
 		switch (menuItem.getItemId()) {
-	    case R.id.delete_menu_item:
-	        userRequestListeners.notifyDeleteItems(getCopyOfSelectedItems());
-	        actionMode.finish();
-	        return true;
-	    case R.id.edit_menu_item:
-	        userRequestListeners.notifyEditItem(selectedItems.get(0));
-	        actionMode.finish();
-	        return true;
-	    default:
-	        return false;
+		    case R.id.delete_menu_item:
+		        userRequestListeners.notifyDeleteItems(getCopyOfSelectedItems());
+		        actionMode.finish();
+		        return true;
+		    case R.id.edit_menu_item:
+		        userRequestListeners.notifyEditItem(selectedItems.get(0));
+		        actionMode.finish();
+		        return true;
+		    default:
+		        return false;
+		}
 	}
-	}
-
-	private List<Integer> getCopyOfSelectedItems() {
-		List<Integer> copy = new ArrayList<Integer>(selectedItems.size());
-		
-		for(Integer selectedId:selectedItems)
-			copy.add(selectedId);
-		
-		return copy;
+	
+	public void addUserRequestListener(UserRequestListener userRequestListener) {
+		userRequestListeners.registerUserRequestListener(userRequestListener);	
 	}
 
 	@Override
@@ -71,17 +66,29 @@ public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler
 	public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
 		return false;
 	}
+	
+	protected void handleItemSelectionChanged(ActionMode actionMode, int id, boolean checked) {
+		updateSelectedItems(id, checked);
+		updateMenuItemEnabledStates();
+		updateTitle(actionMode);
+	}
+	
+	private List<Integer> getCopyOfSelectedItems() {
+		List<Integer> copy = new ArrayList<Integer>(selectedItems.size());
+		
+		for(Integer selectedId:selectedItems)
+			copy.add(selectedId);
+		
+		return copy;
+	}
 
-	protected void updateTitle(ActionMode actionMode) {
+	private void updateTitle(ActionMode actionMode) {
 		actionMode.setTitle(createTitleString());
 	}
 
 	private String createTitleString() {
-		
 		int numberOfSelectedItems = selectedItems.size();
-		
 		String selectedString = getCorrectPluralizedSelectionString(numberOfSelectedItems);
-			
 		return String.format("%d %s",numberOfSelectedItems, selectedString);
 	}
 
@@ -96,14 +103,14 @@ public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler
 		return correctSelectedString;
 	}
 
-	protected void updateSelectedItems(Integer id, boolean checked) {
+	private void updateSelectedItems(Integer id, boolean checked) {
 		if(checked)
 			selectedItems.add(id);
 		else
 			selectedItems.remove(id);
 	}
 
-	protected void updateMenuItemEnabledStates() {
+	private void updateMenuItemEnabledStates() {
 		MenuItem editMenuItem = menu.findItem(R.id.edit_menu_item);
 		if(selectedItems.size()>1){
 			editMenuItem.setEnabled(false);
@@ -114,16 +121,5 @@ public abstract class ContextualMenuHandlerBase implements ContextualMenuHandler
 			editMenuItem.getIcon().setAlpha(FULL_ALPHA);
 		}
 	}
-
-	public void addUserRequestListener(UserRequestListener userRequestListener) {
-		userRequestListeners.registerUserRequestListener(userRequestListener);	
-	}
-
-	protected void handleItemSelectionChanged(ActionMode actionMode, int id,
-			boolean checked) {
-				updateSelectedItems(id, checked);
-				updateMenuItemEnabledStates();
-				updateTitle(actionMode);
-			}
 
 }

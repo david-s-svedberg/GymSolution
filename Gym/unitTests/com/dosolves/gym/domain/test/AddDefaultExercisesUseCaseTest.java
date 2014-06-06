@@ -17,6 +17,7 @@ import com.dosolves.gym.domain.AddDefaultExercisesUseCase;
 import com.dosolves.gym.domain.AddDefaultExercisesUseCaseImpl;
 import com.dosolves.gym.domain.TemplateDataHolder;
 import com.dosolves.gym.domain.UserAsker;
+import com.dosolves.gym.domain.UserNotifier;
 import com.dosolves.gym.domain.UserResponseListener;
 import com.dosolves.gym.domain.category.CategoryTemplate;
 import com.dosolves.gym.domain.category.data.CategoryCreator;
@@ -42,6 +43,8 @@ public class AddDefaultExercisesUseCaseTest {
 	CategoryCreator categoryCreatorMock;
 	@Mock
 	ExerciseCreator exerciseCreatorMock;
+	@Mock
+	UserNotifier userNotifierMock;
 	
 	@Before
 	public void setUp() throws Exception{
@@ -50,7 +53,8 @@ public class AddDefaultExercisesUseCaseTest {
 		sut = new AddDefaultExercisesUseCaseImpl(userAskerMock,
 												 templateDataMock,
 												 categoryCreatorMock,
-												 exerciseCreatorMock);		
+												 exerciseCreatorMock,
+												 userNotifierMock);		
 	}
 	
 	@Test
@@ -129,6 +133,27 @@ public class AddDefaultExercisesUseCaseTest {
 		
 		verify(exerciseCreatorMock).create(EXERCISE_NAME1, CATEGORY_ID1);
 		verify(exerciseCreatorMock).create(EXERCISE_NAME2, CATEGORY_ID2);
+	}
+	
+	@Test
+	public void notifies_user_that_Default_exercises_have_been_created(){
+		List<CategoryTemplate> templateCategories = new ArrayList<CategoryTemplate>();
+		
+		doAnswer(new Answer<Void>() {
+
+			@Override
+			public Void answer(InvocationOnMock invocation) throws Throwable {
+				UserResponseListener userResponseListener = (UserResponseListener)invocation.getArguments()[0];
+				userResponseListener.yes();
+				return null;
+			}
+		}).when(userAskerMock).askUser(any(UserResponseListener.class));
+		
+		when(templateDataMock.getTemplateData()).thenReturn(templateCategories);
+		
+		sut.runUseCase();
+		
+		verify(userNotifierMock).notifyThatDefaultExercisesHaveBeenCreated();
 	}
 	
 }

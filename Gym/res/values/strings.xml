@@ -56,5 +56,6 @@
     <string name="lateral_raise">Lateral Raise</string>
     <string name="triceps">Triceps</string>
     <string name="ok">OK</string>
+    <string name="default_exercises_created">Default exercises created.</string>
 
 </resources>

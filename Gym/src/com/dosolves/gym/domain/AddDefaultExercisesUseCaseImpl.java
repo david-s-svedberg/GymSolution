@@ -13,15 +13,18 @@ public class AddDefaultExercisesUseCaseImpl implements AddDefaultExercisesUseCas
 	private TemplateDataHolder templateData;
 	private CategoryCreator categoryCreator;
 	private ExerciseCreator exerciseCreator;
+	private UserNotifier userNotifier;
 
 	public AddDefaultExercisesUseCaseImpl(UserAsker userAsker, 
 										  TemplateDataHolder templateData, 
 										  CategoryCreator categoryCreator, 
-										  ExerciseCreator exerciseCreator) {
+										  ExerciseCreator exerciseCreator,
+										  UserNotifier userNotifier) {
 		this.userAsker = userAsker;
 		this.templateData = templateData;
 		this.categoryCreator = categoryCreator;
 		this.exerciseCreator = exerciseCreator;
+		this.userNotifier = userNotifier;
 	}
 
 	@Override
@@ -44,6 +47,7 @@ public class AddDefaultExercisesUseCaseImpl implements AddDefaultExercisesUseCas
 				exerciseCreator.create(currentExercise.getName(), createdCategoryId);
 			}
 		}
+		userNotifier.notifyThatDefaultExercisesHaveBeenCreated();
 	}
 
 }

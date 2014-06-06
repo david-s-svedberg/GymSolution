@@ -71,12 +71,13 @@ public class SetButton extends ToggleButton {
 			public void onActionModeEnding() {
 				SetButton.this.setChecked(false);
 			}
+			
 		});
 		
 		removeDefaultText();
 		
 	}
-
+	
 	private void removeDefaultText() {
 		this.setTextOff("");
 		this.setTextOn("");

@@ -53,5 +53,6 @@
     <string name="shoulder_press">Axelpress</string>
     <string name="lateral_raise">Hantellyft åt sidan</string>
     <string name="triceps">Triceps</string>
+    <string name="default_exercises_created">Grundläggande övningar skapade.</string>
     
 </resources>

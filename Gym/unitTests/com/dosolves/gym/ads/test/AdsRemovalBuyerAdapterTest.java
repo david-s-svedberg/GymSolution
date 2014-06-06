@@ -1,12 +1,7 @@
 package com.dosolves.gym.ads.test;
 
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,20 +17,27 @@ import com.dosolves.gym.ads.AdsRemovalBuyer;
 import com.dosolves.gym.ads.AdsRemovalPurchasedListener;
 import com.dosolves.gym.ads.UserSpecificPayloadValidator;
 import com.dosolves.gym.app.ads.AdsRemovalBuyerAdapter;
+import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.ads.RouterActivityCreatedListener;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
 import com.dosolves.gym.app.ads.UserSpecificPayloadGenerator;
-import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
-import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
+import com.dosolves.gym.inappbilling.IabException;
 import com.dosolves.gym.inappbilling.IabHelper;
-import com.dosolves.gym.inappbilling.Purchase;
 import com.dosolves.gym.inappbilling.IabHelper.OnIabPurchaseFinishedListener;
 import com.dosolves.gym.inappbilling.IabHelper.OnIabSetupFinishedListener;
 import com.dosolves.gym.inappbilling.IabResult;
+import com.dosolves.gym.inappbilling.Inventory;
+import com.dosolves.gym.inappbilling.Purchase;
 
 public class AdsRemovalBuyerAdapterTest {
 
 	private static final String USER_SPECIFIC_PAYLOAD = "userSpecificPayload";
+
+	IabResult currentResult;
+	
+	AdsRemovalBuyer sut;
+	RouterActivityCreatedListener sutAsRouterActivityCreatedListener;
+	OnIabPurchaseFinishedListener sutAsIabPurchaseFinishedListener;
 
 	@Mock
 	IabHelper iabHelperMock;
@@ -51,12 +53,8 @@ public class AdsRemovalBuyerAdapterTest {
 	UserSpecificPayloadValidator userSpecificPayloadValidatorMock;
 	@Mock
 	Purchase purchaseMock;
-	
-	IabResult currentResult;
-	
-	AdsRemovalBuyer sut;
-	RouterActivityCreatedListener sutAsRouterActivityCreatedListener;
-	OnIabPurchaseFinishedListener sutAsIabPurchaseFinishedListener;
+	@Mock
+	Inventory inventoryMock;
 		
 	@Before
 	public void setUp(){
@@ -137,7 +135,7 @@ public class AdsRemovalBuyerAdapterTest {
 		setupSut();
 		
 		sut.buyAdsRemoval();
-		verify(routerActivityStarterMock).startRouterActivity(RouteReason.FOR_IN_APP_BILLING, RouteDialog.NONE);
+		verify(routerActivityStarterMock).startRouterActivity(RouteReason.FOR_IN_APP_BILLING);
 	}
 	
 	@Test
@@ -164,7 +162,7 @@ public class AdsRemovalBuyerAdapterTest {
 	}
 	
 	@Test
-	public void can_start_purchaseflow_after_finished_previsou_one(){
+	public void can_start_purchaseflow_after_finished_previous_one(){
 		setCurrentResultSuccess();
 		stupSetupService();
 		setupSut();
@@ -216,6 +214,58 @@ public class AdsRemovalBuyerAdapterTest {
 		Mockito.verifyNoMoreInteractions(adsRemovalPurchasedListenerMock);
 	}
 	
+	@Test
+	public void checks_user_inventory_if_response_is_item_already_owned() throws IabException{
+		setCurrentResultAlreadyOwned();
+		stupSetupService();
+		setupSut();
+		
+		when(iabHelperMock.queryInventory(false, null)).thenReturn(inventoryMock);
+		when(inventoryMock.hasPurchase(anyString())).thenReturn(false);
+		when(purchaseMock.getDeveloperPayload()).thenReturn(USER_SPECIFIC_PAYLOAD);
+		when(userSpecificPayloadValidatorMock.payloadChecksOut(anyString())).thenReturn(true);
+		
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		sutAsIabPurchaseFinishedListener.onIabPurchaseFinished(currentResult, purchaseMock);
+		
+		verify(iabHelperMock).queryInventory(false, null);
+	}
+	
+	@Test
+	public void verifies_inventory_purchase_if_response_is_item_already_owned() throws IabException{
+		setCurrentResultAlreadyOwned();
+		stupSetupService();
+		setupSut();
+		
+		when(iabHelperMock.queryInventory(false, null)).thenReturn(inventoryMock);
+		when(inventoryMock.hasPurchase(anyString())).thenReturn(true);
+		when(inventoryMock.getPurchase(anyString())).thenReturn(purchaseMock);
+		when(purchaseMock.getDeveloperPayload()).thenReturn(USER_SPECIFIC_PAYLOAD);
+		
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		sutAsIabPurchaseFinishedListener.onIabPurchaseFinished(currentResult, purchaseMock);
+		
+		verify(userSpecificPayloadValidatorMock).payloadChecksOut(USER_SPECIFIC_PAYLOAD);
+	}
+	
+	@Test
+	public void notifies_listener_if_everything_checks_outon_item_already_owned() throws IabException{
+		setCurrentResultAlreadyOwned();
+		stupSetupService();
+		setupSut();
+		
+		when(iabHelperMock.queryInventory(false, null)).thenReturn(inventoryMock);
+		when(inventoryMock.hasPurchase(anyString())).thenReturn(true);
+		when(inventoryMock.getPurchase(anyString())).thenReturn(purchaseMock);
+		when(purchaseMock.getDeveloperPayload()).thenReturn(USER_SPECIFIC_PAYLOAD);
+		when(userSpecificPayloadValidatorMock.payloadChecksOut(USER_SPECIFIC_PAYLOAD)).thenReturn(true);
+		
+		sutAsRouterActivityCreatedListener.onRouterActivityCreated(activityMock);
+		sutAsIabPurchaseFinishedListener.onIabPurchaseFinished(currentResult, purchaseMock);
+		
+		verify(adsRemovalPurchasedListenerMock).onAdsRemovalPurchased();
+	}
+	
 	private void stupSetupService() {
 		doAnswer(new Answer<IabHelper>(){
 			@Override
@@ -230,6 +280,10 @@ public class AdsRemovalBuyerAdapterTest {
 
 	private void setCurrentResultFail() {
 		currentResult = new IabResult(Integer.MAX_VALUE, null);
+	}
+	
+	private void setCurrentResultAlreadyOwned() {
+		currentResult = new IabResult(IabHelper.BILLING_RESPONSE_RESULT_ITEM_ALREADY_OWNED, null);
 	}
 	
 	private void setCurrentResultSuccess() {

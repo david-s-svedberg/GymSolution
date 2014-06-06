@@ -16,5 +16,5 @@ public class ContextualMenuHandlerForListItems extends ContextualMenuHandlerBase
 	public void onItemCheckedStateChanged(ActionMode actionMode, int position, long id, boolean checked) {
 		handleItemSelectionChanged(actionMode, positionTranslator.getId(position), checked);
 	}
-
+	
 }

@@ -5,6 +5,7 @@ import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 
 public interface RouterActivityStarter {
 
-	void startRouterActivity(RouteReason reason, RouteDialog module);
+	void startRouterActivity(RouteReason reason);
+	void startRouterActivity(RouteReason reason, RouteDialog dialog);
 
 }

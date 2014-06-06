@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.dosolves.gym.R;
-import com.dosolves.gym.app.ads.ContextRouterActivityStarter;
 import com.dosolves.gym.app.ads.RouterActivity.RouteDialog;
 import com.dosolves.gym.app.ads.RouterActivity.RouteReason;
 import com.dosolves.gym.app.ads.RouterActivityStarter;
@@ -31,6 +30,7 @@ import com.dosolves.gym.domain.ItemDeleter;
 import com.dosolves.gym.domain.RenameDialogShower;
 import com.dosolves.gym.domain.TemplateDataHolder;
 import com.dosolves.gym.domain.UserAsker;
+import com.dosolves.gym.domain.UserNotifier;
 import com.dosolves.gym.domain.category.data.CascadingCategoryDeleter;
 import com.dosolves.gym.domain.category.data.CategoryRetriever;
 import com.dosolves.gym.domain.category.data.CategoryUpdater;
@@ -300,8 +300,8 @@ public class CommonModelFactoryImpl implements CommonModelFactory {
 	public AddDefaultExercisesUseCase createAddDefaultExercisesUseCase(Context context) {
 		UserAsker askerForAddDefaultExercise = createUserAskerForAddDefaultExercise(context);
 		TemplateDataHolder templateData = new TemplateDataHolderImpl();  
-		
-		return new AddDefaultExercisesUseCaseImpl(askerForAddDefaultExercise, templateData, getCategoryUpdater(), getExerciseUpdater());
+		UserNotifier notifier = new ToastUserNotifier(context);
+		return new AddDefaultExercisesUseCaseImpl(askerForAddDefaultExercise, templateData, getCategoryUpdater(), getExerciseUpdater(),notifier);
 	}
 	
 }
